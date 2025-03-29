@@ -1,0 +1,2887 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<!--
+https://github.com/cmdr-nowski/syscol_helper
+
+This webpage was uses game logic, names and and imagery from Elite Dangerous
+with the permission of Frontier Developments plc, for non-commercial purposes.
+See: https://forums.frontier.co.uk/threads/elite-dangerous-media-usage-rules.510879/.
+It is not endorsed by nor reflects the views or opinions of Frontier Developments and
+no employee of Frontier Developments was involved in making it.
+
+See also: https://www.elitedangerous.com
+-->
+
+<title>System Colonisation - Underwhelming Facility Futzing for Elite Dangerous</title>
+
+<style>
+
+/* https://css-tricks.com/tabs-with-round-out-borders/ */
+.tabs {
+  color: green;
+  background: #8aa8b8;
+  -webkit-border-top-left-radius: 15px;
+  -webkit-border-top-right-radius: 15px;
+  -moz-border-radius-topleft: 15px;
+  -moz-border-radius-topright: 15px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border:none;
+}
+
+.tabs .active {
+  z-index: 3;
+  color: #68c0f0;
+  color: orange;
+  background: #12122c;
+}
+
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-areas: 'sidebar main' 'footer footer';
+  grid-template-columns: 31% 69%;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  height: auto;
+  border: 3px solid orange;
+  border-radius: 12px;
+  margin: 8px;
+}
+
+.main {
+  grid-area: main;
+  height: auto;
+  border: 3px solid orange;
+  border-radius: 12px;
+  margin: 8px;
+  padding: 10px;
+}
+
+.footer{
+  grid-area: footer;
+  height: auto;
+  border: 3px solid orange;
+  border-radius: 12px;
+  margin: 8px;
+}
+
+body {
+  background-color: #12122c;
+  color: #68c0f0;
+}
+
+td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #2ac0a8;
+}
+
+th {
+  padding: 8px;
+  text-align: center;
+  border: 2px solid #2ac0a8;
+}
+
+p {
+  text-align: center;
+}
+
+li {
+  text-align: justify;
+}
+
+ul {
+  text-align: justify;
+  background-color: #182440;
+  list-style-type: none;
+  margin: 0;
+  padding: 8;
+}
+
+.vc {
+  width: 100%;
+  display: table;
+  align: middle;
+  float: center;
+  height: 200px;
+  border: none;
+}
+
+.vc p {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+  border: 1px solid #2ac0a8;
+  border-collapse: collapse;
+}
+
+.haulData {
+  width: auto;
+}
+
+.nb {
+  border: none;
+}
+
+.builtAsset {
+  border: 1px solid #2ac0a8;
+  border-collapse: collapse;
+}
+
+.stat {
+  text-align: right;
+  border: none;
+  padding-right: 28px;
+  width: 75%;
+}
+
+.statName {
+  background-color: #182440;
+  text-align: left;
+  border: none;
+}
+
+.center {
+  margin: auto;
+  width: 95%;
+}
+
+.points {
+  margin: auto;
+  width: 40%;
+}
+
+.bigger {
+  font-family: Verdana;
+  font-weight: 600;
+  padding: 8px;
+  margin: 2px;
+  border: 1px solid #2ac0a8;
+  border-collapse: collapse;
+}
+
+#import, #export, #reset {
+  color: orange;
+  border: 2px solid orange;
+}
+
+.fileinput {
+  display: none;
+}
+
+#assetsContainerHeader {
+  padding-top: 5;
+  padding-left: 4;
+  padding-right: 4;
+  padding-bottom: 15px;
+}
+
+#assetsContainer {
+  overflow: auto;
+  display: flex;
+}
+
+.modalContainer {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.infoContainer {
+  display: none;
+  position: fixed;
+  top: 25%;
+  left: 66%;
+  z-index: 1;
+  width: 23%;
+  height: auto;
+  overflow: none;
+  transform: translate(-50%, 0);
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0);
+}
+
+.dialogContainer {
+  position: fixed;
+  width: 40%;
+  text-align: center;
+  top: 25%;
+  left: 50%;
+  padding: 20px;
+  transform: translate(-50%, 0);
+  overflow: auto;
+}
+
+.infoPanel{
+  margin: 4% 4%;
+  width: 100%;
+  background-color: #ddddff;
+  color: #021224;
+  border: 2px solid #ddddff; 
+  border-radius: 3px;
+}
+
+.infoTable {
+  border: 3px solid #021224;
+  width: 100%;
+  color: #021224;
+  text-align: right;
+  cellspacing: 0;
+  cellpadding: 0;
+}
+
+.inf {
+  border: none;
+  padding: 4;
+  text-align: left;
+}
+
+.invis {
+  display: none;
+}
+
+.tPointsImgB {
+    height: 1.3em; 
+}
+
+.tPointsImg {
+    height: 1em; 
+}
+
+.visibleModal {
+  margin: 15% auto;
+  background-color: #181834;
+  padding: 20px;
+  border: 1px solid #888;
+}
+
+.ra {
+  text-align: right;
+}
+
+.saveform {
+  align: right;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.editarea {
+    display: inline-block;
+    font-size: 1.2em;
+    text-align: left;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+</style>
+</head>
+<body>
+
+<div id="infoContainer" class="infoContainer">
+  <div id="infoPanel" class="infoPanel" style="display: none"></div>
+</div>
+
+<div id="modalContainer" class="modalContainer">
+  <div id="dialogContainer" class="dialogContainer">
+    <div id="exportDialog" class="visibleModal">
+      <div class="close">&times;</div>
+      <div id="exportPreview"></div>
+      <div class="saveform">
+        <p><font size="-1">(To control the save location, <a href="https://www.google.com/search?q=set+browser+to+ask+about+downloads&udm=14" target="_blank" style="color: #ff6644">set your browser to ask about downloads</a>)</font></p>
+        <div id="exportForm">
+          <textarea id="exportData"></textarea><br/>
+          <label for="filename">file to save:</label>
+          <input type="text" id="filename" name="fileneame">
+          <input type="submit" value="export" id="exportBtn">
+          <div><p id="buildUrl"></p><p id="urlCopy">[copy]</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="sidebar" id="sidebar">
+    <div id="assetsContainerHeader">
+    <table class="nb"><tr class="nb"><td class="nb" id="pointsOptions" width="30%"><label for="hikeOption">pt costs rise?</label><input type="checkbox" id="hikeOption"></td><td class="nb" width="40%">construction points:</td><td class="nb" width="30%" id="pointsContainer"></td></tr></table>
+    <hr/>
+    <table class="nb"><tr class="nb"><td class="nb" id="undo" width="30%"></td><td class="nb" width="40%">Ports, Stations, etc.</td><td class="nb" id="redo" width="30%"></td></tr></table>
+    </div>
+    <table><tr><td valign="top" id="assetsContainerContainer">
+      <div id="assetsWrapper">
+        <div id="assetsContainer"></div>
+      <div>
+    </td></tr></table>
+    <div id="statusContainer"></div>
+    <div id="economyContainer"></div>
+  </div>
+  <div id="mainContainer" class="main">
+  <div id="tabsContainer">
+    <table width="100%" class="tabs group"><tr>
+    <td width="50%" class="tabs active" id="assetsTab">add facilities</td>
+    <td width="50%" class="tabs" id="haulTab">hauling</td>
+    </tr></table>
+  </div>
+    <div id="assetPicker">
+      <table width="100%"class="nb"><tr><td id="filtersContainer" class="nb" width="70%"></td><td id="blank" class="nb">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td id="export">[export]</td><td id="import">[import]</td><td id="reset">[reset]</td></tr></table>
+      <div id="tableContainer"></div>
+    </div>
+    <div id="haulage" class="invis">
+      <table class="nb" width="100%">
+        <tr><td colspan="3">Amounts shown are approximate only</td></tr>
+        <tr>
+          <td id="haulables" width="30%"></td>
+            <td valign="top">
+            <div id="haularea" contenteditable="true" class="editarea"></div>
+            <div id="haulcopy" class="ra">[copy]</div>
+          </td>
+          <td valign="top" class="ra" width="25%">
+            <table>
+              <tr><td>
+                <div id="totalhaul"></div><br/>
+                <div><label for="daystogo">Days remaining: </label><input size="8" name="daystogo " id="daystogo"><br/><br/>
+                </div>
+              </td></tr>
+              <tr><td>
+                <label for="ship">Ship capacity: </label><input size="8" name="ship" id="ship"><br/><br/>
+                <div id="shiptrips"></div><br/>
+                <div id="shipperday"></div><br/>
+              </td></tr>
+              <tr><td>
+                <label for="fc">FC capacity: </label><input size="8" name="fc" id="fc"><br/><br/>
+                <div id="fctrips"></div><br/>
+                <div id="fcperday"></div><br/>
+              </td></tr>
+            </table>
+            <div><p id="haulurl"></p><p id="haulurlcopy">[copy]</p></div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  <div class="footer">
+    <div class="fileinput"><input type="file" id="importinput" /></div>
+    <p align="center"><a href="https://github.com/cmdr-nowski/syscol_helper">README</a></p>
+  </div>
+</div>
+
+<script>
+
+const assetTonnages = {
+    no_truss: 53755,
+    dual_truss: 53755,
+    quad_truss: 53755,
+    rock: 53755,
+    ice: 53755,
+    ocellus: 209055,
+    apollo: 209055,
+    artemis: 209055,
+    plutus: 18510,
+    vulcan: 18510,
+    dysnomia: 18510,
+    vesta: 18510,
+    prometheus: 18510,
+    nemesis: 18510,
+    hermese: 6750,
+    angelia: 6750,
+    eirene: 6750,
+    pistis: 6750,
+    aletheia: 6750,
+    soter: 6750,
+    demeter: 6760,
+    apate: 6755,
+    laverna: 6755,
+    euthenia: 6770,
+    phorcys: 6770,
+    enodia: 6735,
+    ichnaea: 6735,
+    vacuna: 10130,
+    alastor: 10130,
+    dicaeosyne: 10115,
+    poena: 10115,
+    eunomia: 10115,
+    nomos: 10115,
+    harmonia: 10105,
+    asclepius: 10130,
+    eupraxia: 10130,
+    astraeus: 10145,
+    coeus: 10145,
+    dodona: 10145,
+    dione: 10145,
+    hedone: 10100,
+    opora: 10100,
+    pasithea: 10100,
+    dionysus: 10130,
+    bachus: 10130,
+    hestia: 36875,
+    hephaestus: 36875,
+    necessitas: 36875,
+    decima: 36875,
+    opis: 36875,
+    ananke: 36875,
+    atropos: 36875,
+    ponos: 36875,
+    fauna: 36875,
+    nona: 36875,
+    tethys: 36875,
+    providentia: 36875,
+    lachesis: 36875,
+    bia: 36875,
+    antevorta: 36875,
+    clotho: 36875,
+    mefitis: 36875,
+    porrima: 36875,
+    zeus: 215670,
+    hera: 215670,
+    poseidon: 215670,
+    aphrodite: 215670,
+    consus: 2880,
+    picumnus: 5720,
+    annona: 5720,
+    ceres: 8560,
+    fornax: 8560,
+    ourea: 2870,
+    mantus: 5715,
+    orcus: 5715,
+    erebus: 8570,
+    aerecura: 8570,
+    fontus: 2885,
+    metope: 5745,
+    palici: 5745,
+    minthe: 5745,
+    gaea: 8585,
+    ioke: 2885,
+    bellona: 5725,
+    enyo: 5725,
+    polemos: 5725,
+    minerva: 8575,
+    phoebe: 2900,
+    asteria: 5725,
+    caerus: 5725,
+    chronos: 8580,
+    aergia: 2895,
+    comus: 5730,
+    gelos: 5730,
+    fufluns: 8585,
+    tartarus: 9965,
+    aegle: 9890,
+    tellus_e: 9960,
+    io: 9945,
+    athena: 9985,
+    caelus: 9985,
+    alala: 9955,
+    ares: 9955,
+    silenus: 9960,
+    janus: 9955,
+    molae: 9950,
+    tellus_i: 9950,
+    eunostus: 9950,
+};
+
+const cNames = {
+    ad: 'Advanced Catalysers',
+    ag: 'Agri-Medicines',
+    al: 'Aluminium',
+    am: 'Animal Meat',
+    bm: 'Basic Medicines',
+    bw: 'Battle Weapons',
+    be: 'Beer',
+    bl: 'Bioreducing Lichen',
+    bw: 'Biowaste',
+    bf: 'Building Fabricators',
+    cr: 'Ceramic Composites',
+    cm: 'CMM Composite',
+    co: 'Coffee',
+    cs: 'Combat Stabilizers',
+    cc: 'Computer Components',
+    cu: 'Copper',
+    ch: 'Crop Harvesters',
+    ec: 'Emergency Power Cells',
+    es: 'Evacuation Shelter',
+    fi: 'Fish',
+    fo: 'Food Cartridges',
+    fr: 'Fruit and Vegetables',
+    ge: 'Geological Equipment',
+    gr: 'Grain',
+    hs: 'H.E. Suits',
+    im: 'Initial Population Increase',
+    le: 'Insulating Membrane',
+    lo: 'Land Enrichment Systems',
+    lq: 'Liquid Oxygen',
+    md: 'Liquor',
+    mc: 'Medical Diagnostic Equipment',
+    mf: 'Micro Controllers',
+    mg: 'Microbial Furnaces',
+    me: 'Military Grade Fabrics',
+    mi: 'Mineral Extractors',
+    nl: 'Muon Imager',
+    ps: 'Non-Lethal Weapons',
+    py: 'Pesticides',
+    pg: 'Polymers',
+    ra: 'Power Generators',
+    rs: 'Reactive Armour',
+    rb: 'Resonating Separators',
+    se: 'Robotics',
+    st: 'Semiconductors',
+    sr: 'Steel',
+    su: 'Structural Regulators',
+    ss: 'Superconductors',
+    sv: 'Surface Stabilisers',
+    tt: 'Survival Equipment',
+    tc: 'Tea',
+    ti: 'Thermal Cooling Units',
+    wa: 'Titanium',
+    wp: 'Water',
+    wi: 'Water Purifiers',
+};
+
+const variantGroups = {
+    no_truss : 0,
+    dual_truss : 0,
+    quad_truss : 0,
+    rock : 0,
+    ice : 0,
+    ocellus : 1,
+    apollo : 1,
+    artemis : 1,
+    plutus : 2,
+    vulcan : 2,
+    dysnomia : 2,
+    vesta : 2,
+    prometheus : 2,
+    nemesis : 2,
+    hermese : 3,
+    angelia : 3,
+    eirene : 3,
+    pistis : 3,
+    aletheia : 3,
+    soter : 3,
+    demeter : 4,
+    apate : 5,
+    laverna : 5,
+    euthenia : 6,
+    phorcys : 6,
+    enodia : 7,
+    ichnaea : 7,
+    vacuna : 8,
+    alastor : 8,
+    dicaeosyne : 9,
+    poena : 9,
+    eunomia : 9,
+    nomos : 9,
+    harmonia : 10,
+    asclepius : 11,
+    eupraxia : 11,
+    astraeus : 12,
+    coeus : 12,
+    dodona : 12,
+    dione : 12,
+    hedone : 13,
+    opora : 13,
+    pasithea : 13,
+    dionysus : 14,
+    bachus : 14,
+    hestia : 15,
+    hephaestus : 15,
+    necessitas : 15,
+    decima : 15,
+    opis : 15,
+    ananke : 15,
+    atropos : 15,
+    ponos : 15,
+    fauna : 15,
+    nona : 15,
+    tethys : 15,
+    providentia : 15,
+    lachesis : 15,
+    bia : 15,
+    antevorta : 15,
+    clotho : 15,
+    mefitis : 15,
+    porrima : 15,
+    zeus : 16,
+    hera : 16,
+    poseidon : 16,
+    aphrodite : 16,
+    consus : 17,
+    picumnus : 18,
+    annona : 18,
+    ceres : 19,
+    fornax : 19,
+    ourea : 20,
+    mantus : 21,
+    orcus : 21,
+    erebus : 22,
+    aerecura : 22,
+    fontus : 23,
+    metope : 24,
+    palici : 24,
+    minthe : 24,
+    gaea : 25,
+    ioke : 26,
+    bellona : 27,
+    enyo : 27,
+    polemos : 27,
+    minerva : 28,
+    phoebe : 29,
+    asteria : 30,
+    caerus : 30,
+    chronos : 31,
+    aergia : 32,
+    comus : 33,
+    gelos : 33,
+    fufluns : 34,
+    tartarus : 35,
+    aegle : 36,
+    tellus_e : 37,
+    io : 38,
+    athena : 39,
+    caelus : 39,
+    alala : 40,
+    ares : 40,
+    silenus : 41,
+    janus : 42,
+    molae : 43,
+    tellus_i : 43,
+    eunostus : 43,
+
+};
+
+const commodityGroups = [
+    { al: 10055, cc: 145, cm: 11265, cr: 1210, cu: 645, fo: 245, fr: 145, im: 645, lo: 3785, md: 25, nl: 25, pg: 65, py: 1050, se: 165, st: 14080, su: 285, ti: 8205, wa: 1610, wp: 105,},
+    { al: 40220, cc: 290, cm: 45045, cr: 4830, cu: 2580, fo: 485, fr: 290, im: 1290, lo: 15125, md: 50, nl: 50, pg: 130, py: 2095, se: 325, st: 56305, su: 565, ti: 32730, wa: 6440, wp: 210,},
+    { cc: 50, cm: 3915, cr: 500, cu: 220, fo: 95, fr: 50, im: 315, lo: 1555, md: 15, nl: 15, pg: 20, py: 500, se: 60, st: 5590, su: 100, ti: 4845, wa: 625, wp: 40,},
+    { al: 1325, cc: 25, cr: 85, cu: 85, fo: 30, fr: 10, im: 110, lo: 680, mc: 15, pg: 10, py: 170, se: 35, st: 2545, su: 60, ti: 1525, wa: 25, wp: 15,},
+    { ag: 115, al: 845, bw: 155, cc: 15, ch: 80, cr: 80, cu: 50, fo: 50, fr: 70, gr: 95, im: 185, lo: 1075, pg: 10, ps: 125, py: 230, st: 1915, ti: 1455, wa: 175, wp: 35,},
+    { al: 1235, be: 380, bw: 25, cc: 20, cr: 95, cu: 60, fo: 65, fr: 20, im: 95, lo: 915, lq: 230, pg: 10, py: 190, ra: 25, st: 1710, ti: 1595, wa: 65, wp: 20,},
+    { al: 925, bl: 175, cc: 15, cr: 90, cu: 55, fo: 55, fr: 20, ge: 30, hs: 15, im: 130, lo: 1030, mi: 45, pg: 10, py: 215, rb: 60, rs: 25, st: 2145, ti: 1630, wa: 75, wp: 25,},
+    { al: 1035, cc: 25, cr: 100, cu: 90, fo: 30, fr: 10, im: 125, lo: 780, pg: 10, py: 195, se: 40, st: 2440, su: 60, ti: 1755, wa: 25, wp: 15,},
+    { al: 1320, bm: 25, bw: 30, cc: 45, cm: 360, cr: 240, cs: 50, cu: 135, fo: 110, fr: 50, im: 180, lo: 1425, mc: 20, mg: 40, pg: 20, py: 420, ra: 30, st: 2970, ti: 2375, wa: 240, wp: 45,},
+    { al: 1775, bw: 20, cc: 35, cr: 125, cs: 25, cu: 125, fo: 40, fr: 15, im: 185, lo: 1460, mg: 20, nl: 20, pg: 15, py: 245, st: 3645, ti: 2310, wa: 35, wp: 20,},
+    { al: 1960, cc: 15, cr: 155, cu: 95, fo: 95, fr: 40, im: 250, lo: 1480, nl: 15, pg: 15, py: 370, st: 3080, ti: 2345, wa: 155, wp: 35,},
+    { al: 1360, bm: 50, cc: 35, cr: 155, cs: 20, cu: 115, fo: 75, fr: 70, hs: 25, im: 310, lo: 1730, md: 100, pg: 20, py: 375, st: 3085, ti: 2285, wa: 280, wp: 40,},
+    { ad: 45, al: 1380, bm: 15, cc: 40, cr: 160, cu: 130, fo: 80, fr: 30, ge: 30, hs: 35, im: 315, lo: 1510, mc: 15, md: 55, mi: 40, pg: 15, py: 380, se: 55, st: 3140, su: 90, ti: 2385, wa: 160, wp: 40,},
+    { al: 1270, am: 80, be: 390, cc: 15, co: 130, cr: 130, cu: 80, fi: 40, fr: 65, im: 260, lo: 1815, lq: 195, pg: 15, py: 325, st: 2590, ti: 1815, tt: 260, wa: 325, wi: 260, wp: 40,},
+    { al: 1220, am: 40, be: 500, cc: 15, co: 65, cr: 125, cu: 75, fi: 20, fr: 40, im: 250, lo: 1740, lq: 315, pg: 15, py: 315, st: 2485, ti: 1740, tt: 190, wa: 315, wi: 625, wp: 40,},
+    { al: 7050, bf: 410, cc: 105, cm: 6780, cr: 815, cu: 410, ec: 70, es: 205, fo: 140, fr: 95, le: 70, lo: 2375, md: 50, nl: 35, pg: 70, py: 680, se: 105, sr: 680, ss: 610, st: 10165, su: 140, sv: 55, ti: 5760,},
+    { al: 42285, bf: 2445, cm: 40660, cr: 4885, cu: 2445, ec: 275, es: 820, fo: 545, fr: 380, le: 275, lo: 14235, md: 195, nl: 140, pg: 275, py: 2715, se: 410, sr: 2715, ss: 3660, st: 60985, su: 545, sv: 220, ti: 34560,},
+    { al: 560, bf: 45, bw: 280, cc: 15, ch: 210, cr: 30, cu: 25, ec: 85, es: 15, fo: 45, fr: 65, gr: 80, le: 70, lo: 225, ps: 130, py: 95, sr: 60, ss: 60, st: 770, sv: 15,},
+    { al: 1120, bf: 85, bw: 560, cc: 30, ch: 420, cr: 60, cu: 45, ec: 170, es: 30, fo: 85, fr: 130, gr: 155, le: 140, lo: 450, ps: 255, py: 185, sr: 115, ss: 115, st: 1540, sv: 30,},
+    { al: 1680, bf: 130, bw: 840, cc: 45, ch: 630, cr: 85, cu: 65, ec: 255, es: 45, fo: 130, fr: 190, gr: 235, le: 210, lo: 675, ps: 380, py: 275, sr: 170, ss: 170, st: 2305, sv: 45,},
+    { al: 635, bf: 60, bl: 165, cc: 30, cr: 60, cu: 30, ec: 100, es: 30, fo: 45, fr: 30, ge: 55, hs: 15, lo: 180, mi: 45, py: 120, rb: 60, sr: 75, ss: 90, st: 1030, sv: 15,},
+    { al: 1265, bf: 120, bl: 325, cc: 60, cr: 120, cu: 60, ec: 195, es: 60, fo: 90, fr: 60, ge: 105, hs: 30, lo: 355, mi: 90, py: 240, rb: 120, sr: 150, ss: 180, st: 2060, sv: 30,},
+    { al: 1900, bf: 180, bl: 490, cc: 90, cr: 180, cu: 90, ec: 290, es: 90, fo: 135, fr: 90, ge: 160, hs: 45, lo: 535, mi: 135, py: 355, rb: 180, sr: 225, ss: 270, st: 3085, sv: 45,},
+    { ad: 45, al: 585, bf: 55, cc: 30, cr: 55, cu: 30, ec: 30, es: 25, fo: 45, fr: 30, hs: 15, lo: 275, mc: 15, me: 165, mf: 85, py: 110, rb: 55, rs: 15, se: 15, sr: 70, ss: 70, st: 1020, su: 15, sv: 15, tc: 15,},
+    { ad: 85, al: 1170, bf: 110, cc: 60, cr: 110, cu: 60, ec: 60, es: 45, fo: 85, fr: 60, hs: 30, lo: 545, mc: 30, me: 330, mf: 165, py: 220, rb: 110, rs: 30, se: 30, sr: 140, ss: 140, st: 2040, su: 30, sv: 30, tc: 30,},
+    { ad: 125, al: 1755, bf: 165, cc: 85, cr: 165, cu: 85, ec: 85, es: 65, fo: 125, fr: 85, hs: 45, lo: 820, mc: 45, me: 495, mf: 250, py: 330, rb: 165, rs: 45, se: 45, sr: 205, ss: 205, st: 3060, su: 45, sv: 45, tc: 45,},
+    { al: 595, bf: 60, bm: 40, bw: 25, cc: 45, cm: 360, cr: 60, cs: 40, cu: 30, ec: 25, es: 40, fo: 40, fr: 25, lo: 175, mc: 15, mg: 25, py: 120, ra: 25, sr: 105, ss: 60, st: 950, sv: 25,},
+    { al: 1190, bf: 120, bm: 75, bw: 50, cc: 85, cm: 715, cr: 120, cs: 75, cu: 60, ec: 50, es: 75, fo: 75, fr: 50, lo: 345, mc: 25, mg: 50, py: 240, ra: 50, sr: 205, ss: 120, st: 1900, sv: 50,},
+    { al: 1780, bf: 180, bm: 110, bw: 75, cc: 130, cm: 1070, cr: 180, cs: 110, cu: 90, ec: 75, es: 110, fo: 110, fr: 75, lo: 520, mc: 40, mg: 75, py: 360, ra: 75, sr: 305, ss: 180, st: 2850, sv: 75,},
+    { ad: 95, al: 610, bf: 55, bm: 15, cc: 45, cr: 45, cu: 35, ec: 30, es: 30, fo: 45, fr: 30, ge: 30, hs: 30, lo: 355, mc: 15, md: 45, mi: 95, py: 115, se: 25, sr: 85, ss: 85, st: 945, su: 25, sv: 15,},
+    { ad: 190, al: 1215, bf: 110, bm: 30, cc: 85, cr: 85, cu: 70, ec: 55, es: 55, fo: 85, fr: 55, ge: 55, hs: 55, lo: 705, mc: 30, md: 85, mi: 190, py: 230, se: 45, sr: 165, ss: 165, st: 1890, su: 45, sv: 30,},
+    { ad: 285, al: 1825, bf: 165, bm: 45, cc: 125, cr: 125, cu: 105, ec: 85, es: 85, fo: 125, fr: 85, ge: 85, hs: 85, lo: 1055, mc: 45, md: 125, mi: 285, py: 345, se: 65, sr: 245, ss: 245, st: 2835, su: 65, sv: 45,},
+    { al: 510, am: 75, be: 315, bf: 30, cc: 15, co: 75, cr: 45, cu: 25, ec: 15, es: 25, fi: 40, fr: 75, lo: 230, lq: 130, py: 115, sr: 60, ss: 60, st: 710, sv: 15, tt: 170, wi: 160,},
+    { al: 1020, am: 145, be: 625, bf: 60, cc: 30, co: 145, cr: 90, cu: 45, ec: 30, es: 45, fi: 75, fr: 145, lo: 455, lq: 260, py: 230, sr: 115, ss: 115, st: 1415, sv: 30, tt: 340, wi: 315,},
+    { al: 1530, am: 215, be: 935, bf: 90, cc: 45, co: 215, cr: 130, cu: 70, ec: 45, es: 70, fi: 110, fr: 215, lo: 685, lq: 385, py: 345, sr: 175, ss: 175, st: 2125, sv: 45, tt: 510, wi: 470,},
+    { al: 2355, bf: 210, bl: 715, cc: 40, cr: 255, cu: 85, ec: 45, es: 55, fo: 55, fr: 35, ge: 210, hs: 130, mi: 160, pg: 30, py: 675, rb: 255, sr: 505, ss: 760, st: 3360, sv: 30,},
+    { ag: 235, al: 2445, bw: 630, cc: 25, ch: 210, cr: 130, cu: 70, ec: 45, es: 70, fo: 70, fr: 45, le: 130, pg: 30, ps: 380, py: 630, sr: 340, ss: 590, st: 3775, sv: 40,},
+    { al: 2485, bf: 90, cc: 50, cr: 135, cu: 180, ec: 45, es: 40, fo: 55, fr: 40, ge: 625, hs: 250, pg: 35, py: 670, sr: 270, ss: 1420, st: 3550, sv: 20,},
+    { al: 2800, bf: 290, cc: 25, cr: 145, cu: 80, ec: 50, es: 50, fo: 175, fr: 90, pg: 25, py: 725, sr: 340, ss: 1065, st: 4055, sv: 30,},
+    { ad: 170, al: 2585, bf: 180, bm: 75, cc: 70, cr: 225, cu: 115, ec: 65, es: 40, fo: 55, fr: 40, ge: 405, hs: 160, mc: 50, md: 165, mi: 110, pg: 40, py: 715, se: 75, sr: 445, ss: 535, st: 3560, su: 75, sv: 30,},
+    { al: 2415, bf: 335, bm: 110, bw: 45, cc: 75, cm: 335, cr: 375, cs: 25, cu: 105, ec: 65, es: 75, fo: 125, fr: 45, mc: 55, mg: 45, pg: 40, py: 710, ra: 45, sr: 545, ss: 585, st: 3750, sv: 50,},
+    { ad: 115, al: 2700, bf: 235, cc: 45, cr: 280, cu: 95, ec: 50, es: 60, fo: 60, fr: 40, hs: 120, pg: 30, py: 745, rb: 420, rs: 85, sr: 465, ss: 560, st: 3720, sv: 30, tc: 105,},
+    { al: 2515, bf: 135, cc: 70, cm: 270, cr: 225, cu: 115, ec: 60, es: 45, fo: 55, fr: 40, mc: 90, pg: 30, py: 675, rb: 450, se: 110, sr: 405, ss: 540, st: 3770, su: 110, sv: 30, tc: 215,},
+    { al: 2410, bf: 210, cc: 40, cm: 170, cr: 250, cu: 85, ec: 45, es: 50, fo: 50, fr: 35, hs: 85, mc: 50, me: 415, mf: 415, pg: 25, py: 665, rb: 335, se: 75, sr: 500, ss: 500, st: 3320, su: 75, sv: 25, tc: 120,},
+];
+
+const headers = ["+", "asset", "type", "cost", "gain", "pop", "mpop", "sec", "wealth", "tech", "sol", "dev", "economy", "influence"];
+
+const assets = {
+   "Starport coriolis": {
+      n: 0,
+      name: "coriolis",
+      type: "Starport",
+      variants: ["no_truss","dual_truss","quad_truss"],
+      cost: {tier: 2, amount: 3},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 1,mpop: 0,sec: -2,wealth: 2,tech: 1,sol: 3,dev: 2 },
+      economy: { initial: "colony", influence: "-"}
+   },
+   "Starport asteroid": {
+      n: 3,
+      name: "asteroid",
+      type: "Starport",
+      variants: ["rock","ice"],
+      cost: {tier: 2, amount: 3},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 1,mpop: 0,sec: -1,wealth: 5,tech: 3,sol: -4,dev: 7 },
+      economy: { initial: "extraction", influence: "-"}
+   },
+   "Starport ocellus": {
+      n: 5,
+      name: "ocellus",
+      type: "Starport",
+      variants: ["ocellus"],
+      cost: {tier: 3, amount: 6},
+      gain: {tier: 0, amount: 0},
+      effect: { pop: 5,mpop: 1,sec: -3,wealth: 7,tech: 6,sol: 5,dev: 8 },
+      economy: { initial: "colony", influence: "-"}
+   },
+   "Starport orbis": {
+      n: 6,
+      name: "orbis",
+      type: "Starport",
+      variants: ["apollo","artemis"],
+      cost: {tier: 3, amount: 6},
+      gain: {tier: 0, amount: 0},
+      effect: { pop: 5,mpop: 1,sec: -3,wealth: 7,tech: 6,sol: 5,dev: 8 },
+      economy: { initial: "colony", influence: "-"}
+   },
+   "Outpost commercial": {
+      n: 8,
+      name: "commercial",
+      type: "Outpost",
+      variants: ["plutus"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -1,wealth: 2,tech: 0,sol: 5,dev: 0 },
+      economy: { initial: "colony", influence: "-"}
+   },
+   "Outpost industrial": {
+      n: 9,
+      name: "industrial",
+      type: "Outpost",
+      variants: ["vulcan"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 2 },
+      economy: { initial: "industrial", influence: "-"}
+   },
+   "Outpost pirate": {
+      n: 10,
+      name: "pirate",
+      type: "Outpost",
+      variants: ["dysnomia"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -2,wealth: 2,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "colony", influence: "-"}
+   },
+   "Outpost civilian": {
+      n: 11,
+      name: "civilian",
+      type: "Outpost",
+      variants: ["vesta"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -1,wealth: 1,tech: 0,sol: 1,dev: 2 },
+      economy: { initial: "colony", influence: "-"}
+   },
+   "Outpost scientific": {
+      n: 12,
+      name: "scientific",
+      type: "Outpost",
+      variants: ["prometheus"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 1,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 0 },
+      economy: { initial: "hightech", influence: "-"}
+   },
+   "Outpost military": {
+      n: 13,
+      name: "military",
+      type: "Outpost",
+      variants: ["nemesis"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 1,mpop: 0,sec: 2,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "military", influence: "-"}
+   },
+   "Installation Satellite": {
+      n: 14,
+      name: "Satellite",
+      type: "Installation",
+      variants: ["hermese","angelia","eirene"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 1,tech: 0,sol: 1,dev: 1 },
+      economy: { initial: "-", influence: "-"}
+   },
+   "Installation Communication": {
+      n: 17,
+      name: "Communication",
+      type: "Installation",
+      variants: ["pistis","soter","aletheia"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 1,wealth: 0,tech: 3,sol: 0,dev: 0 },
+      economy: { initial: "-", influence: "-"}
+   },
+   "Installation Agricultural": {
+      n: 20,
+      name: "Agricultural",
+      type: "Installation",
+      variants: ["demeter"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 5,dev: 1 },
+      economy: { initial: "-", influence: "agricultural"}
+   },
+   "Installation Pirate Base": {
+      n: 21,
+      name: "Pirate Base",
+      type: "Installation",
+      variants: ["apate","laverna"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -4,wealth: 3,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "-", influence: "contraband"}
+   },
+   "Installation Mining/Industrial": {
+      n: 23,
+      name: "Mining/Industrial",
+      type: "Installation",
+      variants: ["euthenia","phorcys"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 3,tech: 0,sol: -2,dev: 0 },
+      economy: { initial: "-", influence: "extraction"}
+   },
+   "Installation Relay": {
+      n: 25,
+      name: "Relay",
+      type: "Installation",
+      variants: ["enodia","ichnaea"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 1,wealth: 0,tech: 0,sol: 0,dev: 1 },
+      economy: { initial: "-", influence: "hightech"}
+   },
+   "Installation Military": {
+      n: 27,
+      name: "Military",
+      type: "Installation",
+      variants: ["vacuna","alastor"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 6,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "-", influence: "military"}
+   },
+   "Installation Security": {
+      n: 29,
+      name: "Security",
+      type: "Installation",
+      variants: ["dicaeosyne","poena","eunomia","nomos"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 8,wealth: 0,tech: 0,sol: 3,dev: 2 },
+      economy: { initial: "-", influence: "military"}
+   },
+   "Installation Government": {
+      n: 33,
+      name: "Government",
+      type: "Installation",
+      variants: ["harmonia"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 2,wealth: 0,tech: 0,sol: 6,dev: 2 },
+      economy: { initial: "-", influence: "-"}
+   },
+   "Installation Medical": {
+      n: 34,
+      name: "Medical",
+      type: "Installation",
+      variants: ["asclepius","eupraxia"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 5,dev: 0 },
+      economy: { initial: "-", influence: "hightech"}
+   },
+   "Installation Research": {
+      n: 36,
+      name: "Research",
+      type: "Installation",
+      variants: ["astraeus","coeus","dodona","dione"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 8,sol: 0,dev: 2 },
+      economy: { initial: "-", influence: "hightech"}
+   },
+   "Installation Tourist": {
+      n: 40,
+      name: "Tourist",
+      type: "Installation",
+      variants: ["hedone","opora","pasithea"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 6,tech: 0,sol: 0,dev: 2 },
+      economy: { initial: "-", influence: "tourism"}
+   },
+   "Installation Bar": {
+      n: 43,
+      name: "Bar",
+      type: "Installation",
+      variants: ["dionysus","bachus"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -2,wealth: 2,tech: 0,sol: 3,dev: 0 },
+      economy: { initial: "-", influence: "tourism"}
+   },
+   "Sufrace Outpost Civilian": {
+      n: 45,
+      name: "Civilian",
+      type: "Sufrace Outpost",
+      variants: ["hestia","decima","atropos","nona","lachesis","clotho"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 2,mpop: 0,sec: -2,wealth: 0,tech: 0,sol: 3,dev: 0 },
+      economy: { initial: "colony", influence: "-"}
+   },
+   "Sufrace Outpost Industrial": {
+      n: 51,
+      name: "Industrial",
+      type: "Sufrace Outpost",
+      variants: ["hephaestus","opis","ponos","tethys","bia","mefitis"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 1,mpop: 0,sec: -1,wealth: 2,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "industrial", influence: "industrial"}
+   },
+   "Sufrace Outpost Scientific": {
+      n: 57,
+      name: "Scientific",
+      type: "Sufrace Outpost",
+      variants: ["necessitas","ananke","fauna","providentia","antevorta","porrima"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 1,mpop: 0,sec: -1,wealth: 0,tech: 5,sol: 0,dev: 1 },
+      economy: { initial: "hightech", influence: "hightech"}
+   },
+   "Port Large": {
+      n: 63,
+      name: "Large",
+      type: "Port",
+      variants: ["zeus","hera","poseidon","aphrodite"],
+      cost: {tier: 3, amount: 6},
+      gain: {tier: 0, amount: 0},
+      effect: { pop: 10,mpop: 10,sec: -3,wealth: 5,tech: 5,sol: 5,dev: 10 },
+      economy: { initial: "colony", influence: "-"}
+   },
+   "Settlement Small Agriculture": {
+      n: 67,
+      name: "Small Agriculture",
+      type: "Settlement",
+      variants: ["consus"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 3,dev: 0 },
+      economy: { initial: "agriculture", influence: "agriculture"}
+   },
+   "Settlement Medium Agriculture": {
+      n: 68,
+      name: "Medium Agriculture",
+      type: "Settlement",
+      variants: ["picumnus","annona"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 6,dev: 0 },
+      economy: { initial: "agriculture", influence: "agriculture"}
+   },
+   "Settlement Large Agriculture": {
+      n: 70,
+      name: "Large Agriculture",
+      type: "Settlement",
+      variants: ["ceres","fornax"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 2},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 10,dev: 0 },
+      economy: { initial: "agriculture", influence: "agriculture"}
+   },
+   "Settlement Small Mining": {
+      n: 72,
+      name: "Small Mining",
+      type: "Settlement",
+      variants: ["ourea"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 2,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "extraction", influence: "extraction"}
+   },
+   "Settlement Medium Mining": {
+      n: 73,
+      name: "Medium Mining",
+      type: "Settlement",
+      variants: ["mantus","orcus"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 5,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "extraction", influence: "extraction"}
+   },
+   "Settlement Large Mining": {
+      n: 75,
+      name: "Large Mining",
+      type: "Settlement",
+      variants: ["erebus","aerecura"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 2},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 7,tech: 1,sol: -2,dev: 0 },
+      economy: { initial: "extraction", influence: "extraction"}
+   },
+   "Settlement Small Industrial": {
+      n: 77,
+      name: "Small Industrial",
+      type: "Settlement",
+      variants: ["fontus"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 0,dev: 2 },
+      economy: { initial: "industrial", influence: "industrial"}
+   },
+   "Settlement Medium Industrial": {
+      n: 78,
+      name: "Medium Industrial",
+      type: "Settlement",
+      variants: ["metope","palici","minthe"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 0,dev: 5 },
+      economy: { initial: "industrial", influence: "industrial"}
+   },
+   "Settlement Large Industrial": {
+      n: 81,
+      name: "Large Industrial",
+      type: "Settlement",
+      variants: ["gaea"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 2},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 2,tech: 0,sol: 0,dev: 8 },
+      economy: { initial: "industrial", influence: "industrial"}
+   },
+   "Settlement Small Military": {
+      n: 82,
+      name: "Small Military",
+      type: "Settlement",
+      variants: ["ioke"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 2,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "military", influence: "military"}
+   },
+   "Settlement Medium Military": {
+      n: 83,
+      name: "Medium Military",
+      type: "Settlement",
+      variants: ["bellona","enyo","polemos"],
+      cost: {tier: 0, amount: 0},
+      gain: {tier: 2, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 4,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "military", influence: "military"}
+   },
+   "Settlement Large Military": {
+      n: 86,
+      name: "Large Military",
+      type: "Settlement",
+      variants: ["minerva"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 2},
+      effect: { pop: 0,mpop: 0,sec: 6,wealth: 0,tech: 0,sol: 0,dev: 2 },
+      economy: { initial: "military", influence: "military"}
+   },
+   "Settlement Small Bio": {
+      n: 87,
+      name: "Small Bio",
+      type: "Settlement",
+      variants: ["pheobe"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 1 },
+      economy: { initial: "hightech", influence: "hightech"}
+   },
+   "Settlement Medium Bio": {
+      n: 88,
+      name: "Medium Bio",
+      type: "Settlement",
+      variants: ["asteria","caerus"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 6,sol: 0,dev: 1 },
+      economy: { initial: "hightech", influence: "hightech"}
+   },
+   "Settlement Large Bio": {
+      n: 90,
+      name: "Large Bio",
+      type: "Settlement",
+      variants: ["chronos"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 2},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 10,sol: 0,dev: 2 },
+      economy: { initial: "hightech", influence: "hightech"}
+   },
+   "Settlement Small Tourist": {
+      n: 91,
+      name: "Small Tourist",
+      type: "Settlement",
+      variants: ["aergia"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -1,wealth: 1,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "tourism", influence: "tourism"}
+   },
+   "Settlement Medium Tourist": {
+      n: 92,
+      name: "Medium Tourist",
+      type: "Settlement",
+      variants: ["comus","gelos"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -1,wealth: 2,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "tourism", influence: "tourism"}
+   },
+   "Settlement Large Tourist": {
+      n: 94,
+      name: "Large Tourist",
+      type: "Settlement",
+      variants: ["fufluns"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 2},
+      effect: { pop: 0,mpop: 0,sec: -2,wealth: 5,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "tourism", influence: "tourism"}
+   },
+   "Hub Extraction": {
+      n: 95,
+      name: "Extraction",
+      type: "Hub",
+      variants: ["tartarus"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 10,tech: 0,sol: -4,dev: 2 },
+      economy: { initial: "-", influence: "extraction"}
+   },
+   "Hub Civilian": {
+      n: 96,
+      name: "Civilian",
+      type: "Hub",
+      variants: ["aegle"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -3,wealth: 0,tech: 0,sol: 3,dev: 2 },
+      economy: { initial: "-", influence: "-"}
+   },
+   "Hub Exploration": {
+      n: 97,
+      name: "Exploration",
+      type: "Hub",
+      variants: ["tellus_e"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -1,wealth: 0,tech: 6,sol: 0,dev: 2 },
+      economy: { initial: "-", influence: "tourism"}
+   },
+   "Hub Outpost": {
+      n: 98,
+      name: "Outpost",
+      type: "Hub",
+      variants: ["io"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -2,wealth: 0,tech: 0,sol: 3,dev: 2 },
+      economy: { initial: "-", influence: "-"}
+   },
+   "Hub Scientific": {
+      n: 99,
+      name: "Scientific",
+      type: "Hub",
+      variants: ["athena","caelus"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 10,sol: 0,dev: 0 },
+      economy: { initial: "-", influence: "hightech"}
+   },
+   "Hub Military": {
+      n: 101,
+      name: "Military",
+      type: "Hub",
+      variants: ["alala","ares"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 10,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "-", influence: "military"}
+   },
+   "Hub Refinery": {
+      n: 103,
+      name: "Refinery",
+      type: "Hub",
+      variants: ["silenus"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -1,wealth: 5,tech: 3,sol: -2,dev: 7 },
+      economy: { initial: "-", influence: "refinery"}
+   },
+   "Hub High Tech": {
+      n: 104,
+      name: "High Tech",
+      type: "Hub",
+      variants: ["janus"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: -2,wealth: 2,tech: 10,sol: 0,dev: 0 },
+      economy: { initial: "-", influence: "hightech"}
+   },
+   "Hub Industrial": {
+      n: 105,
+      name: "Industrial",
+      type: "Hub",
+      variants: ["molae","tellus_i","eunostus"],
+      cost: {tier: 2, amount: 1},
+      gain: {tier: 3, amount: 1},
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 5,tech: 3,sol: -4,dev: 2 },
+      economy: { initial: "-", influence: "industrial"}
+   }
+};
+
+const padSizes = {
+    aerecura : 'Large',
+    ananke : 'Large',
+    antevorta : 'Large',
+    apollo : 'Large',
+    artemis : 'Large',
+    asteria : 'Large',
+    atropos : 'Large',
+    bia : 'Large',
+    ceres : 'Large',
+    chronos : 'Large',
+    clotho : 'Large',
+    comos : 'Large',
+    decima : 'Large',
+    dual_truss : 'Large',
+    erebus : 'Large',
+    fauna : 'Large',
+    fornax : 'Large',
+    fufluns : 'Large',
+    gaea : 'Large',
+    gelos : 'Large',
+    hephaestus : 'Large',
+    hestia : 'Large',
+    ice : 'Large',
+    lachesis : 'Large',
+    mefitis : 'Large',
+    meteope : 'Large',
+    minerva : 'Large',
+    necessitas : 'Large',
+    no_truss : 'Large',
+    nona : 'Large',
+    ocellus : 'Large',
+    opis : 'Large',
+    orcus : 'Large',
+    palici : 'Large',
+    picumnus : 'Large',
+    ponos : 'Large',
+    porrima : 'Large',
+    providentia : 'Large',
+    quad_truss : 'Large',
+    rock : 'Large',
+    tethys : 'Large',
+    aergia : 'Medium',
+    dysnomia : 'Medium',
+    enyo : 'Medium',
+    ioke : 'Medium',
+    mantus : 'Medium',
+    minthe : 'Medium',
+    nemesis : 'Medium',
+    plutus : 'Medium',
+    polemos : 'Medium',
+    prometheus : 'Medium',
+    vesta : 'Medium',
+    vulcan : 'Medium',
+    annona : 'Small',
+    asteria : 'Small',
+    bellona : 'Small',
+    caerus : 'Small',
+    fontus : 'Small',
+    ourea : 'Small',
+    pheobe : 'Small',
+};
+
+let idsByUid = [];
+
+const constructionFilters = [ 'can build', 'space', 'ground', 'tier 1', 'tier 2', 'tier 3'];
+
+let assetFilters = {
+    'can build': false,
+    space: false,
+    ground: false,
+    'tier 1': false,
+    'tier 2': false,
+    'tier 3': false,
+    pop: false,
+    mpop: false,
+    sec: false,
+    wealth: false,
+    tech: false,
+    sol: false,
+    dev: false
+};
+
+const filterGroups = [
+    ['space', 'ground'],
+    ['tier 1', 'tier 2', 'tier 3']
+];
+
+const primarySurchargeFactors = [ 1.16, 1.32, 1.20 ];
+
+const t2Img = '<img class="tPointsImg" src="img/t2.png">';
+const t3Img = '<img class="tPointsImg" src="img/t3.png">';
+
+
+// next asset to be added at this index (assets already in this or higher indices are for "redo last")
+let assetsListCurrent = 0;
+
+let assetEconomies = {};
+let economyInfluences = {};
+let points = { t2: 0, t3: 0 };
+let systemAssets = {};
+let systemAssetsList = [];
+let showingHaulage = {};
+let daysLeft = 28;
+let fcCap = 20000;
+let shipCap = 792; 
+let shipDaysLeft = 28;
+let haulTotal = 0;
+let haulStr = '';
+let activeMain = 'assetPicker';
+let nactiveMain = 'haulage';
+let mainDivs = ['assetPicker', 'haulage'];
+let systemStatus = { pop: 0, mpop: 0, sec: 0, wealth: 0, tech: 0, sol: 0, dev: 0 };
+let doMechanise = true;
+let deMechanised = false;
+let buildUrl = '';
+
+const assetRequirements = {
+    aergia: { req: ["hermese", "angelia", "eirene"], reqText: 'a satellite installation' },
+    comus: { req: ["hermese", "angelia", "eirene"], reqText: 'a satellite installation' },
+    gelos: { req: ["hermese", "angelia", "eirene"], reqText: 'a satellite installation' },
+    fufluns: { req: ["hermese", "angelia", "eirene"], reqText: 'a satellite installation' },
+    aegle: { req: ["consus", "picumnus", "annona", "ceres", "fornax"], reqText: 'an agricultural settlement' },
+    tellus_e: { req: ["pistis", "soter", "aletheia"], reqText: 'a communications installation' },
+    io: { req: ["demeter"], reqText: 'a space farm (agricultural installation)' },
+    alala: { req: ["vacuna", "alastor"], reqText: 'a military installation' },
+    ares: { req: ["vacuna", "alastor"], reqText: 'a military installation' },
+    molae: { req: ["euthenia", "phorcys"], reqText: 'a mining outpost installation' },
+    tellus_i: { req: ["euthenia", "phorcys"], reqText: 'a mining outpost installation' },
+    eunostus: { req: ["euthenia", "phorcys"], reqText: 'a mining outpost installation' },
+    dicaeosyne: { req: ["enodia", "ichnaea"], reqText: 'a relay installation' },
+    poena: { req: ["enodia", "ichnaea"], reqText: 'a relay installation' },
+    eunomia: { req: ["enodia", "ichnaea"], reqText: 'a relay installation' },
+    nomos: { req: ["enodia", "ichnaea"], reqText: 'a relay installation' },
+    astraeus: { req: ["pheobe", "asteria", "caerus", "chronos"], reqText: 'a bio research settlement'},
+    coeus: { req: ["pheobe", "asteria", "caerus", "chronos"], reqText: 'a bio research settlement'},
+    dodona: { req: ["pheobe", "asteria", "caerus", "chronos"], reqText: 'a bio research settlement'},
+    dione: { req: ["pheobe", "asteria", "caerus", "chronos"], reqText: 'a bio research settlement'},
+    hedone: { req: ["aergia", "comus", "gelos", "fufluns"], reqText: 'a tourism settlement'},
+    opora: { req: ["aergia", "comus", "gelos", "fufluns"], reqText: 'a tourism settlement'},
+    pasithea: { req: ["aergia", "comus", "gelos", "fufluns"], reqText: 'a tourism settlement'}
+}
+
+const statNames = {
+    pop: 'population',
+    mpop: 'max pop.',
+    sec: 'security',
+    wealth: 'wealth',
+    tech: 'technology',
+    sol: 'std. of living',
+    dev: 'development'
+};
+
+const spaceTypes = [
+    'Starport',
+    'Outpost',
+    'Installation'
+];
+
+const primaryTypes = [
+    'Starport',
+    'Outpost'
+];
+
+function byId(id) {
+    return document.getElementById(id);
+}
+
+function elt(name) {
+    return document.createElement(name);
+}
+
+function numSystemAssets() {
+    return Object.keys(systemAssets).length;
+}
+
+function idToVariant(id) {
+    let parts = id.split('|');
+    return parts[1];
+}
+
+function assetId(asset, variant) {
+    return asset.type + ' ' + asset.name + '|' + variant; 
+}
+
+function assetFromId(id) {
+
+    const variantName = idToVariant(id);
+
+    for(let assetName in assets) {
+        if (assets[assetName].variants.includes(variantName)) {
+            return assets[assetName];
+        }
+    }
+    return {};
+}
+
+function haveRequirementFor(id) {
+    let variantName = idToVariant(id);
+    if (variantName in assetRequirements) {
+        for (var builtId in systemAssets) {
+            let builtVariant = idToVariant(builtId);
+            if (assetRequirements[variantName].req.includes(builtVariant)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return true;
+}
+
+function canAdd(asset) {
+    if (!numSystemAssets()) {
+        if (primaryTypes.includes(asset.type)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    if (asset.cost.amount > 0) {
+        costAmount = mechanise(asset);
+        let tier = 't' + asset.cost.tier;
+        if (points[tier] < costAmount) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function addSystemAsset(asset, variant, doRefresh) {
+
+    let id = assetId(asset, variant); 
+
+    if (!haveRequirementFor(id)) {
+        let variantName = idToVariant(id);
+        alert("you must first build: " + assetRequirements[variantName].reqText);
+        return;
+    }
+
+    if (asset.gain.amount > 0) {
+        points['t' + asset.gain.tier] += asset.gain.amount;
+    }
+    
+    if (numSystemAssets() > 0) {
+        if (asset.cost.amount > 0) {
+            points['t' + asset.cost.tier] -= asset.cost.amount;
+        }
+    }
+
+    if (id in systemAssets) {
+        systemAssets[id]++;
+    } else {
+        systemAssets[id] = 1;
+    }
+
+    systemAssetsList[assetsListCurrent] = id;
+    assetsListCurrent++;
+
+    while (systemAssetsList.length < assetsListCurrent) {
+        systemAssetsList.pop;
+        assetsListCurrent--;
+    }
+
+    if (asset.economy.initial != '-') {
+        if (asset.economy.initial in assetEconomies) {
+            assetEconomies[asset.economy.initial]++;
+        } else {
+            assetEconomies[asset.economy.initial] = 1;
+        }
+    }
+
+    if (asset.economy.influence != '-') {
+        if (asset.economy.influence in economyInfluences) {
+            economyInfluences[asset.economy.influence]++;
+        } else {
+            economyInfluences[asset.economy.influence] = 1;
+        }
+    }
+
+    for (var i = headers.indexOf('pop'); i < headers.indexOf('dev') + 1; i++) {
+        systemStatus[headers[i]] += asset.effect[headers[i]];
+    }
+
+    if (doRefresh) {
+        refresh();
+    }
+}
+
+function mouseInOut(e, fns) {
+    e.addEventListener( "mouseover", fns[0] );
+    e.addEventListener( "mouseout", fns[1] );
+}
+
+function textElement(name, str, fType, fn) {
+    let e = elt(name);
+
+    switch(fType) {
+        case 'mouseover':
+            e.onmouseover = fn; 
+            break;
+        case 'mouseInOut':
+            mouseInOut(e, fn);
+            break;
+        default:
+            break;
+    }
+
+    e.appendChild(document.createTextNode(str));
+    return e;
+}
+
+function htmlElement(name, str, fType, fn) {
+    let e = elt(name);
+
+    switch(fType) {
+        case 'mouseover':
+            e.onmouseover = fn; 
+            break;
+        case 'mouseInOut':
+            mouseInOut(e, fn);
+            break;
+        default:
+            break;
+    }
+
+    e.innerHTML = str;
+    return e;
+}
+
+function effectCell(asset, str) {
+
+    let val = asset.effect[str];
+    val = val > 0 ? '+' + val : val == 0 ? '-' : val;
+    return textElement('td', val);
+}
+
+function assetHeaders() {
+
+    let r = elt('tr');
+    headers.forEach( function (str)  {
+        
+        if (str in systemStatus) {
+            r.appendChild(filterElement('th', str));
+        } else {
+            r.appendChild(textElement('th', str));
+        }
+    });
+    return r;
+}
+
+function countMajorAssets() {
+
+    if (assetsListCurrent === 0) {
+        return 0;
+    }
+
+    let total = 0;
+    let firstAss = assetFromId(systemAssetsList[0]);
+
+    if (firstAss.cost.amount > 0) { 
+        total -= 1;
+    }
+
+    for (let i = 0; i < assetsListCurrent; i++) {
+
+        const asset = assetFromId(systemAssetsList[i]);
+
+        if (asset.cost.amount >= 3) { 
+           total++;
+        }
+    }
+
+    return total;
+}
+
+function mechanise(asset) {
+
+    if (!doMechanise || (asset.cost.amount < 3)) {
+        return asset.cost.amount;
+    }
+
+    let numMajorAssets = countMajorAssets();
+
+    if (numMajorAssets < 2) {
+        return asset.cost.amount;
+    }
+
+    return asset.cost.amount + ((numMajorAssets - 1) * ((asset.cost.tier === 3) ? 6 : 2));
+}
+
+function trimAssetsList() {
+    while (systemAssetsList.length && systemAssetsList.length > assetsListCurrent) {
+        let trimmed = systemAssetsList.pop();
+    }
+}
+
+function actions(asset, variant) {
+
+    let id = assetId(asset, variant); 
+    let addCell;
+
+    if (canAdd(asset)) {
+        addCell = textElement('td', '[+]');
+
+        addCell = textElement('td', '[+]', 'mouseInOut', [
+            function() { this.style.background = '#ddddff'; this.style.color = '#021224'; infoBox(asset, variant); },
+            function() { this.style.background = '#208040'; this.style.color = '#68c0f0'; closeInfoPanel(); }
+        ]); 
+        addCell.style.backgroundColor = '#208040';
+        addCell.onclick = function() { 
+            trimAssetsList();
+            addSystemAsset(asset, variant, true);
+        };
+        addCell.style.cursor = 'pointer';
+
+    } else {
+        addCell = textElement('td', '[_]');
+        addCell.style.backgroundColor = '#808080';
+    }
+
+    return addCell;
+}
+
+
+function assetRow(assetName, variant) {
+
+    let asset = assets[assetName];
+    let r = elt('tr');
+    r.appendChild(actions(asset, variant));
+
+    let name = asset.type + ': ' + asset.name + ' (' + variant + ')';
+    let assCell = textElement('td', name, 'mouseInOut', [
+            function() { this.style.background = '#ddddff'; this.style.color = '#021224'; infoBox(asset, variant); },
+            function() { this.style.background = '#021224'; this.style.color = '#68c0f0'; closeInfoPanel(); }
+    ]); 
+
+    r.appendChild(assCell);
+
+    let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier ); 
+    let loc = spaceTypes.includes(asset.type) ? 'Space' : 'Surface';
+    r.appendChild(textElement('td', loc + ', tier\xa0' + tier));
+
+    let costStr = '-';
+    if (asset.cost.amount > 0) {
+        let costAmount = mechanise(asset);
+        costStr = costAmount + '&nbsp;' + (asset.cost.tier == 2 ? t2Img : t3Img);
+    }
+    let gainStr = '-';
+    if (asset.gain.amount > 0) {
+        gainStr = asset.gain.amount + '&nbsp;' + (asset.gain.tier == 2 ? t2Img : t3Img);
+    }
+
+    r.appendChild(htmlElement('td', costStr));
+    r.appendChild(htmlElement('td', gainStr));
+
+    for (var i = headers.indexOf('pop'); i < headers.indexOf('dev') + 1; i++) {
+        r.appendChild(effectCell(asset, headers[i]));
+    }
+
+    r.appendChild(textElement('td', asset.economy.initial));
+    r.appendChild(textElement('td', asset.economy.influence));
+    return r;
+}
+
+function isVisible(assetName) {
+
+    let asset = assets[assetName];
+
+    if (assetFilters["can build"]) {
+        if (!canAdd(asset)) {
+            return false;
+        }
+    }
+
+    if (assetFilters["space"]) {
+        if (!(spaceTypes.includes(asset.type))) {
+            return false;
+        }
+    }
+    if (assetFilters["ground"]) {
+        if (spaceTypes.includes(asset.type)) {
+            return false;
+        }
+    }
+    if (assetFilters["tier 1"]) {
+        if (asset.cost.amount > 0) {
+            return false;
+        }
+    }
+    if (assetFilters["tier 2"]) {
+
+        if ((asset.cost.amount < 1) || (asset.cost.tier !== 2)) {
+            return false;
+        }
+    }
+    if (assetFilters["tier 3"]) {
+        
+        if ((asset.cost.amount < 1) || (asset.cost.tier !== 3)) {
+            return false;
+        }
+    }
+    for (var stat in systemStatus) {
+        if (assetFilters[stat]) {
+            if (asset.effect[stat] < 1) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+function assetTable() {
+    let t = elt('table');
+    let r = assetHeaders();
+    t.appendChild(r);
+    for (assetName in assets) {
+        if (isVisible(assetName)) {
+            assets[assetName].variants.forEach(function (variant) {
+                t.appendChild(assetRow(assetName, variant));
+            });
+        }
+    }
+    byId("tableContainer").appendChild(t);
+}
+
+function toggleMechanise() {
+
+    if (deMechanised) {
+        return;
+    }
+
+    doMechanise = !doMechanise;
+
+    if (!doMechanise) {
+        let cb = byId('hikeOption');
+        cb.disabled = true;
+        deMechanised = true;
+    }
+
+    refresh();
+}
+
+function showPoints() {
+
+    let cb = byId('hikeOption');
+    cb.checked = doMechanise;
+    cb.onclick = toggleMechanise;
+
+    let t = elt('table');
+    let r = elt('tr');
+    let c = htmlElement('td', '<img class="tPointsImgB" src="img/t2.png"> <b>' + points.t2 + '</b>');
+    c.style.border="none";
+    r.appendChild(c);
+    c = htmlElement('td', '<img class="tPointsImgB" src="img/t3.png"> <b>' + points.t3 + '</b>');
+    c.style.border="none";
+    r.appendChild(c);
+    t.appendChild(r);
+    t.style.border = 'none';
+    byId("pointsContainer").appendChild(t);
+}
+
+// Straight from the c+p stackoverflow programming manual
+// (https://stackoverflow.com/questions/66123016/interpolate-between-two-colours-based-on-a-percentage-value)
+function interpolateColour(c1, c2, factor) {
+  const r1 = parseInt(c1.substring(1, 3), 16);
+  const g1 = parseInt(c1.substring(3, 5), 16);
+  const b1 = parseInt(c1.substring(5, 7), 16);
+
+  const r2 = parseInt(c2.substring(1, 3), 16);
+  const g2 = parseInt(c2.substring(3, 5), 16);
+  const b2 = parseInt(c2.substring(5, 7), 16);
+
+  const r = Math.round(r1 + (r2 - r1) * factor);
+  const g = Math.round(g1 + (g2 - g1) * factor);
+  const b = Math.round(b1 + (b2 - b1) * factor);
+
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function statColour(stat) {
+
+    if (!stat) {
+        return '#606060';
+    }
+    if (stat < 0) {
+        return interpolateColour('#886028', '#800808', Math.max(stat, -20) / -20);
+    }
+    return interpolateColour('#608828', '#088008', Math.min(stat, 20) / 20);
+}
+
+function showStatus() {
+
+    let totalPos = 0;
+    let totalNeg = 0;
+    let totalSpace = 0;
+    let totalGround = 0;
+    let totalTier1 = 0;
+    let totalTier2 = 0;
+    let totalTier3 = 0;
+    let totalTonnage = 0;
+    let firstStationFactor = 1.12;
+
+    let i = 0;
+    while (i < assetsListCurrent) {
+
+        let id = systemAssetsList[i]; 
+        let variant = idToVariant(id);
+        let asset = assetFromId(id);
+
+        if (spaceTypes.includes(asset.type)) {
+            totalSpace++;
+        } else {
+            totalGround++;
+        }
+
+        tier = 1;
+
+        switch(asset.cost.tier) {
+            case 2:
+                totalTier2++;
+                tier = 2;
+                break;
+            case 3:
+                totalTier3++;
+                tier = 3;
+                break;
+            case 0:
+                totalTier1++;
+                break;
+            default:
+                alert("tier totals for tier " + asset.cost.tier + "?! Unpossible!");
+                break;
+        }
+        if (i === 0) {
+            totalTonnage += Math.floor(assetTonnages[variant] * primarySurchargeFactors[tier - 1]);
+        } else {
+            totalTonnage += assetTonnages[variant];
+        }
+        i++;
+    }
+
+    let t = elt('table');
+    t.style.tableLayout = 'fixed';
+    let totalsRow = elt('tr');
+    let totals = 'tons: ~' + totalTonnage + ', space: ' + totalSpace + ', ground: ' + totalGround
+                    + ', tier 1: ' + totalTier1 + ', tier 2: ' + totalTier2 + ', tier 3: ' + totalTier3;
+
+    let c = textElement('td', totals);
+
+    c.colSpan = 4;
+    totalsRow.appendChild(c);
+    t.appendChild(totalsRow);
+
+    let first = headers.indexOf('pop');
+    let last = headers.indexOf('dev');
+    let limit = (last - first) + 2;
+
+
+    let r = elt('tr');
+    for (i = first; i < last + 1; i++) {
+        let statName = textElement('td', statNames[headers[i]]);
+        statName.className = 'statname';
+        if (i === last) {
+            statName.colSpan=2;
+        }
+        r.appendChild(statName);
+        let stat = textElement('td', systemStatus[headers[i]]);
+        stat.className = 'stat';
+        stat.style.backgroundColor = statColour(systemStatus[headers[i]]);
+        if (i === last) {
+            stat.colSpan=2;
+        }
+        r.appendChild(stat);
+
+        if ((i === last) || ((i - first) % 2)) {
+            t.appendChild(r);
+            r = elt('tr');
+        }
+    }
+
+    byId("statusContainer").appendChild(t);
+}
+
+function showEconomy() {
+    let c = byId('economyContainer');
+    let t = elt('table');
+    t.style.tableLayout = 'fixed';
+    let r = elt('tr');
+    let assCell = elt('td');
+    let assPara = textElement('p', 'asset economies');
+    assCell.appendChild(assPara);
+
+    let econList = elt('ul');
+    for (var e in assetEconomies) {
+        econList.appendChild(textElement('li', e + ': ' + assetEconomies[e]));
+    }
+    assCell.appendChild(econList);
+    r.appendChild(assCell);
+
+    let infCell = elt('td');
+    let infPara = textElement('p', 'economy influences');
+    infCell.appendChild(infPara);
+
+    let infList = elt('ul');
+    for (var i in economyInfluences) {
+        infList.appendChild(textElement('li', i + ': ' + economyInfluences[i]));
+    }
+    infCell.appendChild(infList);
+    r.appendChild(infCell);
+    t.appendChild(r);
+    c.appendChild(t);
+}
+
+function mechanWarning() {
+    const p = elt('p');
+    p.innerHTML = "There's optional support for the controversial "
+                + '<a href="https://forums.frontier.co.uk/threads/elite-dangerous-system-colonisation-beta-details-feedback.634055/post-10572014" target="_blank" style="color: #ff6644">'
+                + 'construction points price hike mechanic</a>, which you can turn off (once) with the checkbox (top left)<br />'
+                + 'Exporting and importing with different settings for this can create an inconsistent state - so '
+                + '<a href="http://catb.org/jargon/html/D/Don-t-do-that-then-.html" style="color: #ff6644">Don\'t Do That!</a>';
+    p.style.color = '#ff4444';
+    return p;
+}
+
+
+function buildWarning() {
+    const p = elt('p');
+    p.innerHTML = '***WARNING***</div> '
+                + 'the game <a href="https://forums.frontier.co.uk/threads/how-not-to-build-a-security-station-in-trailblazer.634795/" target="_blank" style="color: #ff6644">'
+                + 'builds the wrong type for some installations</a> (now wrong in appearance only, it seems)'
+                + 'and lies about landing pads! <br/>';
+    p.style.color = '#ff4444';
+    return p;
+}
+
+function spreadsheetLink() {
+    const p = elt('p');
+    p.innerHTML = 'Check <a href="https://docs.google.com/spreadsheets/d/1jsZOzNJSnPIWlU88puOc9gQXvsw-MGp8meoQ6k-Yj-Y/copy?usp=sharing">'
+                + "DaftMav's colonisation spreadsheet</a> "
+                + 'before committing to building an asset in the actual game!';
+    return p;
+}
+
+function intro() {
+    const s = elt('span');
+    s.appendChild(textElement('p', 'Click a green "[+]" on the right to add an asset.'));
+    s.appendChild(textElement('p', 'Click filters like "[tier 3]" or "SOL" (standard of living) to show matching assets.'));
+    s.appendChild(textElement('p', 'Buildable filter ("can build") is pre-enabled, click to disable.'));
+    s.appendChild(textElement('p', 'Adding assets may require construction points (tier 2 or tier 3). No points are required for the first station.'));
+    s.appendChild(mechanWarning());
+    s.appendChild(textElement('p', 'When you add an asset, this text will disappear and assets will appear here.'));
+    s.appendChild(buildWarning());
+    s.appendChild(spreadsheetLink());
+    s.appendChild(textElement('p', 'This is a WIP.'));
+    return s;
+}
+
+function redoLastAsset() {
+    if (assetsListCurrent >= systemAssetsList.length) {
+        alert("Data error, cant't find asset to redo");
+        return;
+    }
+
+    let asset = assetFromId(systemAssetsList[assetsListCurrent]);
+
+    if (asset.gain.amount > 0) {
+        const gainTier = 't' + asset.gain.tier;
+        points[gainTier] += asset.gain.amount;
+    }
+    
+    if (numSystemAssets() > 0) {
+        if (asset.cost.amount > 0) {
+            const costTier = 't' + asset.cost.tier;
+            points[costTier] -= asset.cost.amount;
+        }
+    }
+
+    let id = systemAssetsList[assetsListCurrent];
+    assetsListCurrent++;
+
+    if (id in systemAssets) {
+        systemAssets[id]++;
+    } else {
+        systemAssets[id] = 1;
+    }
+
+
+    if (asset.economy.initial != '-') {
+        if (asset.economy.initial in assetEconomies) {
+            assetEconomies[asset.economy.initial]++;
+        } else {
+            assetEconomies[asset.economy.initial] = 1;
+        }
+    }
+    if (asset.economy.influence != '-') {
+        if (asset.economy.influence in economyInfluences) {
+            economyInfluences[asset.economy.influence]++;
+        } else {
+            economyInfluences[asset.economy.influence] = 1;
+        }
+    }
+
+    for (var i = headers.indexOf('pop'); i < headers.indexOf('dev') + 1; i++) {
+        systemStatus[headers[i]] += asset.effect[headers[i]];
+    }
+    refresh();
+}
+
+function removeLastAsset() {
+
+    if (assetsListCurrent < 1) {
+        alert("Data error, cant't find asset to remove");
+        return;
+    }
+    assetsListCurrent--;
+    const toRemove = systemAssetsList[assetsListCurrent];
+    if (!(toRemove in systemAssets)) {
+        alert('Data error, unable to remove ' + toRemove + '!');
+        assetsListCurrent++;
+        return;
+    }
+    systemAssets[toRemove]--;
+    if (systemAssets[toRemove] < 1) {
+        delete systemAssets[toRemove];
+    }
+
+    removed = assetFromId(toRemove);
+    if (removed.cost.amount > 0 && assetsListCurrent > 0) {
+        const costTier = 't' + removed.cost.tier;
+        points[costTier] += removed.cost.amount;
+    }
+
+    if (removed.gain.amount > 0) {
+        const gainTier = 't' + removed.gain.tier;
+        points[gainTier] -= removed.gain.amount;
+    }
+
+    if (points["t2"] < 0 || points["t3"] < 0) {
+        alert("Data error, best reset I think");
+    }
+
+    if (removed.economy.initial != '-') {
+        if (removed.economy.initial in assetEconomies) {
+            if (assetEconomies[removed.economy.initial] > 1) {
+                assetEconomies[removed.economy.initial]--;
+            } else {
+                delete assetEconomies[removed.economy.initial];
+            }
+        } else {
+            alert("Economy (initial) in disarray!");
+        }
+    }
+
+    if (removed.economy.influence != '-') {
+        if (removed.economy.influence in economyInfluences) {
+            if (economyInfluences[removed.economy.influence] > 1) {
+                economyInfluences[removed.economy.influence]--;
+            } else {
+                delete economyInfluences[removed.economy.influence];
+            }
+        } else {
+            alert("Economy (influence) in disarray!");
+        }
+    }
+
+    for (var i = headers.indexOf('pop'); i < headers.indexOf('dev') + 1; i++) {
+        systemStatus[headers[i]] -= removed.effect[headers[i]];
+    }
+
+    refresh();
+}
+
+function ucFirst(str) {
+    return String(str).charAt(0).toUpperCase() + String(str).slice(1);
+}
+
+function showTrips() {
+    byId('fctrips').innerHTML = Math.ceil(haulTotal / fcCap) + ' trips';
+    byId('fcperday').innerHTML = Math.round(Math.ceil(haulTotal / fcCap) * 100 / daysLeft) / 100 + ' trips per day';
+    byId('shiptrips').innerHTML = Math.ceil(haulTotal / shipCap) + ' trips';
+    byId('shipperday').innerHTML = Math.round(Math.ceil(haulTotal / shipCap) * 100 / daysLeft) / 100  + ' trips per day';
+}
+
+function primarySurchargeFactor(variant) {
+    switch (variant) {
+        case 'no_truss':
+        case 'dual_truss':
+        case 'quad_trus':
+        case 'ice':
+        case 'rock':
+            return primarySurchargeFactors[1];
+            break;
+        case 'ocellus':
+        case 'apollo':
+        case 'artemis':
+            return primarySurchargeFactors[2];
+            break;
+        default:
+            return primarySurchargeFactors[0];
+            break;
+    }
+}
+
+function showHaulage() {
+
+    haulTotal = 0;
+    haulStr = '';
+    let cList = {};
+    byId('haulcopy').innerHTML = '[copy]';
+
+    const haularea = byId('haularea');
+
+    for (assetStr in showingHaulage) {
+        let variant = assetStr.split('.')[0];
+        let assetListIdx = assetStr.split('.')[1];
+        if (assetListIdx < assetsListCurrent) {
+            for (c in commodityGroups[variantGroups[variant]]) {
+                let tons = commodityGroups[variantGroups[variant]][c];
+                if (assetListIdx == 0) {
+                    let oldTons = tons;
+                    tons = Math.floor(tons * primarySurchargeFactor(variant));
+                }
+                cList[c] = (cList[c] ? cList[c] : 0) + tons; 
+            }
+        }
+    }
+
+    const haulables = byId('haulables');
+
+    if (!Object.keys(cList).length) {
+
+        if (assetsListCurrent > 0) {
+            haulables.innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
+        } else {
+            haulables.innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then tick their haul boxes on the left to show hauling requirements here</p></div>';
+            let assChoose = byId('chooseAssets');
+            assChoose.style.cursor = 'pointer';
+            assChoose.onclick = () => {
+                activeMain = 'assetPicker';
+                inactiveMain = 'haulage';
+                showMain();
+            };
+        }
+
+        haularea.innerHTML = '';
+        byId('totalhaul').innerHTML = '';
+        byId('fctrips').innerHTML = '';
+        byId('shiptrips').innerHTML = '';
+
+        return;
+    }
+
+    cList = Object.keys(cList).sort().reduce (
+        (obj, key) => {
+            obj[key] = cList[key];
+            return obj;
+        },
+        {}
+    );
+
+    let t = elt('table');
+    t.className = 'haulData';
+    let haulStrs = [];
+
+
+    for (let c in cList) {
+        let r = elt('tr');
+        let cName = textElement('td', cNames[c]);
+        r.appendChild(cName);
+        let cNum = textElement('td', cList[c]);
+        r.appendChild(cNum);
+        t.appendChild(r);
+        haulStrs.push(cNames[c] + "\t" + cList[c]);
+        haulTotal += cList[c];
+    }
+
+    haulStr = haulStrs.join("\n");
+
+    while (haulables.firstChild) {
+        haulables.removeChild(haulables.firstChild);
+    }
+
+    haulables.appendChild(t);
+
+    haularea.innerHTML = '<font size="+2"><pre>' +  haulStr + '</pre></font>';
+    byId('totalhaul').innerHTML = 'total: ' + haulTotal + ' t';
+    showTrips();
+
+    buildUrl = makeUrl(systemAssetsList.slice(0, assetsListCurrent));
+    byId('haulurl').innerHTML = '<a target="_blank" style="color: #ff6644" href="' + buildUrl + '">' + buildUrl + '</a>'; 
+
+    activeMain = 'haulage';
+    inactiveMain = 'assetPicker';
+}
+
+function toggleAssHaul(assetStr) {
+    if (assetStr in showingHaulage) {
+        delete showingHaulage[assetStr];
+    } else {
+        showingHaulage[assetStr] = true;
+    }
+    showMain();
+}
+
+function showAssets() {
+
+    const assetsContainer = byId("assetsContainer");
+    const assetsWrapper = byId("assetsWrapper");
+    const undo = byId("undo");
+    const redo = byId("redo");
+
+    if (assetsListCurrent < systemAssetsList.length) {
+        if (!redo.firstChild) {
+            redo.appendChild(document.createTextNode('redo last'));
+        }
+        redo.style.color = 'orange';
+        redo.onclick = redoLastAsset;
+        redo.style.cursor = 'pointer';
+    } else {
+        if (redo.firstChild) {
+            redo.removeChild(redo.firstChild);
+        }
+        redo.style.border = 'none';
+    }
+
+    if (!numSystemAssets()) {
+
+        if (undo.firstChild) {
+            undo.removeChild(undo.firstChild);
+        }
+        undo.style.border = 'none';
+
+        const s = intro();
+        s.style.color = 'orange';
+        assetsContainer.appendChild(s);
+        assetsWrapper.style.heigh = 'auto';
+        assetsContainer.style.height = 'auto';
+        assetsContainer.style.flexDirection = 'column';
+        return;
+    } else {
+
+        if (!undo.firstChild) {
+            undo.appendChild(document.createTextNode('remove last'));
+        }
+        undo.style.color = 'orange';
+        undo.onclick = removeLastAsset;
+        undo.style.cursor = 'pointer';
+    }
+
+    assetsContainer.style.flexDirection = 'column-reverse';
+    assetsContainer.style.height = '50vh';
+       
+    let tbl = elt('table');
+    tbl.style.marginBottom = 'auto';
+    let first = true;
+    let pos = '';
+
+    for (let i = 0; i < assetsListCurrent; i++) {
+        let id = systemAssetsList[i];
+        let assetName = id.split('|')[0];
+        let variant = id.split('|')[1];
+        let assetInstance = variant + '.' + i;
+        let asset = assets[assetName];
+        let type = asset.type;
+        let name = asset.name;
+        let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier ); 
+        let place = spaceTypes.includes(asset.type) ? 'space' : 'surface';
+
+        let tonnage = assetTonnages[variant];
+        if (first) {
+            tonnage = Math.floor (tonnage * primarySurchargeFactors[tier - 1]);
+            pos = 'first';
+            first = false;
+        } else {
+            pos = '';
+        }
+
+        tonnage = '~' + tonnage + 't';
+
+        let item = elt('tr');
+        let assCell = elt('td');
+
+        mouseInOut(assCell, [
+            ( pos === 'first' ? 
+                function() { this.style.background = '#ffffff'; this.style.color = '#021224'; infoBox(asset, variant, 'first'); }
+            :
+                function() { this.style.background = '#ffffff'; this.style.color = '#021224'; infoBox(asset, variant); }
+            ),
+            function() { this.style.background = '#021224'; this.style.color = '#68c0f0'; closeInfoPanel(); }
+        ]);
+
+        assCell.style.textAlign = 'left';
+        assCell.innerHTML = '<b>' + ucFirst(name) + ' ' + type + '</b>: ' + tonnage + ', tier ' + tier + ", '" + variant + "'";
+        let haulCell = elt('td');
+        haulCell.innerHTML = assetInstance in showingHaulage ? '<font size="+2" style="color: green"><b>🚚</b><font>' : '<font size="+2"><b>🚧</b></font>';
+        haulCell.onclick = function() {
+            toggleAssHaul(assetInstance);
+            haulCell.innerHTML = assetInstance in showingHaulage ? '<font size="+2" style="color: green"><b>🚚</b><font>' : '<font size="+2"><b>🚧</b></font>';
+            activeMain = 'haulage';
+            inactiveMain = 'assetPicker';
+            showMain();
+        };
+        haulCell.style.cursor = 'pointer';
+        haulCell.style.textAlign = 'right';
+        item.appendChild(assCell);
+        item.appendChild(haulCell);
+        tbl.appendChild(item);
+    }
+
+    assetsContainer.appendChild(tbl);
+}
+
+function toggleFilter(filter) {
+
+    assetFilters[filter] = assetFilters[filter] ? false : true;
+
+    if (assetFilters[filter]) {
+        filterGroups.forEach( function(group) {
+            if (group.includes(filter)) {
+                group.forEach( function(otherFilter) {
+                    if (filter != otherFilter) {
+                        assetFilters[otherFilter] = false;
+                    }
+                });
+            }
+        });
+    }
+    refresh();
+};
+
+function filterElement(e, filter) {
+
+    let f = textElement(e, filter);
+
+    if (assetFilters[filter]) {
+        f.style.backgroundColor = 'aqua';
+        f.style.color = 'black';
+    } else {
+        f.style.backgroundColor = '#105010';
+        f.style.color = 'aqua';
+    }
+    f.onclick = function() { toggleFilter(filter); };
+    f.style.cursor = 'pointer';
+    return f;
+}
+
+function showFilters() {
+
+    const filtersContainer = byId("filtersContainer");
+    const t = elt('table');
+    const r = elt('tr');
+
+    for (var filter in constructionFilters) {
+        const f = filterElement('td', constructionFilters[filter]);
+        r.appendChild(f);
+    }
+    t.appendChild(r);
+    t.style.tableLayout = 'fixed';
+    filtersContainer.appendChild(t);
+}
+
+function assetInfo(asset, variant, posn) {
+
+    let padSize = (variant in padSizes ? padSizes[variant] : 'none');
+    let buildable = canAdd(asset) ? 'yes' : 'no';
+    let name = asset.type + ': ' + asset.name + ' (' + variant + ')';
+    let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier ); 
+    let loc = spaceTypes.includes(asset.type) ? 'Space' : 'Surface';
+
+    let costImg =  ( asset.cost.amount ? 'img/t' + asset.cost.tier + '.png' : '' );
+    if (costImg) {
+        costImg = '<img class="tPointsImgB" src="' + costImg + '">';
+    }
+
+    let cost = ( asset.cost.amount ? '<b>' + mechanise(asset) + '</b>&nbsp;&nbsp;' + costImg : 'none' );
+
+    let gainImg = ( asset.gain.amount ? 'img/t' + asset.gain.tier + '.png' : '' );
+    if (gainImg) {
+        gainImg = '<img class="tPointsImgB" src="' + gainImg + '">';
+    }
+    let gain = ( asset.gain.amount ? '<b>' + asset.gain.amount + '</b>&nbsp;&nbsp;' + gainImg : 'none' );
+
+    let tonnage = 0;
+    let surchargeFactor = 1;
+    if (variant in assetTonnages) {
+        if (posn === 'first' || (canAdd(asset) && assetsListCurrent === 0)) {
+            surchargeFactor = primarySurchargeFactors[tier - 1];
+        }
+        tonnage = (Math.floor(assetTonnages[variant] * surchargeFactor)) + ' tons';
+    }
+
+    let pos = [];
+    let neg = [];
+    let effects = '';
+    for (var stat in systemStatus) {
+        if (asset.effect[stat] > 0) {
+            pos.push(stat);
+        } else if (asset.effect[stat] < 0) {
+            neg.push(stat);
+        }
+    }
+
+    if (pos.length) {
+        effects += '<b><font color="green">';
+        effects += pos.join('\x0a');
+        effects += '</font></b>\x0a';
+    }
+
+    if (neg.length) {
+        effects += '<b><font color="#882828">'
+        effects += neg.join('\x0a');
+        effects += '</font></b>';
+    }
+
+    let html = '<table class="infoTable">';
+    html += '<tr class="inf"><td class="inf"><img height="150px" width="100%" src="img/sc_' + variant + '.jpg"/></td></tr>';
+    html += '<tr class="inf"><td class="inf"><b>' + name + '</b></td></tr>';
+    if (variant === 'ichnaea') {
+        html += '<tr class="inf"><td><b><font color="#882020">***currently bugged***: constructs a comms installation instead</font></b></td></tr>';
+    } else if (variant === 'eirene') { 
+        html += '<tr class="inf"><td><b><font color="#882020">***currently bugged***: constructs a scientific installation instead</font></b></td></tr>';
+    }
+
+    if (variant in assetRequirements) {
+        html += '<tr class="inf"><td class="inf">prerequisite facility: <b>' + assetRequirements[variant].reqText + '</b></td></tr>';
+    }
+
+    html += '<tr class="inf"><td class="inf">buildable: <b>' + buildable + '</td></tr>';
+    html += '<tr class="inf"><td class="inf">landing pad: <b>' + padSize + '</b></td></tr>';
+    html += '<tr class="inf"><td class="inf">effects: ' + effects + '</td></tr>';
+    html += '<tr class="inf"><td class="inf">location: <b>' + loc + '</b></td></tr>';
+    html += '<tr class="inf"><td class="inf">cost: ' + cost + '</td></tr>';
+    html += '<tr class="inf"><td class="inf">gain: ' + gain + '</td></tr>';
+    html += '<tr class="inf"><td class="inf">hauling requirement (approx): <b>' + tonnage + '</b></td></tr>';
+    html += '</table>';
+    return html;
+}
+
+function closeInfoPanel() {
+    let modal = byId("infoContainer");
+    modal.style.display = "none";
+}
+
+function makeUrl(assetList) {
+    let idStr = '';
+    let bytes = new Uint8Array(assetsListCurrent);
+    for (let i = 0; i < assetsListCurrent; i++) {
+        let id = assetList[i];
+        let asset = assetFromId(id);
+        let assetInstance = id.split('|')[1] + '.' + i;
+        let c = asset['n'];
+
+        if (assetInstance in showingHaulage) {
+            c += 128;
+        }
+        bytes[i] = c;
+    }
+
+    let loc = window.location;
+    let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + bytes.toBase64({ alphabet: 'base64url'}); 
+    return url;
+}
+
+function infoBox(asset, variant, pos) {
+
+    let wrapper = byId("infoContainer");
+    let infoPanel = byId("infoPanel");
+    let exporter = byId("exportDialog");
+    exporter.style.display = "none";
+
+    infoPanel.innerHTML = assetInfo(asset, variant, pos);
+
+    infoPanel.style.display = "inline-block";
+    wrapper.style.display = "inline-block";
+}
+
+function exportDialog() {
+
+    let modal = byId("modalContainer");
+    let wrapper = byId("dialogContainer");
+    let exporter = byId("exportDialog");
+    let closeBtn = document.getElementsByClassName("close")[0];
+
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+    closeBtn.style.cursor = 'pointer';
+
+    window.onclick = function(event) {
+        if (event.target == modal || event.target == wrapper) {
+            modal.style.display = "none";
+        }
+    };
+
+    let txt = byId('exportData');
+    while (txt.firstChild) {
+        txt.removeChild(txt.firstChild);
+    }
+
+    txt.cols = 40;
+    txt.rows = 8;
+    txt.style.backgroundColor = '#12122c';
+    txt.style.color = '#68dcec';
+
+    let exportList = systemAssetsList.slice(0, assetsListCurrent);
+    let exportData = exportList.join("\n");
+    let buildUrl = makeUrl(exportList);
+
+    let urlElt = byId("buildUrl");
+    urlElt.innerHTML = 'or use:<br /><a href="' + buildUrl + '" target="_blank" style="color: #ff6644">' + buildUrl + '</a>';
+    let urlCopy = byId('urlCopy');
+    urlCopy.innerHTML = '[copy]';
+    urlCopy.onclick = () => {
+        navigator.clipboard.writeText(buildUrl);
+        urlCopy.innerHTML = '[copied]';
+    }
+    urlCopy.style.cursor = 'pointer';
+
+    txt.value = exportData;
+
+    const filenameInput = byId('filename');
+    filenameInput.value = 'colonybuild.txt';
+
+    exportBtn = byId('exportBtn');
+    exportBtn.onclick = download;
+    exportBtn.style.cursor = 'pointer';
+
+    infoPanel.style.display = "none";
+    exporter.style.display = "inline-block";
+    modal.style.display = "inline-block";
+}
+
+function download() {
+
+    if (assetsListCurrent < 1) {
+        alert("nothing to export!");
+        return;
+    }
+    const filenameInput = byId('filename');
+    let filename = filenameInput.value;
+    if (!filename) {
+        alert("no filename!");
+        return;
+    }
+    
+    let exportList = systemAssetsList.slice(0, assetsListCurrent);
+    let exportData = exportList.join("\n");
+    let file = new File([exportData], filename, { type: 'text/plain', });
+
+    const link = elt('a')
+    const url = URL.createObjectURL(file)
+
+    link.href = url
+    link.download = file.name
+    document.body.appendChild(link)
+    link.click()
+
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+}
+
+function importData() {
+    const importInput = byId('importinput');
+    importInput.click();
+}
+
+function reset() {
+    assetEconomies = {};
+    economyInfluences = {};
+    points = { t2: 0, t3: 0 };
+    systemAssets = {};
+    systemAssetsList = [];
+    assetsListCurrent = 0;
+    systemStatus = { pop: 0, mpop: 0, sec: 0, wealth: 0, tech: 0, sol: 0, dev: 0 };
+
+    let cb = byId('hikeOption');
+    cb.disabled = false;
+    doMechanise = true;
+    deMechanised = false;
+
+    for (var filter in assetFilters) {
+      assetFilters[filter] = false;
+    }
+    assetFilters["can build"] = true;
+
+    refresh();
+}
+
+function importIdList(idList) {
+    idList.forEach( function(id) {
+        let variant = idToVariant(id);
+        let asset = assetFromId(id);
+        if (canAdd(asset)) {
+            if  (variant) {
+                addSystemAsset(asset, variant, false);
+            }
+        } else {
+            alert("can't add asset for " + id + ", maybe try without the points hike option?");
+        }
+    });
+}
+
+function importFromFile() {
+    const fileList = this.files;
+    const theFile = fileList[0];
+    const reader = new FileReader();
+    reader.onload = function() {
+        reset();
+        const idList = reader.result.split("\n");
+        idList.forEach( function(id) {
+            let variant = idToVariant(id);
+            let asset = assetFromId(id);
+            if (canAdd(asset)) {
+                if  (variant) {
+                    addSystemAsset(asset, variant, false);
+                }
+            } else {
+                alert("can't add asset for " + id + ", maybe try without the points hike option?");
+            }
+        });
+        refresh();
+    }
+    
+    reader.onerror = function() {
+        alert("something went wrong, give up or try again if you have any idea what's going on");
+    }
+    reader.readAsText(theFile);
+}
+
+function buildIdsByUid() {
+    //shouldn't be calling more than once, but..
+    if (idsByUid.length > 0) {
+        return;
+    }
+    for (let name in assets) {
+        let uid = assets[name].n;
+        for (let variant of assets[name].variants) {
+            idsByUid[uid] = assetId(assets[name], variant);
+            uid++;
+        }
+    }
+}
+
+function importFromUrl() {
+
+    buildIdsByUid()
+
+    let loc = window.location;
+    let importStr = loc.hash;
+    if (!importStr) {
+        return undefined;
+    }
+
+    let idList = [];
+    let bytes = Uint8Array.fromBase64(importStr.substring(1), { alphabet: 'base64url' });
+    for (let i = 0; i < bytes.length; i++) {
+        c = bytes[i];
+        if (c >= 128) {
+            c -= 128;
+            let id = idsByUid[c];
+            let variant = id.split('|')[1];
+            showingHaulage[variant + '.' + i] = true;
+        }
+
+        idList.push(idsByUid[c]);
+    }
+
+    importIdList(idList);
+    refresh();
+}
+
+function swapTabs() {
+    let tmp = activeMain;
+    activeMain = inactiveMain;
+    inactiveMain = tmp;
+}
+
+function showTabs() {
+
+    const tabNames = {
+        assetPicker : 'assetsTab',
+        haulage : 'haulTab',
+    };
+
+    let tabs = {
+        active : byId(tabNames[activeMain]),
+        inactive : byId(tabNames[inactiveMain]),
+    };
+
+    tabs.active.className = 'tabs active';
+    tabs.inactive.className = 'tabs';
+    tabs.active.style.cursor = 'auto';
+    tabs.inactive.style.cursor = 'pointer';
+    tabs.inactive.onclick = () => {
+        swapTabs();
+        showMain();
+    };
+    tabs.active.onclick = null;
+}
+
+function showMain() {
+
+    showTabs();
+
+    if (activeMain == 'assetPicker') {
+        refreshContainer('filtersContainer', showFilters);
+        refreshContainer('tableContainer', assetTable);
+    } else {
+        showHaulage();
+    }
+    for (let mainDiv of mainDivs) {
+        if (mainDiv == activeMain) {
+            let active = byId(mainDiv);
+            active.style.display = 'block';
+        } else {
+            let invis = byId(mainDiv);
+            invis.style.display = 'none';
+        }
+    }
+}
+
+function init() {
+    showAssets();
+    showStatus();
+    showEconomy();
+    showPoints();
+    assetFilters["can build"] = true;
+    showFilters();
+    assetTable();
+
+    activeMain = 'assetPicker';
+    inactiveMain = 'haulage';
+    showTabs();
+
+    const exportElt = byId('export');
+    exportElt.onclick = function() { exportDialog(); };
+    exportElt.style.cursor = 'pointer';
+
+    const importElt = byId('import');
+    importElt.onclick = function() { importData(); };
+    importElt.style.cursor = 'pointer';
+
+    const resetElt = byId('reset');
+    resetElt.onclick = function() { reset(); };
+    resetElt.style.cursor = 'pointer';
+
+    const importInput = byId('importinput');
+    importInput.addEventListener("change", importFromFile, false);
+
+    const fc = byId('fc');
+    fc.value = fcCap;
+    fc.onchange = () => {
+        fcCap = fc.value;
+        showTrips();
+    }
+
+    const ship = byId('ship');
+    ship.value = shipCap;
+    ship.onchange = () => {
+        shipCap = ship.value;
+        showTrips();
+    }
+
+    const days = byId('daystogo');
+    days.value = daysLeft;
+    days.onchange = () => {
+        daysLeft = days.value;
+        showTrips();
+    }
+
+    const haulCopy = byId('haulcopy');
+    haulCopy.onclick = () => {
+        navigator.clipboard.writeText(haulStr);
+        haulCopy.innerHTML = '[copied]';
+    }
+    haulCopy.style.cursor = 'pointer';
+
+    const haulUrlCopy = byId('haulurlcopy');
+    haulUrlCopy.onclick = () => {
+        navigator.clipboard.writeText(buildUrl);
+        haulUrlCopy.innerHTML = '[copied]';
+    }
+    haulUrlCopy.style.cursor = 'pointer';
+
+    importFromUrl();
+}
+
+function refreshContainer(containerName, showFn) {
+    let c = byId(containerName);
+    c.removeChild(c.firstChild);
+    showFn();
+}
+
+function refresh() {
+
+    const containers = {
+        'assetsContainer': showAssets,
+        'statusContainer': showStatus,
+        'economyContainer': showEconomy,
+        'pointsContainer': showPoints,
+    };
+
+    for (var c in containers) {
+        refreshContainer(c, containers[c]);
+    }
+
+    showMain();
+
+//    let d = byId("debug");
+//    d.innerHTML = '';
+}
+
+init();
+
+</script>
+</body>
