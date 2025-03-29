@@ -2203,7 +2203,7 @@ function showHaulage() {
         if (assetsListCurrent > 0) {
             haulables.innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
         } else {
-            haulables.innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then tick their haul boxes on the left to show hauling requirements here</p></div>';
+            haulables.innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
             let assChoose = byId('chooseAssets');
             assChoose.style.cursor = 'pointer';
             assChoose.onclick = () => {
