@@ -2527,8 +2527,13 @@ function makeUrl(assetList) {
         bytes[i] = c;
     }
 
+    var b64 = btoa(String.fromCharCode.apply(null, bytes));
     let loc = window.location;
-    let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + bytes.toBase64({ alphabet: 'base64url'}); 
+    let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + b64;
+
+// chrome & edge don't support:
+//     let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + bytes.toBase64({ alphabet: 'base64url'}); 
+
     return url;
 }
 
@@ -2723,8 +2728,15 @@ function importFromUrl() {
     }
 
     let idList = [];
-    let bytes = Uint8Array.fromBase64(importStr.substring(1), { alphabet: 'base64url' });
-    for (let i = 0; i < bytes.length; i++) {
+ 
+    let bytes = new Uint8Array(atob(importStr.substring(1)).split("").map(function(c) {
+        return c.charCodeAt(0);
+    }));
+
+// chrome & edge don't do this..
+// let bytes = Uint8Array.fromBase64(importStr.substring(1), { alphabet: 'base64url' });
+
+for (let i = 0; i < bytes.length; i++) {
         c = bytes[i];
         if (c >= 128) {
             c -= 128;
