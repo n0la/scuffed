@@ -1,4 +1,4 @@
-# System colonisation: underwhelming facility futzing for elite dangerous (s.c.u.f.f.e.d)
+System colonisation: underwhelming facility futzing for elite dangerous (s.c.u.f.f.e.d.)
 
 ![screenshot](https://github.com/cmdr-nowski/scuffed/blob/main/scuffed.jpg?raw=true)
 
