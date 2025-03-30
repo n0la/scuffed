@@ -2669,6 +2669,7 @@ function reset() {
 
 function importIdList(idList) {
     idList.forEach( function(id) {
+        console.log("id: " + id + ", variant: " + variant);
         let variant = idToVariant(id);
         let asset = assetFromId(id);
         if (canAdd(asset)) {
@@ -2690,13 +2691,16 @@ function importFromFile() {
         const idList = reader.result.split("\n");
         idList.forEach( function(id) {
             let variant = idToVariant(id);
+            console.log("id: " + id + ", variant: " + variant);
             let asset = assetFromId(id);
-            if (canAdd(asset)) {
-                if  (variant) {
-                    addSystemAsset(asset, variant, false);
+            if (id) {
+                if (canAdd(asset)) {
+                    if  (variant) {
+                        addSystemAsset(asset, variant, false);
+                    }
+                } else {
+                    alert("can't add asset for " + id + ", maybe try without the points hike option?");
                 }
-            } else {
-                alert("can't add asset for " + id + ", maybe try without the points hike option?");
             }
         });
         refresh();
