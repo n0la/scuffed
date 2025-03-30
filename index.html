@@ -79,6 +79,14 @@ td {
   border: 1px solid #2ac0a8;
 }
 
+.ud {
+  padding: 0px;
+  border: none;
+  height: auto;
+  display: block;
+  border-collapse: collapse;
+}
+
 th {
   padding: 8px;
   text-align: center;
@@ -1812,23 +1820,51 @@ function toggleMechanise() {
     refresh();
 }
 
+function adjustPoints(tier, dir) {
+    points[tier] += dir == 'up' ? 1 : -1;
+}
+
 function showPoints() {
 
     let cb = byId('hikeOption');
     cb.checked = doMechanise;
     cb.onclick = toggleMechanise;
 
+    const pc = byId('pointsContainer');
+    while (pc.firstChild) {
+        pc.removeChild(pc.firstChild);
+    }
+
     let t = elt('table');
+    t.className="ud";
     let r = elt('tr');
+    // let udt2 = htmlElement('td', '<table class="nb"><tr><td id="t2up" class="nb"><p style="color: green;">▴</p></td></tr><tr><td id="t2down" class="nb"><p style="color: green;">▾</p></td></tr></table>');
+    let udt2 = htmlElement('td', '<table class="ud"><tr class="ud"><td class="ud"><span id="t2up" style="color: green;">▴</span></td></tr><tr class="ud"><td class="ud"><span id="t2down" style="color: green;">▾</span></td></tr></table>');
+    udt2.className="ud";
+    r.appendChild(udt2);
     let c = htmlElement('td', '<img class="tPointsImgB" src="img/t2.png"> <b>' + points.t2 + '</b>');
     c.style.border="none";
     r.appendChild(c);
+    let udt3 = htmlElement('td', '<table class="ud"><tr class="ud"><td class="ud" id="t3up"><span style="color: green;">▴</span></td></tr><tr class="ud"><td class="ud" id="t3down"><span style="color: green;">▾</span></td></tr></table>');
+    udt3.className="ud";
+    r.appendChild(udt3);
     c = htmlElement('td', '<img class="tPointsImgB" src="img/t3.png"> <b>' + points.t3 + '</b>');
     c.style.border="none";
     r.appendChild(c);
     t.appendChild(r);
     t.style.border = 'none';
-    byId("pointsContainer").appendChild(t);
+    pc.appendChild(t);
+    for (let t of ['t2', 't3']) {
+        for (let d of ['up', 'down']) {
+            const eltId = t + d;
+            byId(eltId).onclick = () => {
+                adjustPoints(t, d);
+                showPoints();
+            };
+            byId(t + d).style.cursor = 'pointer';
+        }
+    }
+
 }
 
 // Straight from the c+p stackoverflow programming manual
@@ -1985,7 +2021,7 @@ function showEconomy() {
 
 function mechanWarning() {
     const p = elt('p');
-    p.innerHTML = "There's optional support for the controversial "
+    p.innerHTML = "There's support for the "
                 + '<a href="https://forums.frontier.co.uk/threads/elite-dangerous-system-colonisation-beta-details-feedback.634055/post-10572014" target="_blank" style="color: #ff6644">'
                 + 'construction points price hike mechanic</a>, which you can turn off (once) with the checkbox (top left)<br />'
                 + 'Exporting and importing with different settings for this can create an inconsistent state - so '
@@ -1997,10 +2033,8 @@ function mechanWarning() {
 
 function buildWarning() {
     const p = elt('p');
-    p.innerHTML = '***WARNING***</div> '
-                + 'the game <a href="https://forums.frontier.co.uk/threads/how-not-to-build-a-security-station-in-trailblazer.634795/" target="_blank" style="color: #ff6644">'
-                + 'builds the wrong type for some installations</a> (now wrong in appearance only, it seems)'
-                + ' and lies about landing pads! <br/>';
+    p.innerHTML = 'The game may build things that differ from what its UI indicates, in appearance or function<br/>'
+                  + 'Construction points can be adjusted up or down to allow for that';
     p.style.color = '#ff4444';
     return p;
 }
@@ -2017,12 +2051,11 @@ function intro() {
     const s = elt('span');
     s.appendChild(textElement('p', 'Click a green "[+]" on the right to add an asset.'));
     s.appendChild(textElement('p', 'Click filters like "[tier 3]" or "SOL" (standard of living) to show matching assets.'));
-    s.appendChild(textElement('p', 'Buildable filter ("can build") is pre-enabled, click to disable.'));
     s.appendChild(textElement('p', 'Adding assets may require construction points (tier 2 or tier 3). No points are required for the first station.'));
     s.appendChild(mechanWarning());
-    s.appendChild(textElement('p', 'When you add an asset, this text will disappear and assets will appear here.'));
     s.appendChild(buildWarning());
     s.appendChild(spreadsheetLink());
+    s.appendChild(textElement('p', 'When you add an asset, this text will disappear and assets will appear here.'));
     s.appendChild(textElement('p', 'This is a WIP.'));
     return s;
 }
@@ -2185,6 +2218,7 @@ function showHaulage() {
     haulStr = '';
     let cList = {};
     byId('haulcopy').innerHTML = '[copy]';
+    byId('haulurlcopy').innerHTML = '[copy]';
 
     const haularea = byId('haularea');
 
@@ -2672,7 +2706,6 @@ function reset() {
 
 function importIdList(idList) {
     idList.forEach( function(id) {
-        console.log("id: " + id + ", variant: " + variant);
         let variant = idToVariant(id);
         let asset = assetFromId(id);
         if (canAdd(asset)) {
@@ -2694,7 +2727,6 @@ function importFromFile() {
         const idList = reader.result.split("\n");
         idList.forEach( function(id) {
             let variant = idToVariant(id);
-            console.log("id: " + id + ", variant: " + variant);
             let asset = assetFromId(id);
             if (id) {
                 if (canAdd(asset)) {
@@ -2869,6 +2901,7 @@ function init() {
         haulCopy.innerHTML = '[copied]';
     }
     haulCopy.style.cursor = 'pointer';
+    haulCopy.innerHTML = '[copy]';
 
     const haulUrlCopy = byId('haulurlcopy');
     haulUrlCopy.onclick = () => {
@@ -2876,6 +2909,7 @@ function init() {
         haulUrlCopy.innerHTML = '[copied]';
     }
     haulUrlCopy.style.cursor = 'pointer';
+    haulUrlCopy.innerHTML = '[copy]';
 
     importFromUrl();
 }
