@@ -2095,7 +2095,13 @@ function removeLastAsset() {
         delete systemAssets[toRemove];
     }
 
-    removed = assetFromId(toRemove);
+    const variant = toRemove.split('|')[1];
+    if (variant + '.' + assetsListCurrent in showingHaulage) {
+        delete showingHaulage[variant + '.' + assetsListCurrent];
+    }
+
+    const removed = assetFromId(toRemove);
+
     if (removed.cost.amount > 0 && assetsListCurrent > 0) {
         const costTier = 't' + removed.cost.tier;
         points[costTier] += removed.cost.amount;
@@ -2188,7 +2194,6 @@ function showHaulage() {
             for (c in commodityGroups[variantGroups[variant]]) {
                 let tons = commodityGroups[variantGroups[variant]][c];
                 if (assetListIdx == 0) {
-                    let oldTons = tons;
                     tons = Math.floor(tons * primarySurchargeFactor(variant));
                 }
                 cList[c] = (cList[c] ? cList[c] : 0) + tons; 
