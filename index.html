@@ -376,7 +376,7 @@ table {
     </div>
     <div id="haulage" class="invis">
       <table class="nb" width="100%">
-        <tr><td colspan="3">Amounts shown are approximate; visit the construction site for accurate numbers.<br/>Click a facility from the list on the left to adjust the amounts below. Amounts for equivalent facilities will be adjusted.  Updated amounts will be saved (and restored) via the export file. Amounts for primary starports are special and stored separately to non-primary amounts</td></tr>
+        <tr><td colspan="3">Amounts shown are approximate; visit the construction site for accurate numbers.</td>
         <tr>
           <td id="haulables" width="30%"></td>
             <td valign="top">
@@ -2292,17 +2292,20 @@ function removeLastAsset() {
     }
     assetsListCurrent--;
     const toRemove = systemAssetsList[assetsListCurrent];
+
     if (!(toRemove in systemAssets)) {
         alert('Data error, unable to remove ' + toRemove + '!');
         assetsListCurrent++;
         return;
     }
     systemAssets[toRemove]--;
+
     if (systemAssets[toRemove] < 1) {
         delete systemAssets[toRemove];
     }
 
     const variant = toRemove.split('|')[1];
+
     if (variant + '.' + assetsListCurrent in showingHaulage) {
         delete showingHaulage[variant + '.' + assetsListCurrent];
     }
@@ -2441,6 +2444,10 @@ function enableUpdateAmounts(variant, primary) {
 function adjustHaulage() {
 
     adjustables = [];
+    const haulables = byId('haulables');
+    while (haulables.firstChild) {
+        haulables.removeChild(haulables.firstChild);
+    }
 
     if (haulAssClicked) {
         let variant = haulAssClicked.split('.')[0];
@@ -2472,12 +2479,14 @@ function adjustHaulage() {
             t.appendChild(r);
             r = htmlElement('tr', '<td colspan="2"><p id="updateAdjustments" style="color: #888888;"><strong>Update amounts</strong></p></td>');
             t.appendChild(r);
-            const haulables = byId('haulables');
-            while (haulables.firstChild) {
-                haulables.removeChild(haulables.firstChild);
-            }
             haulables.appendChild(t);
+            return;
         }
+    }
+    if (assetsListCurrent > 0) {
+        let p = htmlElement('p', 'Click a facility from the list on the left to adjust amounts.<br/>'
+                               + 'Amounts for primary starports are special and stored separately to non-primary amounts');
+        haulables.appendChild(p);
     }
 }
 
