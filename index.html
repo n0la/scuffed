@@ -1570,6 +1570,8 @@ const primarySurchargeFactors = [ 1.16, 1.32, 1.20 ];
 const t2Img = '<img class="tPointsImg" src="img/t2.png">';
 const t3Img = '<img class="tPointsImg" src="img/t3.png">';
 
+const mainDivs = ['assetPicker', 'haulage'];
+
 // next asset to be added at this index (assets already in this or higher indices are for "redo last")
 let assetsListCurrent = 0;
 
@@ -1591,8 +1593,7 @@ let shipDaysLeft = 28;
 let haulTotal = 0;
 let haulStr = '';
 let activeMain = 'assetPicker';
-let nactiveMain = 'haulage';
-let mainDivs = ['assetPicker', 'haulage'];
+let inactiveMain = 'haulage';
 let systemStatus = { pop: 0, mpop: 0, sec: 0, wealth: 0, tech: 0, sol: 0, dev: 0 };
 let doMechanise = true;
 let deMechanised = false;
