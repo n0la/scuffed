@@ -2485,7 +2485,7 @@ function showHaulage() {
     haulTotal = 0;
     haulStr = '';
     let cList = {};
-    // byId('haulcopy').innerHTML = '[copy]';
+    byId('haulcopy').innerHTML = '[copy]';
     // byId('haulurlcopy').innerHTML = '[copy]';
 
     adjustHaulage();
@@ -3203,7 +3203,6 @@ function init() {
         showTrips();
     }
 
-/*
     const haulCopy = byId('haulcopy');
     haulCopy.onclick = () => {
         navigator.clipboard.writeText(haulStr);
@@ -3212,6 +3211,7 @@ function init() {
     haulCopy.style.cursor = 'pointer';
     haulCopy.innerHTML = '[copy]';
 
+/*
     const haulUrlCopy = byId('haulurlcopy');
     haulUrlCopy.onclick = () => {
         navigator.clipboard.writeText(buildUrl);
