@@ -376,7 +376,7 @@ table {
     </div>
     <div id="haulage" class="invis">
       <table class="nb" width="100%">
-        <tr><td colspan="3">Amounts shown are approximate; visit the construction site for accurate numbers.<br/>Click a facility from the list on the left to adjust the amounts below. Amounts for equivalent facilities will be adjusted.  Updated amounts will be saved (and restored) via the export file.</td></tr>
+        <tr><td colspan="3">Amounts shown are approximate; visit the construction site for accurate numbers.<br/>Click a facility from the list on the left to adjust the amounts below. Amounts for equivalent facilities will be adjusted.  Updated amounts will be saved (and restored) via the export file. Amounts for primary starports are special and stored separately to non-primary amounts</td></tr>
         <tr>
           <td id="haulables" width="30%"></td>
             <td valign="top">
@@ -402,7 +402,7 @@ table {
                 <div id="fcperday"></div><br/>
               </td></tr>
             </table>
-            <div><p id="haulurl"></p><p id="haulurlcopy">[copy]</p></div>
+            <!-- <div><p id="haulurl"></p><p id="haulurlcopy">[copy]</p></div> -->
           </td>
         </tr>
       </table>
@@ -2469,7 +2469,7 @@ function adjustHaulage() {
             }
             r = htmlElement('tr', '<td>&nbsp;</td><td>total: ' + totalTons + '</td>');
             t.appendChild(r);
-            r = htmlElement('tr', '<td colspan="2"><p id="updateAdjustments"><strong>Update amounts</strong></p></td>');
+            r = htmlElement('tr', '<td colspan="2"><p id="updateAdjustments" style="color: #888888;"><strong>Update amounts</strong></p></td>');
             t.appendChild(r);
             const haulables = byId('haulables');
             while (haulables.firstChild) {
@@ -2485,8 +2485,8 @@ function showHaulage() {
     haulTotal = 0;
     haulStr = '';
     let cList = {};
-    byId('haulcopy').innerHTML = '[copy]';
-    byId('haulurlcopy').innerHTML = '[copy]';
+    // byId('haulcopy').innerHTML = '[copy]';
+    // byId('haulurlcopy').innerHTML = '[copy]';
 
     adjustHaulage();
 
@@ -2512,9 +2512,9 @@ function showHaulage() {
         if (!haulAssClicked) {
 
             if (assetsListCurrent > 0) {
-                haularea.innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
+                byId('haulareahead').innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
             } else {
-                haularea.innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
+                byId('haulareahead').innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
                 let assChoose = byId('chooseAssets');
                 assChoose.style.cursor = 'pointer';
                 assChoose.onclick = () => {
@@ -2525,6 +2525,7 @@ function showHaulage() {
             }
         }
 
+        byId('haularea').innerHTML = '';
         byId('totalhaul').innerHTML = '';
         byId('fctrips').innerHTML = '';
         byId('shiptrips').innerHTML = '';
@@ -2556,8 +2557,8 @@ function showHaulage() {
     byId('totalhaul').innerHTML = 'total: ' + haulTotal + ' t';
     showTrips();
 
-    buildUrl = makeUrl(systemAssetsList.slice(0, assetsListCurrent));
-    byId('haulurl').innerHTML = '<a target="_blank" style="color: #ff6644" href="' + buildUrl + '">' + buildUrl + '</a>'; 
+//    buildUrl = makeUrl(systemAssetsList.slice(0, assetsListCurrent));
+//    byId('haulurl').innerHTML = '<a target="_blank" style="color: #ff6644" href="' + buildUrl + '">' + buildUrl + '</a>'; 
 
     activeMain = 'haulage';
     inactiveMain = 'assetPicker';
@@ -3202,6 +3203,7 @@ function init() {
         showTrips();
     }
 
+/*
     const haulCopy = byId('haulcopy');
     haulCopy.onclick = () => {
         navigator.clipboard.writeText(haulStr);
@@ -3217,6 +3219,7 @@ function init() {
     }
     haulUrlCopy.style.cursor = 'pointer';
     haulUrlCopy.innerHTML = '[copy]';
+*/
 
     importFromUrl();
 }
