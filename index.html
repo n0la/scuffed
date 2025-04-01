@@ -376,7 +376,7 @@ table {
     </div>
     <div id="haulage" class="invis">
       <table class="nb" width="100%">
-        <tr><td colspan="3">Amounts shown are approximate only; consult the menu at your construction site for accurate numbers!</td></tr>
+        <tr><td colspan="3">Amounts shown are approximate; visit the construction site for accurate numbers.<br/>Click a facility from the list on the left to adjust the amounts below. Amounts for equivalent facilities will be adjusted.  Updated amounts will be saved (and restored) via the export file.</td></tr>
         <tr>
           <td id="haulables" width="30%"></td>
             <td valign="top">
@@ -1574,8 +1574,9 @@ const t3Img = '<img class="tPointsImg" src="img/t3.png">';
 let assetsListCurrent = 0;
 
 // this may look bad, but compared to an actual DB it's a really trivial amount of global state..
-let haulageAdjustments = {};
+let haulageAdjustments = [{},{}];
 let adjustables = [];
+let haveAdjustments = false;
 let idsByUid = [];
 let assetEconomies = {};
 let economyInfluences = {};
@@ -2383,38 +2384,54 @@ function primarySurchargeFactor(variant) {
     }
 }
 
-function tonnageFor(variant, c) {
+function tonnageFor(variant, c, primary) {
 
-    if (haulageAdjustments[variantGroups[variant]] && haulageAdjustments[variantGroups[variant]][c]) {
-        return haulageAdjustments[variantGroups[variant]][c];
+    let i = primary ? 1 : 0;
+
+    if (haulageAdjustments[i][variantGroups[variant]] && haulageAdjustments[i][variantGroups[variant]][c]) {
+        return haulageAdjustments[i][variantGroups[variant]][c];
     }
-    return commodityGroups[variantGroups[variant]][c];
+
+    let tons = commodityGroups[variantGroups[variant]][c];
+
+    if (primary) {
+        tons = Math.floor(tons * primarySurchargeFactor(variant));
+    }
+
+    return tons;
 }
 
-function saveAdjustments(variant) {
+function saveAdjustments(variant, primary) {
+
+    let i = primary ? 1 : 0;
 
     for (c of adjustables) {
         let newAmt = Number(byId('adj' + c).value);
-        let oldAmt = tonnageFor(variant, c);
+        let oldAmt = tonnageFor(variant, c, primary);
 
         if (newAmt != oldAmt) {
-            if (!haulageAdjustments[variantGroups[variant]]) {
-                haulageAdjustments[variantGroups[variant]] = {};
+            if (!haulageAdjustments[i][variantGroups[variant]]) {
+                haulageAdjustments[i][variantGroups[variant]] = {};
             }
-            haulageAdjustments[variantGroups[variant]][c] = newAmt;
+            haulageAdjustments[i][variantGroups[variant]][c] = newAmt;
+            haveAdjustments = true;
         }
     }
-    byId('updateAdjustments').style.color = null;
     byId('updateAdjustments').onclick = null;
     byId('updateAdjustments').style.cursor = 'auto';
-    alert("amounts updated for " + variant + " and equivalents");
+    byId('updateAdjustments').style.color = 'blue'; //null;
+
+    let name = variantNames[variant] + ' (' + variant + ')';
+
+    let str = 'amounts updated for ' + name + ' and equivalents' + (primary ? ' (as primary)' : '');
+    alert(str);
 }
 
-function enableUpdateAmounts(variant) {
+function enableUpdateAmounts(variant, primary) {
 
-    byId('updateAdjustments').style.color = 'green';
+    byId('updateAdjustments').style.color = 'orange';
     byId('updateAdjustments').onclick = () => {
-        saveAdjustments(variant);
+        saveAdjustments(variant, primary);
         showMain();
     }
     byId('updateAdjustments').style.cursor = 'pointer';
@@ -2436,16 +2453,12 @@ function adjustHaulage() {
             let totalTons = 0;
 
             for (c in commodityGroups[variantGroups[variant]]) {
-                let tons = tonnageFor(variant, c);
-
-                if (assetListIdx == 0) {
-                    tons = Math.floor(tons * primarySurchargeFactor(variant));
-                }
+                let tons = tonnageFor(variant, c, assetListIdx == 0);
                 adjustables.push(c);
                 totalTons += tons;
                 let cName = textElement('td', cNames[c]);
                 let cNum = htmlElement('td', '<input id="adj' + c + '" size="6" value="' + tons + '">');
-                cNum.onchange = () => { enableUpdateAmounts(variant); };
+                cNum.onchange = () => { enableUpdateAmounts(variant, assetListIdx == 0); };
                 let r = elt('tr');
                 r.className = 'bare';
                 cName.className = 'bare';
@@ -2486,11 +2499,7 @@ function showHaulage() {
         if (assetListIdx < assetsListCurrent) {
 
             for (c in commodityGroups[variantGroups[variant]]) {
-                let tons = tonnageFor(variant, c);
-
-                if (assetListIdx == 0) {
-                    tons = Math.floor(tons * primarySurchargeFactor(variant));
-                }
+                let tons = tonnageFor(variant, c, assetListIdx == 0);
                 cList[c] = (cList[c] ? cList[c] : 0) + tons; 
             }
         }
@@ -2503,9 +2512,9 @@ function showHaulage() {
         if (!haulAssClicked) {
 
             if (assetsListCurrent > 0) {
-                haulables.innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
+                haularea.innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
             } else {
-                haulables.innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
+                haularea.innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
                 let assChoose = byId('chooseAssets');
                 assChoose.style.cursor = 'pointer';
                 assChoose.onclick = () => {
@@ -2516,7 +2525,6 @@ function showHaulage() {
             }
         }
 
-        haularea.innerHTML = '';
         byId('totalhaul').innerHTML = '';
         byId('fctrips').innerHTML = '';
         byId('shiptrips').innerHTML = '';
@@ -2864,7 +2872,7 @@ function getExportList() {
         }
     }
 
-    if (Object.keys(haulageAdjustments).length) {
+    if (haveAdjustments) {
         exportList.push('-');
         exportList.push(JSON.stringify(haulageAdjustments));
     }
@@ -2907,6 +2915,11 @@ function exportDialog() {
 
     let urlElt = byId("buildUrl");
     urlElt.innerHTML = 'or use:<br /><a href="' + buildUrl + '" target="_blank" style="color: #ff6644">' + buildUrl + '</a>';
+
+    if (haveAdjustments) {
+        urlElt.innerHTML += '<br/>(adjusted haulage amounts are not included in the url)';
+    }
+
     let urlCopy = byId('urlCopy');
     urlCopy.innerHTML = '[copy]';
     urlCopy.onclick = () => {
