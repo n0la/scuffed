@@ -2552,7 +2552,7 @@ function showHaulage() {
 
     haulStr = haulStrs.join("\n");
     byId('haulareahead').innerHTML = '<p>showing total haul amounts for selected facilities</p>';
-    haularea.innerHTML = '<font size="+2"><pre>' +  haulStr + '</pre></font>';
+    haularea.innerHTML = '<pre>' +  haulStr + '</pre>';
 
     byId('totalhaul').innerHTML = 'total: ' + haulTotal + ' t';
     showTrips();
