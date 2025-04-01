@@ -87,6 +87,11 @@ td {
   border-collapse: collapse;
 }
 
+.bare {
+  padding: 0px;
+  border-collapse: collapse;
+}
+
 th {
   padding: 8px;
   text-align: center;
@@ -107,6 +112,11 @@ ul {
   list-style-type: none;
   margin: 0;
   padding: 8;
+}
+
+input, input[type="text"], textarea {
+  background-color: #12122c;
+  color: #68c0f0;
 }
 
 .vc {
@@ -370,6 +380,7 @@ table {
         <tr>
           <td id="haulables" width="30%"></td>
             <td valign="top">
+            <div id="haulareahead"></div>
             <div id="haularea" contenteditable="true" class="editarea"></div>
             <div id="haulcopy" class="ra">[copy]</div>
           </td>
@@ -404,7 +415,6 @@ table {
 </div>
 
 <script>
-
 
 const assetTonnages = {
     no_truss: 53755,
@@ -683,8 +693,55 @@ const variantGroups = {
     molae : 43,
     tellus_i : 43,
     eunostus : 43,
-
 };
+
+const groupedVariants = [
+    ['no_truss', 'dual_truss', 'quad_truss', 'rock', 'ice'],
+    ['ocellus', 'apollo', 'artemis'],
+    ['plutus', 'vulcan', 'dysnomia', 'vesta', 'prometheus', 'nemesis'],
+    ['hermese', 'angelia', 'eirene', 'pistis', 'aletheia', 'soter'],
+    ['demeter'],
+    ['apate', 'laverna'],
+    ['euthenia', 'phorcys'],
+    ['enodia', 'ichnaea'],
+    ['vacuna', 'alastor'],
+    ['dicaeosyne', 'poena', 'eunomia', 'nomos'],
+    ['harmonia'],
+    ['asclepius', 'eupraxia'],
+    ['astraeus', 'coeus', 'dodona', 'dione'],
+    ['hedone', 'opora', 'pasithea'],
+    ['dionysus', 'bachus'],
+    ['hestia', 'hephaestus', 'necessitas', 'decima', 'opis', 'ananke', 'atropos', 'ponos', 'fauna', 'nona', 'tethys', 'providentia', 'lachesis', 'bia', 'antevorta', 'clotho', 'mefitis', 'porrima'],
+    ['zeus', 'hera', 'poseidon', 'aphrodite'],
+    ['consus'],
+    ['picumnus', 'annona'],
+    ['ceres', 'fornax'],
+    ['ourea'],
+    ['mantus', 'orcus'],
+    ['erebus', 'aerecura'],
+    ['fontus'],
+    ['metope', 'palici', 'minthe'],
+    ['gaea'],
+    ['ioke'],
+    ['bellona', 'enyo', 'polemos'],
+    ['minerva'],
+    ['phoebe'],
+    ['asteria', 'caerus'],
+    ['chronos'],
+    ['aergia'],
+    ['comus', 'gelos'],
+    ['fufluns'],
+    ['tartarus'],
+    ['aegle'],
+    ['tellus_e'],
+    ['io'],
+    ['athena', 'caelus'],
+    ['alala', 'ares'],
+    ['silenus'],
+    ['janus'],
+    ['molae', 'tellus_i', 'eunostus'],
+
+];
 
 const commodityGroups = [
     { al: 10055, cc: 145, cm: 11265, cr: 1210, cu: 645, fo: 245, fr: 145, im: 645, lo: 3785, md: 25, nl: 25, pg: 65, py: 1050, se: 165, st: 14080, su: 285, ti: 8205, wa: 1610, wp: 105,},
@@ -733,12 +790,13 @@ const commodityGroups = [
     { al: 2410, bf: 210, cc: 40, cm: 170, cr: 250, cu: 85, ec: 45, es: 50, fo: 50, fr: 35, hs: 85, mc: 50, me: 415, mf: 415, pg: 25, py: 665, rb: 335, se: 75, sr: 500, ss: 500, st: 3320, su: 75, sv: 25, tc: 120,},
 ];
 
+
 const headers = ["+", "asset", "type", "cost", "gain", "pop", "mpop", "sec", "wealth", "tech", "sol", "dev", "economy", "influence"];
 
 const assets = {
-   "Starport coriolis": {
+   "Starport Coriolis": {
       n: 0,
-      name: "coriolis",
+      name: "Coriolis",
       type: "Starport",
       variants: ["no_truss","dual_truss","quad_truss"],
       cost: {tier: 2, amount: 3},
@@ -746,9 +804,9 @@ const assets = {
       effect: { pop: 1,mpop: 0,sec: -2,wealth: 2,tech: 1,sol: 3,dev: 2 },
       economy: { initial: "colony", influence: "-"}
    },
-   "Starport asteroid": {
+   "Starport Asteroid": {
       n: 3,
-      name: "asteroid",
+      name: "Asteroid",
       type: "Starport",
       variants: ["rock","ice"],
       cost: {tier: 2, amount: 3},
@@ -756,9 +814,9 @@ const assets = {
       effect: { pop: 1,mpop: 0,sec: -1,wealth: 5,tech: 3,sol: -4,dev: 7 },
       economy: { initial: "extraction", influence: "-"}
    },
-   "Starport ocellus": {
+   "Starport Ocellus": {
       n: 5,
-      name: "ocellus",
+      name: "Ocellus",
       type: "Starport",
       variants: ["ocellus"],
       cost: {tier: 3, amount: 6},
@@ -766,9 +824,9 @@ const assets = {
       effect: { pop: 5,mpop: 1,sec: -3,wealth: 7,tech: 6,sol: 5,dev: 8 },
       economy: { initial: "colony", influence: "-"}
    },
-   "Starport orbis": {
+   "Starport Orbis": {
       n: 6,
-      name: "orbis",
+      name: "Orbis",
       type: "Starport",
       variants: ["apollo","artemis"],
       cost: {tier: 3, amount: 6},
@@ -776,9 +834,9 @@ const assets = {
       effect: { pop: 5,mpop: 1,sec: -3,wealth: 7,tech: 6,sol: 5,dev: 8 },
       economy: { initial: "colony", influence: "-"}
    },
-   "Outpost commercial": {
+   "Outpost Commercial": {
       n: 8,
-      name: "commercial",
+      name: "Commercial",
       type: "Outpost",
       variants: ["plutus"],
       cost: {tier: 0, amount: 0},
@@ -786,9 +844,9 @@ const assets = {
       effect: { pop: 0,mpop: 0,sec: -1,wealth: 2,tech: 0,sol: 5,dev: 0 },
       economy: { initial: "colony", influence: "-"}
    },
-   "Outpost industrial": {
+   "Outpost Industrial": {
       n: 9,
-      name: "industrial",
+      name: "Industrial",
       type: "Outpost",
       variants: ["vulcan"],
       cost: {tier: 0, amount: 0},
@@ -796,9 +854,9 @@ const assets = {
       effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 2 },
       economy: { initial: "industrial", influence: "-"}
    },
-   "Outpost pirate": {
+   "Outpost Pirate": {
       n: 10,
-      name: "pirate",
+      name: "Pirate",
       type: "Outpost",
       variants: ["dysnomia"],
       cost: {tier: 0, amount: 0},
@@ -806,9 +864,9 @@ const assets = {
       effect: { pop: 0,mpop: 0,sec: -2,wealth: 2,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "colony", influence: "-"}
    },
-   "Outpost civilian": {
+   "Outpost Civilian": {
       n: 11,
-      name: "civilian",
+      name: "Civilian",
       type: "Outpost",
       variants: ["vesta"],
       cost: {tier: 0, amount: 0},
@@ -816,9 +874,9 @@ const assets = {
       effect: { pop: 0,mpop: 0,sec: -1,wealth: 1,tech: 0,sol: 1,dev: 2 },
       economy: { initial: "colony", influence: "-"}
    },
-   "Outpost scientific": {
+   "Outpost Scientific": {
       n: 12,
-      name: "scientific",
+      name: "Scientific",
       type: "Outpost",
       variants: ["prometheus"],
       cost: {tier: 0, amount: 0},
@@ -826,9 +884,9 @@ const assets = {
       effect: { pop: 1,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 0 },
       economy: { initial: "hightech", influence: "-"}
    },
-   "Outpost military": {
+   "Outpost Military": {
       n: 13,
-      name: "military",
+      name: "Military",
       type: "Outpost",
       variants: ["nemesis"],
       cost: {tier: 0, amount: 0},
@@ -1278,6 +1336,118 @@ const assets = {
    }
 };
 
+const variantNames = {
+	no_truss : 'Coriolis Starport',
+	dual_truss : 'Coriolis Starport',
+	quad_truss : 'Coriolis Starport',
+	rock : 'Asteroid Starport',
+	ice : 'Asteroid Starport',
+	ocellus : 'Ocellus Starport',
+	apollo : 'Orbis Starport',
+	artemis : 'Orbis Starport',
+	plutus : 'Commercial Outpost',
+	vulcan : 'Industrial Outpost',
+	dysnomia : 'Pirate Outpost',
+	vesta : 'Civilian Outpost',
+	prometheus : 'Scientific Outpost',
+	nemesis : 'Military Outpost',
+	hermese : 'Satellite Installation',
+	angelia : 'Satellite Installation',
+	eirene : 'Satellite Installation',
+	pistis : 'Communication Installation',
+	soter : 'Communication Installation',
+	aletheia : 'Communication Installation',
+	demeter : 'Agricultural Installation',
+	apate : 'Pirate Base Installation',
+	laverna : 'Pirate Base Installation',
+	euthenia : 'Mining/Industrial Installation',
+	phorcys : 'Mining/Industrial Installation',
+	enodia : 'Relay Installation',
+	ichnaea : 'Relay Installation',
+	vacuna : 'Military Installation',
+	alastor : 'Military Installation',
+	dicaeosyne : 'Security Installation',
+	poena : 'Security Installation',
+	eunomia : 'Security Installation',
+	nomos : 'Security Installation',
+	harmonia : 'Government Installation',
+	asclepius : 'Medical Installation',
+	eupraxia : 'Medical Installation',
+	astraeus : 'Research Installation',
+	coeus : 'Research Installation',
+	dodona : 'Research Installation',
+	dione : 'Research Installation',
+	hedone : 'Tourist Installation',
+	opora : 'Tourist Installation',
+	pasithea : 'Tourist Installation',
+	dionysus : 'Bar Installation',
+	bachus : 'Bar Installation',
+	hestia : 'Civilian Surface Outpost',
+	decima : 'Civilian Surface Outpost',
+	atropos : 'Civilian Surface Outpost',
+	nona : 'Civilian Surface Outpost',
+	lachesis : 'Civilian Surface Outpost',
+	clotho : 'Civilian Surface Outpost',
+	hephaestus : 'Industrial Surface Outpost',
+	opis : 'Industrial Surface Outpost',
+	ponos : 'Industrial Surface Outpost',
+	tethys : 'Industrial Surface Outpost',
+	bia : 'Industrial Surface Outpost',
+	mefitis : 'Industrial Surface Outpost',
+	necessitas : 'Scientific Surface Outpost',
+	ananke : 'Scientific Surface Outpost',
+	fauna : 'Scientific Surface Outpost',
+	providentia : 'Scientific Surface Outpost',
+	antevorta : 'Scientific Surface Outpost',
+	porrima : 'Scientific Surface Outpost',
+	zeus : 'Large Port',
+	hera : 'Large Port',
+	poseidon : 'Large Port',
+	aphrodite : 'Large Port',
+	consus : 'Small Agriculture Settlement',
+	picumnus : 'Medium Agriculture Settlement',
+	annona : 'Medium Agriculture Settlement',
+	ceres : 'Large Agriculture Settlement',
+	fornax : 'Large Agriculture Settlement',
+	ourea : 'Small Mining Settlement',
+	mantus : 'Medium Mining Settlement',
+	orcus : 'Medium Mining Settlement',
+	erebus : 'Large Mining Settlement',
+	aerecura : 'Large Mining Settlement',
+	fontus : 'Small Industrial Settlement',
+	metope : 'Medium Industrial Settlement',
+	palici : 'Medium Industrial Settlement',
+	minthe : 'Medium Industrial Settlement',
+	gaea : 'Large Industrial Settlement',
+	ioke : 'Small Military Settlement',
+	bellona : 'Medium Military Settlement',
+	enyo : 'Medium Military Settlement',
+	polemos : 'Medium Military Settlement',
+	minerva : 'Large Military Settlement',
+	pheobe : 'Small Bio Settlement',
+	asteria : 'Medium Bio Settlement',
+	caerus : 'Medium Bio Settlement',
+	chronos : 'Large Bio Settlement',
+	aergia : 'Small Tourist Settlement',
+	comus : 'Medium Tourist Settlement',
+	gelos : 'Medium Tourist Settlement',
+	fufluns : 'Large Tourist Settlement',
+	tartarus : 'Extraction Hub',
+	aegle : 'Civilian Hub',
+	tellus_e : 'Exploration Hub',
+	io : 'Outpost Hub',
+	athena : 'Scientific Hub',
+	caelus : 'Scientific Hub',
+	alala : 'Military Hub',
+	ares : 'Military Hub',
+	silenus : 'Refinery Hub',
+	janus : 'High Tech Hub',
+	molae : 'Industrial Hub',
+	tellus_i : 'Industrial Hub',
+	eunostus : 'Industrial Hub',
+};
+
+
 const padSizes = {
     aerecura : 'Large',
     ananke : 'Large',
@@ -1341,60 +1511,6 @@ const padSizes = {
     pheobe : 'Small',
 };
 
-let idsByUid = [];
-
-const constructionFilters = [ 'can build', 'space', 'ground', 'tier 1', 'tier 2', 'tier 3'];
-
-let assetFilters = {
-    'can build': false,
-    space: false,
-    ground: false,
-    'tier 1': false,
-    'tier 2': false,
-    'tier 3': false,
-    pop: false,
-    mpop: false,
-    sec: false,
-    wealth: false,
-    tech: false,
-    sol: false,
-    dev: false
-};
-
-const filterGroups = [
-    ['space', 'ground'],
-    ['tier 1', 'tier 2', 'tier 3']
-];
-
-const primarySurchargeFactors = [ 1.16, 1.32, 1.20 ];
-
-const t2Img = '<img class="tPointsImg" src="img/t2.png">';
-const t3Img = '<img class="tPointsImg" src="img/t3.png">';
-
-
-// next asset to be added at this index (assets already in this or higher indices are for "redo last")
-let assetsListCurrent = 0;
-
-let assetEconomies = {};
-let economyInfluences = {};
-let points = { t2: 0, t3: 0 };
-let systemAssets = {};
-let systemAssetsList = [];
-let showingHaulage = {};
-let daysLeft = 28;
-let fcCap = 20000;
-let shipCap = 792; 
-let shipDaysLeft = 28;
-let haulTotal = 0;
-let haulStr = '';
-let activeMain = 'assetPicker';
-let nactiveMain = 'haulage';
-let mainDivs = ['assetPicker', 'haulage'];
-let systemStatus = { pop: 0, mpop: 0, sec: 0, wealth: 0, tech: 0, sol: 0, dev: 0 };
-let doMechanise = true;
-let deMechanised = false;
-let buildUrl = '';
-
 const assetRequirements = {
     aergia: { req: ["hermese", "angelia", "eirene"], reqText: 'a satellite installation' },
     comus: { req: ["hermese", "angelia", "eirene"], reqText: 'a satellite installation' },
@@ -1442,6 +1558,61 @@ const primaryTypes = [
     'Outpost'
 ];
 
+const constructionFilters = [ 'can build', 'space', 'ground', 'tier 1', 'tier 2', 'tier 3'];
+
+const filterGroups = [
+    ['space', 'ground'],
+    ['tier 1', 'tier 2', 'tier 3']
+];
+
+const primarySurchargeFactors = [ 1.16, 1.32, 1.20 ];
+
+const t2Img = '<img class="tPointsImg" src="img/t2.png">';
+const t3Img = '<img class="tPointsImg" src="img/t3.png">';
+
+// next asset to be added at this index (assets already in this or higher indices are for "redo last")
+let assetsListCurrent = 0;
+
+// this may look bad, but compared to an actual DB it's a really trivial amount of global state..
+let haulageAdjustments = {};
+let adjustables = [];
+let idsByUid = [];
+let assetEconomies = {};
+let economyInfluences = {};
+let points = { t2: 0, t3: 0 };
+let systemAssets = {};
+let systemAssetsList = [];
+let showingHaulage = {};
+let daysLeft = 28;
+let fcCap = 20000;
+let shipCap = 792; 
+let shipDaysLeft = 28;
+let haulTotal = 0;
+let haulStr = '';
+let activeMain = 'assetPicker';
+let nactiveMain = 'haulage';
+let mainDivs = ['assetPicker', 'haulage'];
+let systemStatus = { pop: 0, mpop: 0, sec: 0, wealth: 0, tech: 0, sol: 0, dev: 0 };
+let doMechanise = true;
+let deMechanised = false;
+let buildUrl = '';
+let haulAssClicked = '';
+let assetFilters = {
+    'can build': false,
+    space: false,
+    ground: false,
+    'tier 1': false,
+    'tier 2': false,
+    'tier 3': false,
+    pop: false,
+    mpop: false,
+    sec: false,
+    wealth: false,
+    tech: false,
+    sol: false,
+    dev: false
+};
+
 function byId(id) {
     return document.getElementById(id);
 }
@@ -1452,6 +1623,7 @@ function elt(name) {
 
 function numSystemAssets() {
     return Object.keys(systemAssets).length;
+    // return systemAssets.keys.length;
 }
 
 function idToVariant(id) {
@@ -1464,7 +1636,6 @@ function assetId(asset, variant) {
 }
 
 function assetFromId(id) {
-
     const variantName = idToVariant(id);
 
     for(let assetName in assets) {
@@ -1508,7 +1679,6 @@ function canAdd(asset) {
 }
 
 function addSystemAsset(asset, variant, doRefresh) {
-
     let id = assetId(asset, variant); 
 
     if (!haveRequirementFor(id)) {
@@ -1708,7 +1878,7 @@ function assetRow(assetName, variant) {
     let r = elt('tr');
     r.appendChild(actions(asset, variant));
 
-    let name = asset.type + ': ' + asset.name + ' (' + variant + ')';
+    let name = asset.name + ' ' + asset.type + ' (' + variant + ')';
     let assCell = textElement('td', name, 'mouseInOut', [
             function() { this.style.background = '#ddddff'; this.style.color = '#021224'; infoBox(asset, variant); },
             function() { this.style.background = '#021224'; this.style.color = '#68c0f0'; closeInfoPanel(); }
@@ -2213,6 +2383,90 @@ function primarySurchargeFactor(variant) {
     }
 }
 
+function tonnageFor(variant, c) {
+
+    if (haulageAdjustments[variantGroups[variant]] && haulageAdjustments[variantGroups[variant]][c]) {
+        return haulageAdjustments[variantGroups[variant]][c];
+    }
+    return commodityGroups[variantGroups[variant]][c];
+}
+
+function saveAdjustments(variant) {
+
+    for (c of adjustables) {
+        let newAmt = Number(byId('adj' + c).value);
+        let oldAmt = tonnageFor(variant, c);
+
+        if (newAmt != oldAmt) {
+            if (!haulageAdjustments[variantGroups[variant]]) {
+                haulageAdjustments[variantGroups[variant]] = {};
+            }
+            haulageAdjustments[variantGroups[variant]][c] = newAmt;
+        }
+    }
+    byId('updateAdjustments').style.color = null;
+    byId('updateAdjustments').onclick = null;
+    byId('updateAdjustments').style.cursor = 'auto';
+    alert("amounts updated for " + variant + " and equivalents");
+}
+
+function enableUpdateAmounts(variant) {
+
+    byId('updateAdjustments').style.color = 'green';
+    byId('updateAdjustments').onclick = () => {
+        saveAdjustments(variant);
+        showMain();
+    }
+    byId('updateAdjustments').style.cursor = 'pointer';
+}
+
+function adjustHaulage() {
+
+    adjustables = [];
+
+    if (haulAssClicked) {
+        let variant = haulAssClicked.split('.')[0];
+        let assetListIdx = haulAssClicked.split('.')[1];
+
+        if (assetListIdx < assetsListCurrent) {
+            let t = elt('table');
+            t.className = 'bare';
+            let r = htmlElement('tr', '<td colspan="2">Adjust amounts for <strong>' + variantNames[variant] + ' (' + variant + ')</strong> and equivalent facilities.</td>');
+            t.appendChild(r);
+            let totalTons = 0;
+
+            for (c in commodityGroups[variantGroups[variant]]) {
+                let tons = tonnageFor(variant, c);
+
+                if (assetListIdx == 0) {
+                    tons = Math.floor(tons * primarySurchargeFactor(variant));
+                }
+                adjustables.push(c);
+                totalTons += tons;
+                let cName = textElement('td', cNames[c]);
+                let cNum = htmlElement('td', '<input id="adj' + c + '" size="6" value="' + tons + '">');
+                cNum.onchange = () => { enableUpdateAmounts(variant); };
+                let r = elt('tr');
+                r.className = 'bare';
+                cName.className = 'bare';
+                cNum.className = 'bare';
+                r.appendChild(cName);
+                r.appendChild(cNum);
+                t.appendChild(r);
+            }
+            r = htmlElement('tr', '<td>&nbsp;</td><td>total: ' + totalTons + '</td>');
+            t.appendChild(r);
+            r = htmlElement('tr', '<td colspan="2"><p id="updateAdjustments"><strong>Update amounts</strong></p></td>');
+            t.appendChild(r);
+            const haulables = byId('haulables');
+            while (haulables.firstChild) {
+                haulables.removeChild(haulables.firstChild);
+            }
+            haulables.appendChild(t);
+        }
+    }
+}
+
 function showHaulage() {
 
     haulTotal = 0;
@@ -2221,14 +2475,19 @@ function showHaulage() {
     byId('haulcopy').innerHTML = '[copy]';
     byId('haulurlcopy').innerHTML = '[copy]';
 
+    adjustHaulage();
+
     const haularea = byId('haularea');
 
     for (assetStr in showingHaulage) {
         let variant = assetStr.split('.')[0];
         let assetListIdx = assetStr.split('.')[1];
+
         if (assetListIdx < assetsListCurrent) {
+
             for (c in commodityGroups[variantGroups[variant]]) {
-                let tons = commodityGroups[variantGroups[variant]][c];
+                let tons = tonnageFor(variant, c);
+
                 if (assetListIdx == 0) {
                     tons = Math.floor(tons * primarySurchargeFactor(variant));
                 }
@@ -2241,17 +2500,20 @@ function showHaulage() {
 
     if (!Object.keys(cList).length) {
 
-        if (assetsListCurrent > 0) {
-            haulables.innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
-        } else {
-            haulables.innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
-            let assChoose = byId('chooseAssets');
-            assChoose.style.cursor = 'pointer';
-            assChoose.onclick = () => {
-                activeMain = 'assetPicker';
-                inactiveMain = 'haulage';
-                showMain();
-            };
+        if (!haulAssClicked) {
+
+            if (assetsListCurrent > 0) {
+                haulables.innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
+            } else {
+                haulables.innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
+                let assChoose = byId('chooseAssets');
+                assChoose.style.cursor = 'pointer';
+                assChoose.onclick = () => {
+                    activeMain = 'assetPicker';
+                    inactiveMain = 'haulage';
+                    showMain();
+                };
+            }
         }
 
         haularea.innerHTML = '';
@@ -2272,31 +2534,17 @@ function showHaulage() {
         {}
     );
 
-    let t = elt('table');
-    t.className = 'haulData';
     let haulStrs = [];
 
-
     for (let c in cList) {
-        let r = elt('tr');
-        let cName = textElement('td', cNames[c]);
-        r.appendChild(cName);
-        let cNum = textElement('td', cList[c]);
-        r.appendChild(cNum);
-        t.appendChild(r);
         haulStrs.push(cNames[c] + "\t" + cList[c]);
         haulTotal += cList[c];
     }
 
     haulStr = haulStrs.join("\n");
-
-    while (haulables.firstChild) {
-        haulables.removeChild(haulables.firstChild);
-    }
-
-    haulables.appendChild(t);
-
+    byId('haulareahead').innerHTML = '<p>showing total haul amounts for selected facilities</p>';
     haularea.innerHTML = '<font size="+2"><pre>' +  haulStr + '</pre></font>';
+
     byId('totalhaul').innerHTML = 'total: ' + haulTotal + ' t';
     showTrips();
 
@@ -2308,11 +2556,18 @@ function showHaulage() {
 }
 
 function toggleAssHaul(assetStr) {
+
     if (assetStr in showingHaulage) {
         delete showingHaulage[assetStr];
     } else {
         showingHaulage[assetStr] = true;
     }
+}
+
+function editHaul(assetInstance) {
+    activeMain = 'haulage';
+    inactiveMain = 'assetPicker';
+    haulAssClicked = assetInstance;
     showMain();
 }
 
@@ -2374,6 +2629,7 @@ function showAssets() {
         let assetName = id.split('|')[0];
         let variant = id.split('|')[1];
         let assetInstance = variant + '.' + i;
+        // let assetFromName(assetName);
         let asset = assets[assetName];
         let type = asset.type;
         let name = asset.name;
@@ -2394,7 +2650,8 @@ function showAssets() {
         let item = elt('tr');
         let assCell = elt('td');
 
-        mouseInOut(assCell, [
+        mouseInOut(
+            assCell,[
             ( pos === 'first' ? 
                 function() { this.style.background = '#ffffff'; this.style.color = '#021224'; infoBox(asset, variant, 'first'); }
             :
@@ -2402,6 +2659,11 @@ function showAssets() {
             ),
             function() { this.style.background = '#021224'; this.style.color = '#68c0f0'; closeInfoPanel(); }
         ]);
+
+        assCell.onclick = function() {
+            editHaul(assetInstance);
+        }
+        assCell.style.cursor = 'pointer';
 
         assCell.style.textAlign = 'left';
         assCell.innerHTML = '<b>' + ucFirst(name) + ' ' + type + '</b>: ' + tonnage + ', tier ' + tier + ", '" + variant + "'";
@@ -2414,6 +2676,7 @@ function showAssets() {
             inactiveMain = 'assetPicker';
             showMain();
         };
+
         haulCell.style.cursor = 'pointer';
         haulCell.style.textAlign = 'right';
         item.appendChild(assCell);
@@ -2561,10 +2824,8 @@ function makeUrl(assetList) {
     for (let i = 0; i < assetsListCurrent; i++) {
         let id = assetList[i];
         let asset = assetFromId(id);
-        let assetInstance = id.split('|')[1] + '.' + i;
         let c = asset['n'];
-
-        if (assetInstance in showingHaulage) {
+        if (assetList[i].split('|')[1] + '.' + i in showingHaulage) { 
             c += 128;
         }
         bytes[i] = c;
@@ -2591,6 +2852,24 @@ function infoBox(asset, variant, pos) {
 
     infoPanel.style.display = "inline-block";
     wrapper.style.display = "inline-block";
+}
+
+function getExportList() {
+
+    let exportList = systemAssetsList.slice(0, assetsListCurrent);
+    for (let i = 0; i < assetsListCurrent; i++) {
+        let variant = exportList[i].split('|')[1];
+        if (showingHaulage[variant + '.' + i]) {
+            exportList[i] += '|1';
+        }
+    }
+
+    if (Object.keys(haulageAdjustments).length) {
+        exportList.push('-');
+        exportList.push(JSON.stringify(haulageAdjustments));
+    }
+
+    return exportList;
 }
 
 function exportDialog() {
@@ -2621,8 +2900,9 @@ function exportDialog() {
     txt.style.backgroundColor = '#12122c';
     txt.style.color = '#68dcec';
 
-    let exportList = systemAssetsList.slice(0, assetsListCurrent);
+    let exportList = getExportList();
     let exportData = exportList.join("\n");
+
     let buildUrl = makeUrl(exportList);
 
     let urlElt = byId("buildUrl");
@@ -2662,8 +2942,7 @@ function download() {
         return;
     }
     
-    let exportList = systemAssetsList.slice(0, assetsListCurrent);
-    let exportData = exportList.join("\n");
+    let exportData = getExportList().join("\n");
     let file = new File([exportData], filename, { type: 'text/plain', });
 
     const link = elt('a')
@@ -2726,19 +3005,33 @@ function importFromFile() {
     reader.onload = function() {
         reset();
         const idList = reader.result.split("\n");
-        idList.forEach( function(id) {
+        let doneFacilities = false;
+        let i = 0;
+        for (i = 0; i < idList.length; i++) {
+            if (idList[i] === '-') {
+                break;
+            }
+            let id = idList[i];
             let variant = idToVariant(id);
             let asset = assetFromId(id);
             if (id) {
                 if (canAdd(asset)) {
                     if  (variant) {
                         addSystemAsset(asset, variant, false);
+                        if (id.split('|')[2]) {
+                            showingHaulage[variant + '.' + i] = true;
+                        }
                     }
                 } else {
                     alert("can't add asset for " + id + ", maybe try without the points hike option?");
                 }
             }
-        });
+        }
+
+        if (idList[i] === '-') {
+            haulageAdjustments = JSON.parse(idList[i + 1]);
+        }
+
         refresh();
     }
     
