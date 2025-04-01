@@ -2491,6 +2491,31 @@ function showHaulage() {
 
     adjustHaulage();
 
+    if (!Object.keys(showingHaulage).length) {
+
+        if (assetsListCurrent > 0) {
+            byId('haulareahead').innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
+        } else {
+            byId('haulareahead').innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
+            let assChoose = byId('chooseAssets');
+            assChoose.style.cursor = 'pointer';
+            assChoose.onclick = () => {
+                activeMain = 'assetPicker';
+                inactiveMain = 'haulage';
+                showMain();
+            };
+        }
+
+        byId('haularea').innerHTML = '';
+        byId('totalhaul').innerHTML = '';
+        byId('fctrips').innerHTML = '';
+        byId('shiptrips').innerHTML = '';
+        byId('fcperday').innerHTML = '';
+        byId('shipperday').innerHTML = '';
+
+        return;
+    }
+
     const haularea = byId('haularea');
 
     for (assetStr in showingHaulage) {
@@ -2508,33 +2533,7 @@ function showHaulage() {
 
     const haulables = byId('haulables');
 
-    if (!Object.keys(cList).length) {
 
-        if (!haulAssClicked) {
-
-            if (assetsListCurrent > 0) {
-                byId('haulareahead').innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
-            } else {
-                byId('haulareahead').innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
-                let assChoose = byId('chooseAssets');
-                assChoose.style.cursor = 'pointer';
-                assChoose.onclick = () => {
-                    activeMain = 'assetPicker';
-                    inactiveMain = 'haulage';
-                    showMain();
-                };
-            }
-        }
-
-        byId('haularea').innerHTML = '';
-        byId('totalhaul').innerHTML = '';
-        byId('fctrips').innerHTML = '';
-        byId('shiptrips').innerHTML = '';
-        byId('fcperday').innerHTML = '';
-        byId('shipperday').innerHTML = '';
-
-        return;
-    }
 
     cList = Object.keys(cList).sort().reduce (
         (obj, key) => {
