@@ -2460,7 +2460,9 @@ function adjustHaulage() {
             t.appendChild(r);
             let totalTons = 0;
 
-            for (c in commodityGroups[variantGroups[variant]]) {
+            for (c of Object.keys(commodityGroups[variantGroups[variant]]).sort( (a,b) => {
+                return cNames[a].localeCompare(cNames[b]);
+            })) {
                 let tons = tonnageFor(variant, c, assetListIdx == 0);
                 adjustables.push(c);
                 totalTons += tons;
@@ -2542,8 +2544,6 @@ function showHaulage() {
 
     const haulables = byId('haulables');
 
-
-
     cList = Object.keys(cList).sort().reduce (
         (obj, key) => {
             obj[key] = cList[key];
@@ -2554,7 +2554,9 @@ function showHaulage() {
 
     let haulStrs = [];
 
-    for (let c in cList) {
+    for (let c of Object.keys(cList).sort((a,b) => {
+        return cNames[a].localeCompare(cNames[b]);
+    })) {
         haulStrs.push(cNames[c] + "\t" + cList[c]);
         haulTotal += cList[c];
     }
