@@ -2388,6 +2388,11 @@ function tonnageFor(variant, c, primary) {
 
     let i = primary ? 1 : 0;
 
+    // https://forums.frontier.co.uk/threads/bug-aluminium-missing-from-ui-screens-for-space-outposts.636138/post-10596772
+    if (c === 'al' && !primary && [ 'plutus', 'vulcan', 'dysnomia', 'vesta', 'prometheus', 'nemesis'].includes(variant)) {
+        return 0;
+    }
+
     if (haulageAdjustments[i][variantGroups[variant]] && haulageAdjustments[i][variantGroups[variant]][c]) {
         return haulageAdjustments[i][variantGroups[variant]][c];
     }
@@ -2460,6 +2465,9 @@ function adjustHaulage() {
                 return cNames[a].localeCompare(cNames[b]);
             })) {
                 let tons = tonnageFor(variant, c, assetListIdx == 0);
+                if (!tons) {
+                    continue;
+                }
                 adjustables.push(c);
                 totalTons += tons;
                 let cName = textElement('td', cNames[c]);
@@ -2533,6 +2541,9 @@ function showHaulage() {
 
             for (c in commodityGroups[variantGroups[variant]]) {
                 let tons = tonnageFor(variant, c, assetListIdx == 0);
+                if (!tons) {
+                    continue;
+                }
                 cList[c] = (cList[c] ? cList[c] : 0) + tons; 
             }
         }
