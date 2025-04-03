@@ -18,8 +18,8 @@ See also: https://www.elitedangerous.com
 
 /* https://css-tricks.com/tabs-with-round-out-borders/ */
 .tabs {
-  color: green;
-  background: #8aa8b8;
+  color: #12122c;
+  background: #886655;
   -webkit-border-top-left-radius: 15px;
   -webkit-border-top-right-radius: 15px;
   -moz-border-radius-topleft: 15px;
@@ -366,7 +366,7 @@ table {
   <div id="mainContainer" class="main">
   <div id="tabsContainer">
     <table width="100%" class="tabs group"><tr>
-    <td width="50%" class="tabs active" id="assetsTab">add facilities</td>
+    <td width="50%" class="tabs active" id="assetsTab">building</td>
     <td width="50%" class="tabs" id="haulTab">hauling</td>
     </tr></table>
   </div>
@@ -2222,8 +2222,8 @@ function spreadsheetLink() {
 
 function intro() {
     const s = elt('span');
-    s.appendChild(textElement('p', 'Click a green "[+]" on the right to add an asset.'));
-    s.appendChild(textElement('p', 'Click filters like "[tier 3]" or "SOL" (standard of living) to show matching assets.'));
+    s.appendChild(htmlElement('p', 'Click the <span style="color: #12122c; background: #886655">&nbsp;tabs&nbsp;</span> atop the main section to navigate between building and hauling.'));
+    s.appendChild(htmlElement('p', 'Click <span style="color: aqua; background: green;">[+]</span> to add assets; Click filters like "<span style="color: aqua; background: green">tier 3</span> or <span style="background: green; color: aqua">SOL</span> (standard of living) to show matching assets.'));
     s.appendChild(textElement('p', 'Adding assets may require construction points (tier 2 or tier 3). No points are required for the first station.'));
     s.appendChild(mechanWarning());
     s.appendChild(buildWarning());
