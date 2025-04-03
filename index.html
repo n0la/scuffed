@@ -2194,27 +2194,23 @@ function showEconomy() {
 
 function mechanWarning() {
     const p = elt('p');
-    p.innerHTML = "There's support for the "
-                + '<a href="https://forums.frontier.co.uk/threads/elite-dangerous-system-colonisation-beta-details-feedback.634055/post-10572014" target="_blank" style="color: #ff6644">'
-                + 'construction points price hike mechanic</a>, which you can turn off (once) with the checkbox (top left)<br />'
-                + 'Exporting and importing with different settings for this can create an inconsistent state - so '
-                + '<a href="http://catb.org/jargon/html/D/Don-t-do-that-then-.html" style="color: #ff6644">Don\'t Do That!</a>';
-    p.style.color = '#ff4444';
+    p.innerHTML = '<a href="https://forums.frontier.co.uk/threads/elite-dangerous-system-colonisation-beta-details-feedback.634055/post-10572014" target="_blank" style="color: #ff6644">'
+                + "Construction point costs rise</a> after the first two major ports are constructed (primary port doesn't count)"
+                + ' which you can turn off (once) with the checkbox (top left)<br />';
     return p;
 }
 
 
 function buildWarning() {
     const p = elt('p');
-    p.innerHTML = 'The game may build things that differ from what its UI indicates, in appearance or function<br/>'
+    p.innerHTML = 'The game may build things that differ from what its UI indicates<br/>'
                   + 'Construction points can be adjusted up or down to allow for that';
-    p.style.color = '#ff4444';
     return p;
 }
 
 function spreadsheetLink() {
     const p = elt('p');
-    p.innerHTML = 'Check <a href="https://docs.google.com/spreadsheets/d/1jsZOzNJSnPIWlU88puOc9gQXvsw-MGp8meoQ6k-Yj-Y/copy?usp=sharing">'
+    p.innerHTML = 'Check <a href="https://docs.google.com/spreadsheets/d/1jsZOzNJSnPIWlU88puOc9gQXvsw-MGp8meoQ6k-Yj-Y/copy?usp=sharing" style="color: #ff6644">'
                 + "DaftMav's colonisation spreadsheet</a> "
                 + 'before committing to building an asset in the actual game!';
     return p;
