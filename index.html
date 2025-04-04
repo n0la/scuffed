@@ -16,10 +16,45 @@ See also: https://www.elitedangerous.com
 
 <style>
 
+
+.mainheader {
+  color: #12122c;
+  background: orange;
+  padding: 0px;
+  border: none;
+  height: auto;
+  border-collapse: collapse;
+  margin: none;
+}
+
+.lsaction {
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 0.5em;
+  font-weight: bold;
+  border: none;
+  border-collapse: collapse;
+}
+
+.loadsave {
+  color: #12122c;
+  color: orange;
+  background: #958214;
+  background: #12122c;
+  padding: 0px;
+  display: inline-block;
+  float: right;
+  width: auto;
+  border: none;
+  border-collapse: collapse;
+}
+
+
 /* https://css-tricks.com/tabs-with-round-out-borders/ */
 .tabs {
   color: #12122c;
-  background: #886655;
+  background: orange;
   -webkit-border-top-left-radius: 15px;
   -webkit-border-top-right-radius: 15px;
   -moz-border-radius-topleft: 15px;
@@ -31,8 +66,21 @@ See also: https://www.elitedangerous.com
 
 .tabs .active {
   z-index: 3;
-  color: #68c0f0;
   color: orange;
+  background: orange;
+  background: #12122c;
+}
+
+.activeSort {
+  color: #12122c;
+  background: #12122c;
+  background: orange;
+}
+
+.inactiveSort {
+  color: orange;
+  background: #886655;
+  background: orange;
   background: #12122c;
 }
 
@@ -79,6 +127,23 @@ td {
   border: 1px solid #2ac0a8;
 }
 
+.hatbl {
+  border: none;
+  height: auto;
+  width: auto;
+  border-collapse: collapse;
+}
+
+.hatblcell {
+  text-align: right;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2em;
+  padding-right: 2em;
+  border: none;
+  height: auto;
+}
+
 .ud {
   padding: 0px;
   border: none;
@@ -89,7 +154,34 @@ td {
 
 .bare {
   padding: 0px;
+  border: none;
   border-collapse: collapse;
+}
+
+.baref {
+  padding: 0px;
+  border: none;
+  border-collapse: collapse;
+  table-layout: fixed;
+  display: inline-block;
+  width: 100%;
+}
+
+.baretop {
+  padding: 0px;
+  border: none;
+  border-collapse: collapse;
+  vertical-align: top;
+  margin-bottom: auto;
+}
+
+.bareheader {
+  padding: 0px;
+  padding-bottom: 20px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px;
 }
 
 th {
@@ -149,6 +241,11 @@ table {
   border: none;
 }
 
+.nbf {
+  border: none;
+  table-layout: fixed;
+}
+
 .builtAsset {
   border: 1px solid #2ac0a8;
   border-collapse: collapse;
@@ -187,8 +284,8 @@ table {
 }
 
 #import, #export, #reset {
-  color: orange;
-  border: 2px solid orange;
+  background: orange;
+  color: #12122c;
 }
 
 .fileinput {
@@ -250,7 +347,7 @@ table {
   width: 100%;
   background-color: #ddddff;
   color: #021224;
-  border: 2px solid #ddddff; 
+  border: 2px solid #ddddff;
   border-radius: 3px;
 }
 
@@ -274,11 +371,11 @@ table {
 }
 
 .tPointsImgB {
-    height: 1.3em; 
+    height: 1.3em;
 }
 
 .tPointsImg {
-    height: 1em; 
+    height: 1em;
 }
 
 .visibleModal {
@@ -309,10 +406,8 @@ table {
   text-decoration: none;
   cursor: pointer;
 }
+
 .editarea {
-    display: inline-block;
-    font-size: 1.2em;
-    text-align: left;
     width: 100%;
     height: auto;
     max-width: 100%;
@@ -364,27 +459,48 @@ table {
     <div id="economyContainer"></div>
   </div>
   <div id="mainContainer" class="main">
-  <div id="tabsContainer">
-    <table width="100%" class="tabs group"><tr>
-    <td width="50%" class="tabs active" id="assetsTab">building</td>
-    <td width="50%" class="tabs" id="haulTab">hauling</td>
-    </tr></table>
+  <div id="tabsContainer" class="mainheader">
+    <table width="100%" class="mainheader">
+      <tr>
+        <td width="100%" class="mainheader">
+          <table width="100%" class="tabs">
+            <tr>
+              <td width="50%" class="tabs active" id="assetsTab"><strong>Building</strong></td>
+              <td width="50%" class="tabs" id="haulTab"><strong>Hauling</strong></td>
+            </tr>
+          </table>
+        </td>
+        <td width="50%" class="mainheader">
+          <table width="100%"class="loadsave">
+            <tr class="loadsave">
+              <td class="lsaction" id="export">[export]</td>
+              <td class="lsaction" id="import">[import]</td>
+              <td class="lsaction" id="reset">[reset]</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </div>
     <div id="assetPicker">
-      <table width="100%"class="nb"><tr><td id="filtersContainer" class="nb" width="70%"></td><td id="blank" class="nb">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td id="export">[export]</td><td id="import">[import]</td><td id="reset">[reset]</td></tr></table>
+<!--
+    <table width="100%"class="nb"><tr><td id="filtersContainer" class="nb" width="70%"></td><td id="blank" class="nb">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td id="export">[export]</td><td id="import">[import]</td><td id="reset">[reset]</td></tr></table>
+-->
+    <table width="100%"class="nb"><tr><td id="filtersContainer" class="nb" width="70%"></td><td id="blank" class="nb">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr></table>
       <div id="tableContainer"></div>
     </div>
     <div id="haulage" class="invis">
       <table class="nb" width="100%">
-        <tr><td colspan="3">Amounts shown are approximate; visit the construction site for accurate numbers.</td>
+        <tr><td class="nb" colspan="3"><strong>Amounts shown are approximate; visit the construction site for accurate numbers. You may store custom amounts below.</strong></td>
         <tr>
-          <td id="haulables" width="30%"></td>
-            <td valign="top">
-            <div id="haulareahead"></div>
+          <td id="haulables" class="baretop" width="26%"></td>
+          <td valign="top" width="50%">
+            <div id="haulareahead" class="bareheader"></div>
+            <hr>
             <div id="haularea" contenteditable="true" class="editarea"></div>
             <div id="haulcopy" class="ra">[copy]</div>
           </td>
-          <td valign="top" class="ra" width="25%">
+          <td valign="top" class="ra" width="20%">
             <table>
               <tr><td>
                 <div id="totalhaul"></div><br/>
@@ -584,6 +700,63 @@ const cNames = {
     wi: 'Wine',
 };
 
+const cSources = {
+	co: ['Agriculture'],
+	ch: ['Industrial'],
+	su: ['Refinery'],
+	fr: ['Agriculture'],
+	md: ['High Tech'],
+	es: ['High Tech'],
+	ps: ['High Tech'],
+	mi: ['High Tech (Surface)', 'Industrial (Surface)'],
+	mc: ['High Tech'],
+	im: ['Refinery'],
+	am: ['Agriculture'],
+	ra: ['Military', 'High Tech'],
+	py: ['Refinery'],
+	rb: ['High Tech'],
+	bw: ['Extraction', 'Industrial', 'High Tech', 'Military', 'Refinery', 'Service', 'Tourism', 'Terraforming', 'Colony'],
+	sv: ['Industrial'],
+	ad: ['High Tech'],
+	ag: ['High Tech'],
+	gr: ['Agriculture'],
+	bw: ['High Tech', 'Industrial', 'Military'],
+	wa: ['Agriculture'],
+	ge: ['Industrial'],
+	me: ['Industrial'],
+	bl: ['High Tech'],
+	cr: ['Refinery'],
+	mf: ['High Tech'],
+	cm: ['Refinery (Surface)'],
+	cc: ['Industrial'],
+	sr: ['High Tech (Surface)'],
+	wp: ['Industrial'],
+	lo: ['Refinery'],
+	bf: ['Industrial'],
+	mg: ['Industrial'],
+	rs: ['High Tech'],
+	fi: ['Agriculture'],
+	st: ['Refinery'],
+	nl: ['Military', 'High Tech'],
+	al: ['Refinery'],
+	tc: ['Industrial'],
+	se: ['Refinery'],
+	tt: ['Agriculture'],
+	ec: ['High Tech (Near Akhenaten)', 'Refinery (Near Akhenaten)'],
+	lq: ['Agriculture', 'Industrial'],
+	cs: ['High Tech'],
+	cu: ['Refinery'],
+	pg: ['Industrial'],
+	ss: ['Refinery (Surface)'],
+	fo: ['Industrial'],
+	ti: ['Refinery'],
+	be: ['Agriculture'],
+	bm: ['Industrial', 'High Tech'],
+	le: ['High Tech'],
+	wi: ['Agriculture'],
+	hs: ['High Tech'],
+};
+
 const variantGroups = {
     no_truss : 0,
     dual_truss : 0,
@@ -747,7 +920,7 @@ const groupedVariants = [
 const commodityGroups = [
     { al: 10055, cc: 145, cm: 11265, cr: 1210, cu: 645, fo: 245, fr: 145, im: 645, lo: 3785, md: 25, nl: 25, pg: 65, py: 1050, se: 165, st: 14080, su: 285, ti: 8205, wa: 1610, wp: 105,},
     { al: 40220, cc: 290, cm: 45045, cr: 4830, cu: 2580, fo: 485, fr: 290, im: 1290, lo: 15125, md: 50, nl: 50, pg: 130, py: 2095, se: 325, st: 56305, su: 565, ti: 32730, wa: 6440, wp: 210,},
-    { al: 505, cc: 50, cm: 3915, cr: 500, cu: 220, fo: 95, fr: 50, im: 315, lo: 1555, md: 15, nl: 15, pg: 20, py: 500, se: 60, st: 5590, su: 100, ti: 4845, wa: 625, wp: 40,},
+    { al: 455, cc: 50, cm: 3915, cr: 500, cu: 220, fo: 95, fr: 50, im: 315, lo: 1555, md: 15, nl: 15, pg: 20, py: 500, se: 60, st: 5590, su: 100, ti: 4845, wa: 625, wp: 40,},
     { al: 1325, cc: 25, cr: 85, cu: 85, fo: 30, fr: 10, im: 110, lo: 680, mc: 15, pg: 10, py: 170, se: 35, st: 2545, su: 60, ti: 1525, wa: 25, wp: 15,},
     { ag: 115, al: 845, bw: 155, cc: 15, ch: 80, cr: 80, cu: 50, fo: 50, fr: 70, gr: 95, im: 185, lo: 1075, pg: 10, ps: 125, py: 230, st: 1915, ti: 1455, wa: 175, wp: 35,},
     { al: 1235, be: 380, bw: 25, cc: 20, cr: 95, cu: 60, fo: 65, fr: 20, im: 95, lo: 915, lq: 230, pg: 10, py: 190, ra: 25, st: 1710, ti: 1595, wa: 65, wp: 20,},
@@ -1447,7 +1620,6 @@ const variantNames = {
 	eunostus : 'Industrial Hub',
 };
 
-
 const padSizes = {
     aerecura : 'Large',
     ananke : 'Large',
@@ -1572,25 +1744,33 @@ const t3Img = '<img class="tPointsImg" src="img/t3.png">';
 
 const mainDivs = ['assetPicker', 'haulage'];
 
-const ecoColors = {
-    refinery: '#eb8737',
-    miltary: '#e042dc',
-	hightech: '#45eceb',
-	colony: '#4e88eb',
-	indust: '#edeb3e',
-	tourism: '#783ddd',
-	extraction: '#eb3e3f',
-	terraforming: '#47a241',
-	agriculture: '#88ee44',
-	service: '#3f56eb',
+const ecoColours = {
+    'Agriculture': '#88ee44',
+    'Colony': '#4e88eb',
+    'Extraction': '#eb3e3f',
+    'High Tech': '#45eceb',
+	'High Tech (Near Akhenaten)': '#45eceb',
+    'High Tech (Surface)': '#45eceb',
+    'Industrial': '#edeb3e',
+    'Industrial (Surface)': '#edeb3e',
+    'Military': '#e042dc',
+    'Refinery': '#eb8737',
+    'Refinery (Near Akhenaten)': '#eb8737',
+    'Refinery (Surface)': '#eb8737',
+    'Service': '#3f56eb',
+    'Terraforming': '#47a241',
+    'Tourism': '#783ddd',
 };
 
 // next asset to be added at this index (assets already in this or higher indices are for "redo last")
 let assetsListCurrent = 0;
 
-// this may look bad, but compared to an actual DB it's a really trivial amount of global state..
+// this may look bad, but compared to the actual DOM it's a really trivial amount of global state..
 let haulageAdjustments = [{},{}];
 let adjustables = [];
+let activeHaulSort = 'hSortA';
+let showSources = false;
+let showColours = false;
 let haveAdjustments = false;
 let idsByUid = [];
 let assetEconomies = {};
@@ -1601,7 +1781,7 @@ let systemAssetsList = [];
 let showingHaulage = {};
 let daysLeft = 28;
 let fcCap = 20000;
-let shipCap = 792; 
+let shipCap = 792;
 let shipDaysLeft = 28;
 let haulTotal = 0;
 let haulStr = '';
@@ -1612,6 +1792,7 @@ let doMechanise = true;
 let deMechanised = false;
 let buildUrl = '';
 let haulAssClicked = '';
+
 let assetFilters = {
     'can build': false,
     space: false,
@@ -1647,7 +1828,7 @@ function idToVariant(id) {
 }
 
 function assetId(asset, variant) {
-    return asset.type + ' ' + asset.name + '|' + variant; 
+    return asset.type + ' ' + asset.name + '|' + variant;
 }
 
 function assetFromId(id) {
@@ -1694,7 +1875,7 @@ function canAdd(asset) {
 }
 
 function addSystemAsset(asset, variant, doRefresh) {
-    let id = assetId(asset, variant); 
+    let id = assetId(asset, variant);
 
     if (!haveRequirementFor(id)) {
         let variantName = idToVariant(id);
@@ -1705,7 +1886,7 @@ function addSystemAsset(asset, variant, doRefresh) {
     if (asset.gain.amount > 0) {
         points['t' + asset.gain.tier] += asset.gain.amount;
     }
-    
+
     if (numSystemAssets() > 0) {
         if (asset.cost.amount > 0) {
             points['t' + asset.cost.tier] -= asset.cost.amount;
@@ -1761,7 +1942,7 @@ function textElement(name, str, fType, fn) {
 
     switch(fType) {
         case 'mouseover':
-            e.onmouseover = fn; 
+            e.onmouseover = fn;
             break;
         case 'mouseInOut':
             mouseInOut(e, fn);
@@ -1779,7 +1960,7 @@ function htmlElement(name, str, fType, fn) {
 
     switch(fType) {
         case 'mouseover':
-            e.onmouseover = fn; 
+            e.onmouseover = fn;
             break;
         case 'mouseInOut':
             mouseInOut(e, fn);
@@ -1803,7 +1984,7 @@ function assetHeaders() {
 
     let r = elt('tr');
     headers.forEach( function (str)  {
-        
+
         if (str in systemStatus) {
             r.appendChild(filterElement('th', str));
         } else {
@@ -1822,7 +2003,7 @@ function countMajorAssets() {
     let total = 0;
     let firstAss = assetFromId(systemAssetsList[0]);
 
-    if (firstAss.cost.amount > 0) { 
+    if (firstAss.cost.amount > 0) {
         total -= 1;
     }
 
@@ -1830,7 +2011,7 @@ function countMajorAssets() {
 
         const asset = assetFromId(systemAssetsList[i]);
 
-        if (asset.cost.amount >= 3) { 
+        if (asset.cost.amount >= 3) {
            total++;
         }
     }
@@ -1861,7 +2042,7 @@ function trimAssetsList() {
 
 function actions(asset, variant) {
 
-    let id = assetId(asset, variant); 
+    let id = assetId(asset, variant);
     let addCell;
 
     if (canAdd(asset)) {
@@ -1870,9 +2051,9 @@ function actions(asset, variant) {
         addCell = textElement('td', '[+]', 'mouseInOut', [
             function() { this.style.background = '#ddddff'; this.style.color = '#021224'; infoBox(asset, variant); },
             function() { this.style.background = '#208040'; this.style.color = '#68c0f0'; closeInfoPanel(); }
-        ]); 
+        ]);
         addCell.style.backgroundColor = '#208040';
-        addCell.onclick = function() { 
+        addCell.onclick = function() {
             trimAssetsList();
             addSystemAsset(asset, variant, true);
         };
@@ -1897,11 +2078,11 @@ function assetRow(assetName, variant) {
     let assCell = textElement('td', name, 'mouseInOut', [
             function() { this.style.background = '#ddddff'; this.style.color = '#021224'; infoBox(asset, variant); },
             function() { this.style.background = '#021224'; this.style.color = '#68c0f0'; closeInfoPanel(); }
-    ]); 
+    ]);
 
     r.appendChild(assCell);
 
-    let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier ); 
+    let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier );
     let loc = spaceTypes.includes(asset.type) ? 'Space' : 'Surface';
     r.appendChild(textElement('td', loc + ', tier\xa0' + tier));
 
@@ -1959,7 +2140,7 @@ function isVisible(assetName) {
         }
     }
     if (assetFilters["tier 3"]) {
-        
+
         if ((asset.cost.amount < 1) || (asset.cost.tier !== 3)) {
             return false;
         }
@@ -2024,7 +2205,6 @@ function showPoints() {
     let t = elt('table');
     t.className="ud";
     let r = elt('tr');
-    // let udt2 = htmlElement('td', '<table class="nb"><tr><td id="t2up" class="nb"><p style="color: green;">▴</p></td></tr><tr><td id="t2down" class="nb"><p style="color: green;">▾</p></td></tr></table>');
     let udt2 = htmlElement('td', '<table class="ud"><tr class="ud"><td class="ud"><span id="t2up" style="color: green;">▴</span></td></tr><tr class="ud"><td class="ud"><span id="t2down" style="color: green;">▾</span></td></tr></table>');
     udt2.className="ud";
     r.appendChild(udt2);
@@ -2050,7 +2230,6 @@ function showPoints() {
             byId(t + d).style.cursor = 'pointer';
         }
     }
-
 }
 
 // Straight from the c+p stackoverflow programming manual
@@ -2077,9 +2256,17 @@ function statColour(stat) {
         return '#606060';
     }
     if (stat < 0) {
-        return interpolateColour('#886028', '#800808', Math.max(stat, -20) / -20);
+        return interpolateColour(
+            interpolateColour(
+                '#aaaaaa',
+                '#444444',
+                Math.max(-Math.sqrt(-stat), -5)/-5
+            ),
+            '#880808',
+            Math.max(-Math.sqrt(-stat), -5) / -5
+        );
     }
-    return interpolateColour('#608828', '#088008', Math.min(stat, 20) / 20);
+    return interpolateColour('#aaaaaa', '#088808', Math.min(Math.sqrt(stat), 5) / 5 );
 }
 
 function showStatus() {
@@ -2097,7 +2284,7 @@ function showStatus() {
     let i = 0;
     while (i < assetsListCurrent) {
 
-        let id = systemAssetsList[i]; 
+        let id = systemAssetsList[i];
         let variant = idToVariant(id);
         let asset = assetFromId(id);
 
@@ -2161,6 +2348,7 @@ function showStatus() {
         let stat = textElement('td', systemStatus[headers[i]]);
         stat.className = 'stat';
         stat.style.backgroundColor = statColour(systemStatus[headers[i]]);
+        stat.style.color = '#12122c';
         if (i === last) {
             stat.colSpan=2;
         }
@@ -2231,7 +2419,7 @@ function spreadsheetLink() {
 
 function intro() {
     const s = elt('span');
-    s.appendChild(htmlElement('p', 'Click the <span style="color: #12122c; background: #886655">&nbsp;tabs&nbsp;</span> atop the main section to navigate between building and hauling.'));
+    s.appendChild(htmlElement('p', 'Click the <span style="color: #12122c; background: orange">&nbsp;tabs&nbsp;</span> atop the main section to navigate between building and hauling.'));
     s.appendChild(htmlElement('p', 'Click <span style="color: aqua; background: green;">[+]</span> to add assets; Click filters like <span style="color: aqua; background: green">tier 3</span> or <span style="background: green; color: aqua">SOL</span> (standard of living) to show matching assets.'));
     s.appendChild(textElement('p', 'Adding assets may require construction points (tier 2 or tier 3). No points are required for the first station.'));
     s.appendChild(mechanWarning());
@@ -2254,7 +2442,7 @@ function redoLastAsset() {
         const gainTier = 't' + asset.gain.tier;
         points[gainTier] += asset.gain.amount;
     }
-    
+
     if (numSystemAssets() > 0) {
         if (asset.cost.amount > 0) {
             const costTier = 't' + asset.cost.tier;
@@ -2441,8 +2629,8 @@ function saveAdjustments(variant, primary) {
 
     let name = variantNames[variant] + ' (' + variant + ')';
 
-    let str = 'amounts updated for ' + name + ' and equivalents' + (primary ? ' (as primary)' : '');
-    alert(str);
+    let str = 'Amounts updated for ' + name + ' and equivalents' + (primary ? ' (as primary)' : '');
+    alert(str + '. Will be saved with Export.');
 }
 
 function enableUpdateAmounts(variant, primary) {
@@ -2469,8 +2657,10 @@ function adjustHaulage() {
 
         if (assetListIdx < assetsListCurrent) {
             let t = elt('table');
-            t.className = 'bare';
-            let r = htmlElement('tr', '<td colspan="2">Adjust amounts for <strong>' + variantNames[variant] + ' (' + variant + ')</strong> and equivalent facilities.</td>');
+            t.className = 'baref';
+            let r = htmlElement('tr', '<td width="100%" class="bareheader" colspan="2">Customise amounts for <strong>'
+                  + variantNames[variant] + ' (' + variant + ')'
+                    + (assetListIdx > 0 ? '' : ' as Primary ') + '</strong> and equivalent facilities.</td>');
             t.appendChild(r);
             let totalTons = 0;
 
@@ -2494,19 +2684,164 @@ function adjustHaulage() {
                 r.appendChild(cNum);
                 t.appendChild(r);
             }
-            r = htmlElement('tr', '<td>&nbsp;</td><td>total: ' + totalTons + '</td>');
-            t.appendChild(r);
-            r = htmlElement('tr', '<td colspan="2"><p id="updateAdjustments" style="color: #888888;"><strong>Update amounts</strong></p></td>');
+            r = htmlElement('tr', '<td><span id="updateAdjustments" style="color: #888888;"><strong>Update amounts</strong></span></td>'
+                           + '<td>total: ' + totalTons + '</td>');
             t.appendChild(r);
             haulables.appendChild(t);
+
             return;
         }
     }
     if (assetsListCurrent > 0) {
-        let p = htmlElement('p', 'Click a facility from the list on the left to adjust amounts.<br/>'
-                               + 'Amounts for primary starports are special and stored separately to non-primary amounts');
+        let p = htmlElement('p', '<strong>Click a facility\'s name from the list on the left to customise its amounts.</strong><br/>'
+                               + 'Amounts for primary starports are stored separately to non-primary amounts');
         haulables.appendChild(p);
     }
+}
+
+function haulareaStr(c,tons) {
+    const colour = interpolateColour( '#cccccc', ecoColours[cSources[c][0]], 0.65);
+    return '<span style="background: ' + colour + '; color: #12122c;">' + cNames[c] + '\t' + tons + '</span>';
+}
+
+function haulareaRow(c,tons, showEco) {
+    const bcolour = showColours ? interpolateColour( '#cccccc', ecoColours[cSources[c][0]], 0.65) : '#12122c';
+    const fcolour = showColours ? '#12122c' : '#68c0f0';
+
+    if (showEco) {
+        return '<tr><td style="background: ' + bcolour + '; color: ' + fcolour + '" class="hatblcell"><strong>' + cNames[c] + ' ' + tons + '</strong></td>'
+                + '<td class="hatblcell">' + haulareaEconomies(c) + '</td></tr>';
+    }
+    return '<tr><td style="background: ' + bcolour + '; color: ' + fcolour + '" class="hatblcell"><strong>' + cNames[c] + ' ' + tons + '</strong></td></tr>';
+}
+
+function haulareaEconomies(c) {
+    let ecoStrs = [];
+    for (let eco of cSources[c]) {
+        const colour = ecoColours[eco];
+        ecoStrs.push('<span style="white-space: pre-wrap; color: ' + ecoColours[eco] + '">' + eco + '</span>');
+    }
+    return ecoStrs.join(', ');
+}
+
+function showHaulTable() {
+
+    let cList = {};
+
+    for (let assetStr in showingHaulage) {
+        let variant = assetStr.split('.')[0];
+        let assetListIdx = assetStr.split('.')[1];
+
+        if (assetListIdx < assetsListCurrent) {
+
+            for (c in commodityGroups[variantGroups[variant]]) {
+                let tons = tonnageFor(variant, c, assetListIdx == 0);
+                if (!tons) {
+                    continue;
+                }
+                cList[c] = (cList[c] ? cList[c] : 0) + tons;
+            }
+        }
+    }
+
+    haulStr = '<table class="hatbl">';
+
+    for (let c of Object.keys(cList).sort((a,b) => {
+        switch (activeHaulSort) {
+            case 'hSortA':
+                return cNames[a].localeCompare(cNames[b]);
+                break;
+            case 'hSortE':
+                return cSources[a].join().localeCompare(cSources[b].join());
+                break;
+            case 'hSortT':
+                return cList[b] - cList[a];
+                break;
+        }
+
+    })) {
+        haulStr += haulareaRow(c, cList[c], showSources);
+        haulTotal += cList[c];
+    }
+    const haularea = byId('haularea');
+    haularea.innerHTML = '<pre>' +  haulStr + '</table></pre>';
+
+    byId('totalhaul').innerHTML = 'total: ' + haulTotal + ' t';
+    byId('haulcopy').innerHTML = '[copy]';
+}
+
+
+
+function getHaulStr() {
+
+    let cList = {};
+
+    for (let assetStr in showingHaulage) {
+        let variant = assetStr.split('.')[0];
+        let assetListIdx = assetStr.split('.')[1];
+
+        if (assetListIdx < assetsListCurrent) {
+
+            for (c in commodityGroups[variantGroups[variant]]) {
+                let tons = tonnageFor(variant, c, assetListIdx == 0);
+                if (!tons) {
+                    continue;
+                }
+                cList[c] = (cList[c] ? cList[c] : 0) + tons;
+            }
+        }
+    }
+
+    let haulStrs = [];
+
+    for (let c of Object.keys(cList).sort((a,b) => {
+        switch (activeHaulSort) {
+            case 'hSortA':
+                return cNames[a].localeCompare(cNames[b]);
+                break;
+            case 'hSortE':
+                return cSources[a][0].localeCompare(cSources[b][0]);
+                break;
+            case 'hSortT':
+                return cList[b] - cList[a];
+                break;
+        }
+
+    })) {
+        haulStrs.push(cNames[c] + "\t" + cList[c] + (byId('showsources').checked ? '\t' + cSources[c].join(', ') : ''));
+    }
+
+    return haulStrs.join("\n");
+}
+
+function sortHaularea(id) {
+
+    for (let sortId of ['hSortA', 'hSortE', 'hSortT']) {
+
+        if (id == sortId) {
+            byId(sortId).className = 'activeSort';
+            byId(sortId).onclick = null;
+            byId(sortId).style.cursor = 'auto';
+        } else {
+            byId(sortId).className = 'inactiveSort';
+            byId(sortId).onclick = () => {
+                sortHaularea(sortId);
+            };
+            byId(sortId).style.cursor = 'pointer';
+        }
+    }
+    activeHaulSort = id;
+    showHaulTable();
+}
+
+function toggleShowColours() {
+    showColours = byId('showcolours').checked;
+    showHaulTable();
+}
+
+function toggleShowSources() {
+    showSources = byId('showsources').checked;
+    sortHaularea(activeHaulSort);;
 }
 
 function showHaulage() {
@@ -2514,17 +2849,15 @@ function showHaulage() {
     haulTotal = 0;
     haulStr = '';
     let cList = {};
-    byId('haulcopy').innerHTML = '[copy]';
-    // byId('haulurlcopy').innerHTML = '[copy]';
 
     adjustHaulage();
 
     if (!Object.keys(showingHaulage).length) {
 
         if (assetsListCurrent > 0) {
-            byId('haulareahead').innerHTML = '<div class="vc"><p>Click the construction signs for facilities on the left to show their hauling requirements here</p></div>';
+            byId('haulareahead').innerHTML = '<div class="vc"><p>Click the 🚧 construction signs for facilities on the left to show their hauling requirements here</p></div>';
         } else {
-            byId('haulareahead').innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="background: green"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
+            byId('haulareahead').innerHTML = '<div class="vc"><p>First <span id="chooseAssets" style="color: orange"><b>add facilities</b></span> and then click their haul icons on the left to add and remove their hauling requirements here</p></div>';
             let assChoose = byId('chooseAssets');
             assChoose.style.cursor = 'pointer';
             assChoose.onclick = () => {
@@ -2544,52 +2877,21 @@ function showHaulage() {
         return;
     }
 
-    const haularea = byId('haularea');
+    byId('haulareahead').innerHTML = '<span style="display: block; float: center">Showing total haul amounts for ' + Object.keys(showingHaulage).length + ' selected facilities</span>';
+    byId('haulareahead').innerHTML += '<span style="display: block; float: center">Sort by: &nbsp;&nbsp;<span class="ud" id="hSortA">|alphabetically|</span>&nbsp;&nbsp;&nbsp;<span class="ud" id="hSortE">|source economy|</span>&nbsp;&nbsp;&nbsp;<span class="ud" id="hSortT">|tons|</span></span>';
+    byId('haulareahead').innerHTML += '<span style="display: inline-block; float: left"><label for="showsources">Show source economies</label> <input type="checkbox" id="showsources"/></span>';
+    byId('haulareahead').innerHTML += '<span style="display: inline-block; float: right"><label for="showcolours">GalMap economy colours</label> <input type="checkbox" id="showcolours"/></span>';
 
-    for (assetStr in showingHaulage) {
-        let variant = assetStr.split('.')[0];
-        let assetListIdx = assetStr.split('.')[1];
+    byId('showcolours').checked = showColours;
+    byId('showcolours').onclick = toggleShowColours;
+    byId('showcolours').style.cursor = 'pointer';
+    byId('showsources').checked = showSources;
+    byId('showsources').onclick = toggleShowSources;
+    byId('showsources').style.cursor = 'pointer';
 
-        if (assetListIdx < assetsListCurrent) {
+    sortHaularea(activeHaulSort);
 
-            for (c in commodityGroups[variantGroups[variant]]) {
-                let tons = tonnageFor(variant, c, assetListIdx == 0);
-                if (!tons) {
-                    continue;
-                }
-                cList[c] = (cList[c] ? cList[c] : 0) + tons; 
-            }
-        }
-    }
-
-    const haulables = byId('haulables');
-
-    cList = Object.keys(cList).sort().reduce (
-        (obj, key) => {
-            obj[key] = cList[key];
-            return obj;
-        },
-        {}
-    );
-
-    let haulStrs = [];
-
-    for (let c of Object.keys(cList).sort((a,b) => {
-        return cNames[a].localeCompare(cNames[b]);
-    })) {
-        haulStrs.push(cNames[c] + "\t" + cList[c]);
-        haulTotal += cList[c];
-    }
-
-    haulStr = haulStrs.join("\n");
-    byId('haulareahead').innerHTML = '<p>showing total haul amounts for selected facilities</p>';
-    haularea.innerHTML = '<pre>' +  haulStr + '</pre>';
-
-    byId('totalhaul').innerHTML = 'total: ' + haulTotal + ' t';
     showTrips();
-
-//    buildUrl = makeUrl(systemAssetsList.slice(0, assetsListCurrent));
-//    byId('haulurl').innerHTML = '<a target="_blank" style="color: #ff6644" href="' + buildUrl + '">' + buildUrl + '</a>'; 
 
     activeMain = 'haulage';
     inactiveMain = 'assetPicker';
@@ -2658,7 +2960,7 @@ function showAssets() {
 
     assetsContainer.style.flexDirection = 'column-reverse';
     assetsContainer.style.height = '50vh';
-       
+
     let tbl = elt('table');
     tbl.style.marginBottom = 'auto';
     let first = true;
@@ -2669,11 +2971,10 @@ function showAssets() {
         let assetName = id.split('|')[0];
         let variant = id.split('|')[1];
         let assetInstance = variant + '.' + i;
-        // let assetFromName(assetName);
         let asset = assets[assetName];
         let type = asset.type;
         let name = asset.name;
-        let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier ); 
+        let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier );
         let place = spaceTypes.includes(asset.type) ? 'space' : 'surface';
 
         let tonnage = assetTonnages[variant];
@@ -2685,14 +2986,14 @@ function showAssets() {
             pos = '';
         }
 
-        tonnage = '~' + tonnage + 't';
+        tonnage = ', ~' + tonnage + 't';
 
         let item = elt('tr');
         let assCell = elt('td');
 
         mouseInOut(
             assCell,[
-            ( pos === 'first' ? 
+            ( pos === 'first' ?
                 function() { this.style.background = '#ffffff'; this.style.color = '#021224'; infoBox(asset, variant, 'first'); }
             :
                 function() { this.style.background = '#ffffff'; this.style.color = '#021224'; infoBox(asset, variant); }
@@ -2706,7 +3007,7 @@ function showAssets() {
         assCell.style.cursor = 'pointer';
 
         assCell.style.textAlign = 'left';
-        assCell.innerHTML = '<b>' + ucFirst(name) + ' ' + type + '</b>: ' + tonnage + ', tier ' + tier + ", '" + variant + "'";
+        assCell.innerHTML = '<strong>' + ucFirst(name) + ' ' + type + " '" + ucFirst(variant) + "' " + '</strong>: tier ' + tier + tonnage;
         let haulCell = elt('td');
         haulCell.innerHTML = assetInstance in showingHaulage ? '<font size="+2" style="color: green"><b>🚚</b><font>' : '<font size="+2"><b>🚧</b></font>';
         haulCell.onclick = function() {
@@ -2781,7 +3082,7 @@ function assetInfo(asset, variant, posn) {
     let padSize = (variant in padSizes ? padSizes[variant] : 'none');
     let buildable = canAdd(asset) ? 'yes' : 'no';
     let name = asset.type + ': ' + asset.name + ' (' + variant + ')';
-    let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier ); 
+    let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier );
     let loc = spaceTypes.includes(asset.type) ? 'Space' : 'Surface';
 
     let costImg =  ( asset.cost.amount ? 'img/t' + asset.cost.tier + '.png' : '' );
@@ -2834,7 +3135,7 @@ function assetInfo(asset, variant, posn) {
     html += '<tr class="inf"><td class="inf"><b>' + name + '</b></td></tr>';
     if (variant === 'ichnaea') {
         html += '<tr class="inf"><td><b><font color="#882020">***currently bugged***: constructs a comms installation instead</font></b></td></tr>';
-    } else if (variant === 'eirene') { 
+    } else if (variant === 'eirene') {
         html += '<tr class="inf"><td><b><font color="#882020">***currently bugged***: constructs a scientific installation instead</font></b></td></tr>';
     }
 
@@ -2865,7 +3166,7 @@ function makeUrl(assetList) {
         let id = assetList[i];
         let asset = assetFromId(id);
         let c = asset['n'];
-        if (assetList[i].split('|')[1] + '.' + i in showingHaulage) { 
+        if (assetList[i].split('|')[1] + '.' + i in showingHaulage) {
             c += 128;
         }
         bytes[i] = c;
@@ -2876,7 +3177,7 @@ function makeUrl(assetList) {
     let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + b64;
 
 // chrome & edge don't support:
-//     let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + bytes.toBase64({ alphabet: 'base64url'}); 
+//     let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + bytes.toBase64({ alphabet: 'base64url'});
 
     return url;
 }
@@ -2887,11 +3188,21 @@ function infoBox(asset, variant, pos) {
     let infoPanel = byId("infoPanel");
     let exporter = byId("exportDialog");
     exporter.style.display = "none";
-
     infoPanel.innerHTML = assetInfo(asset, variant, pos);
-
     infoPanel.style.display = "inline-block";
     wrapper.style.display = "inline-block";
+}
+
+function settings() {
+    return {
+        'days': daysLeft,
+        'shipCap': shipCap,
+        'fcCap': fcCap,
+        'sort': activeHaulSort,
+        'showSources': showSources,
+        'showColours': showColours,
+        'editHaulFor': haulAssClicked,
+    }
 }
 
 function getExportList() {
@@ -2904,10 +3215,12 @@ function getExportList() {
         }
     }
 
+    exportList.push('-');
     if (haveAdjustments) {
-        exportList.push('-');
         exportList.push(JSON.stringify(haulageAdjustments));
     }
+    exportList.push('-');
+    exportList.push(JSON.stringify(settings()));
 
     return exportList;
 }
@@ -2986,7 +3299,7 @@ function download() {
         alert("no filename!");
         return;
     }
-    
+
     let exportData = getExportList().join("\n");
     let file = new File([exportData], filename, { type: 'text/plain', });
 
@@ -3043,6 +3356,16 @@ function importIdList(idList) {
     });
 }
 
+function importSettings(settings) {
+    daysLeft = settings.days;
+    shipCap = settings.shipCap;
+    fcCap = settings.fcCap;
+    activeHaulSort = settings.sort;
+    showSources = settings.showSources;
+    showColours = settings.showColours;
+    haulAssClicked = settings.editHaulFor;
+}
+
 function importFromFile() {
     const fileList = this.files;
     const theFile = fileList[0];
@@ -3073,13 +3396,21 @@ function importFromFile() {
             }
         }
 
-        if (idList[i] === '-') {
+        haulageAdjustments = [{},{}];
+
+        if (idList[i] === '-' && idList[i + 1] && idList[i + 1] !== '-') {
             haulageAdjustments = JSON.parse(idList[i + 1]);
+            i += 2;
+        } else {
+            i += 1;
+        }
+        if (idList[i] && idList[i] === '-' && idList[i + 1] && idList[i + 1] !== '-') {
+            importSettings(JSON.parse(idList[i + 1]));
         }
 
         refresh();
     }
-    
+
     reader.onerror = function() {
         alert("something went wrong, give up or try again if you have any idea what's going on");
     }
@@ -3111,7 +3442,7 @@ function importFromUrl() {
     }
 
     let idList = [];
- 
+
     let bytes = new Uint8Array(atob(importStr.substring(1)).split("").map(function(c) {
         return c.charCodeAt(0);
     }));
@@ -3236,21 +3567,11 @@ function init() {
 
     const haulCopy = byId('haulcopy');
     haulCopy.onclick = () => {
-        navigator.clipboard.writeText(haulStr);
+        navigator.clipboard.writeText(getHaulStr());
         haulCopy.innerHTML = '[copied]';
     }
     haulCopy.style.cursor = 'pointer';
     haulCopy.innerHTML = '[copy]';
-
-/*
-    const haulUrlCopy = byId('haulurlcopy');
-    haulUrlCopy.onclick = () => {
-        navigator.clipboard.writeText(buildUrl);
-        haulUrlCopy.innerHTML = '[copied]';
-    }
-    haulUrlCopy.style.cursor = 'pointer';
-    haulUrlCopy.innerHTML = '[copy]';
-*/
 
     importFromUrl();
 }
