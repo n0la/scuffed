@@ -577,7 +577,7 @@ const assetTonnages = {
     opora: 10100,
     pasithea: 10100,
     dionysus: 10130,
-    bachus: 10130,
+    bacchus: 10130,
     hestia: 36875,
     hephaestus: 36875,
     necessitas: 36875,
@@ -802,7 +802,7 @@ const variantGroups = {
     opora : 13,
     pasithea : 13,
     dionysus : 14,
-    bachus : 14,
+    bacchus : 14,
     hestia : 15,
     hephaestus : 15,
     necessitas : 15,
@@ -884,7 +884,7 @@ const groupedVariants = [
     ['asclepius', 'eupraxia'],
     ['astraeus', 'coeus', 'dodona', 'dione'],
     ['hedone', 'opora', 'pasithea'],
-    ['dionysus', 'bachus'],
+    ['dionysus', 'bacchus'],
     ['hestia', 'hephaestus', 'necessitas', 'decima', 'opis', 'ananke', 'atropos', 'ponos', 'fauna', 'nona', 'tethys', 'providentia', 'lachesis', 'bia', 'antevorta', 'clotho', 'mefitis', 'porrima'],
     ['zeus', 'hera', 'poseidon', 'aphrodite'],
     ['consus'],
@@ -974,7 +974,7 @@ const assets = {
       variants: ["no_truss","dual_truss","quad_truss"],
       cost: {tier: 2, amount: 3},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 1,mpop: 0,sec: -2,wealth: 2,tech: 1,sol: 3,dev: 2 },
+      effect: { pop: 1,mpop: 1,sec: -2,wealth: 3,tech: 2,sol: 3,dev: 3 },
       economy: { initial: "colony", influence: "-"}
    },
    "Starport Asteroid": {
@@ -984,7 +984,7 @@ const assets = {
       variants: ["rock","ice"],
       cost: {tier: 2, amount: 3},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 1,mpop: 0,sec: -1,wealth: 5,tech: 3,sol: -4,dev: 7 },
+      effect: { pop: 1,mpop: 1,sec: -1,wealth: 5,tech: 3,sol: -4,dev: 7 },
       economy: { initial: "extraction", influence: "-"}
    },
    "Starport Ocellus": {
@@ -994,7 +994,7 @@ const assets = {
       variants: ["ocellus"],
       cost: {tier: 3, amount: 6},
       gain: {tier: 0, amount: 0},
-      effect: { pop: 5,mpop: 1,sec: -3,wealth: 7,tech: 6,sol: 5,dev: 8 },
+      effect: { pop: 5,mpop: 1,sec: -3,wealth: 8,tech: 6,sol: 5,dev: 9 },
       economy: { initial: "colony", influence: "-"}
    },
    "Starport Orbis": {
@@ -1004,7 +1004,7 @@ const assets = {
       variants: ["apollo","artemis"],
       cost: {tier: 3, amount: 6},
       gain: {tier: 0, amount: 0},
-      effect: { pop: 5,mpop: 1,sec: -3,wealth: 7,tech: 6,sol: 5,dev: 8 },
+      effect: { pop: 5,mpop: 1,sec: -3,wealth: 8,tech: 7,sol: 5,dev: 9 },
       economy: { initial: "colony", influence: "-"}
    },
    "Outpost Commercial": {
@@ -1014,7 +1014,7 @@ const assets = {
       variants: ["plutus"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -1,wealth: 2,tech: 0,sol: 5,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: -1,wealth: 3,tech: 0,sol: 5,dev: 0 },
       economy: { initial: "colony", influence: "-"}
    },
    "Outpost Industrial": {
@@ -1024,8 +1024,8 @@ const assets = {
       variants: ["vulcan"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 2 },
-      economy: { initial: "industrial", influence: "-"}
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 3 },
+      economy: { initial: "industrial", influence: "industrial"}
    },
    "Outpost Pirate": {
       n: 10,
@@ -1034,8 +1034,8 @@ const assets = {
       variants: ["dysnomia"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -2,wealth: 2,tech: 0,sol: 0,dev: 0 },
-      economy: { initial: "colony", influence: "-"}
+      effect: { pop: 1,mpop: 1,sec: -2,wealth: 3,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "contraband", influence: "contraband"}
    },
    "Outpost Civilian": {
       n: 11,
@@ -1044,7 +1044,7 @@ const assets = {
       variants: ["vesta"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -1,wealth: 1,tech: 0,sol: 1,dev: 2 },
+      effect: { pop: 1,mpop: 1,sec: -1,wealth: 1,tech: 0,sol: 2,dev: 1 },
       economy: { initial: "colony", influence: "-"}
    },
    "Outpost Scientific": {
@@ -1054,8 +1054,8 @@ const assets = {
       variants: ["prometheus"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 1,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 0 },
-      economy: { initial: "hightech", influence: "-"}
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 0 },
+      economy: { initial: "hightech", influence: "hightech"}
    },
    "Outpost Military": {
       n: 13,
@@ -1064,8 +1064,8 @@ const assets = {
       variants: ["nemesis"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 1,mpop: 0,sec: 2,wealth: 0,tech: 0,sol: 0,dev: 0 },
-      economy: { initial: "military", influence: "-"}
+      effect: { pop: 1,mpop: 1,sec: 2,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      economy: { initial: "military", influence: "military"}
    },
    "Installation Satellite": {
       n: 14,
@@ -1074,7 +1074,7 @@ const assets = {
       variants: ["hermese","angelia","eirene"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 1,tech: 0,sol: 1,dev: 1 },
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 1,tech: 0,sol: 2,dev: 1 },
       economy: { initial: "-", influence: "-"}
    },
    "Installation Communication": {
@@ -1104,7 +1104,7 @@ const assets = {
       variants: ["apate","laverna"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -4,wealth: 3,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 0,mpop: 0,sec: -4,wealth: 4,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "-", influence: "contraband"}
    },
    "Installation Mining/Industrial": {
@@ -1114,7 +1114,7 @@ const assets = {
       variants: ["euthenia","phorcys"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 3,tech: 0,sol: -2,dev: 0 },
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 4,tech: 0,sol: -2,dev: 0 },
       economy: { initial: "-", influence: "extraction"}
    },
    "Installation Relay": {
@@ -1134,7 +1134,7 @@ const assets = {
       variants: ["vacuna","alastor"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 6,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 0,mpop: 0,sec: 7,wealth: 0,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "-", influence: "military"}
    },
    "Installation Security": {
@@ -1144,7 +1144,7 @@ const assets = {
       variants: ["dicaeosyne","poena","eunomia","nomos"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 8,wealth: 0,tech: 0,sol: 3,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: 9,wealth: 0,tech: 0,sol: 3,dev: 3 },
       economy: { initial: "-", influence: "military"}
    },
    "Installation Government": {
@@ -1154,7 +1154,7 @@ const assets = {
       variants: ["harmonia"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 2,wealth: 0,tech: 0,sol: 6,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: 2,wealth: 0,tech: 0,sol: 7,dev: 3 },
       economy: { initial: "-", influence: "-"}
    },
    "Installation Medical": {
@@ -1174,7 +1174,7 @@ const assets = {
       variants: ["astraeus","coeus","dodona","dione"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 8,sol: 0,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 8,sol: 0,dev: 3 },
       economy: { initial: "-", influence: "hightech"}
    },
    "Installation Tourist": {
@@ -1184,17 +1184,17 @@ const assets = {
       variants: ["hedone","opora","pasithea"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 6,tech: 0,sol: 0,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: -3,wealth: 6,tech: 0,sol: 0,dev: 3 },
       economy: { initial: "-", influence: "tourism"}
    },
    "Installation Bar": {
       n: 43,
       name: "Bar",
       type: "Installation",
-      variants: ["dionysus","bachus"],
+      variants: ["dionysus","bacchus"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -2,wealth: 2,tech: 0,sol: 3,dev: 0 },
+      effect: { pop: 0,mpop: 0,sec: -2,wealth: 3,tech: 0,sol: 3,dev: 0 },
       economy: { initial: "-", influence: "tourism"}
    },
    "Surface Outpost Civilian": {
@@ -1204,7 +1204,7 @@ const assets = {
       variants: ["hestia","decima","atropos","nona","lachesis","clotho"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 2,mpop: 0,sec: -2,wealth: 0,tech: 0,sol: 3,dev: 0 },
+      effect: { pop: 2,mpop: 1,sec: -2,wealth: 0,tech: 0,sol: 3,dev: 0 },
       economy: { initial: "colony", influence: "-"}
    },
    "Surface Outpost Industrial": {
@@ -1214,7 +1214,7 @@ const assets = {
       variants: ["hephaestus","opis","ponos","tethys","bia","mefitis"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 1,mpop: 0,sec: -1,wealth: 2,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: -1,wealth: 3,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "industrial", influence: "industrial"}
    },
    "Surface Outpost Scientific": {
@@ -1224,7 +1224,7 @@ const assets = {
       variants: ["necessitas","ananke","fauna","providentia","antevorta","porrima"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 1,mpop: 0,sec: -1,wealth: 0,tech: 5,sol: 0,dev: 1 },
+      effect: { pop: 1,mpop: 1,sec: -1,wealth: 0,tech: 5,sol: 0,dev: 1 },
       economy: { initial: "hightech", influence: "hightech"}
    },
    "Port Large": {
@@ -1234,7 +1234,7 @@ const assets = {
       variants: ["zeus","hera","poseidon","aphrodite"],
       cost: {tier: 3, amount: 6},
       gain: {tier: 0, amount: 0},
-      effect: { pop: 10,mpop: 10,sec: -3,wealth: 5,tech: 5,sol: 5,dev: 10 },
+      effect: { pop: 10,mpop: 10,sec: -3,wealth: 5,tech: 5,sol: 7,dev: 10 },
       economy: { initial: "colony", influence: "-"}
    },
    "Settlement Small Agriculture": {
@@ -1244,7 +1244,7 @@ const assets = {
       variants: ["consus"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 3,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 0,sol: 3,dev: 0 },
       economy: { initial: "agriculture", influence: "agriculture"}
    },
    "Settlement Medium Agriculture": {
@@ -1254,7 +1254,7 @@ const assets = {
       variants: ["picumnus","annona"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 6,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 0,sol: 7,dev: 0 },
       economy: { initial: "agriculture", influence: "agriculture"}
    },
    "Settlement Large Agriculture": {
@@ -1264,7 +1264,7 @@ const assets = {
       variants: ["ceres","fornax"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 2},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 10,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 0,sol: 10,dev: 0 },
       economy: { initial: "agriculture", influence: "agriculture"}
    },
    "Settlement Small Mining": {
@@ -1274,7 +1274,7 @@ const assets = {
       variants: ["ourea"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 2,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 3,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "extraction", influence: "extraction"}
    },
    "Settlement Medium Mining": {
@@ -1284,7 +1284,7 @@ const assets = {
       variants: ["mantus","orcus"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 5,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 5,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "extraction", influence: "extraction"}
    },
    "Settlement Large Mining": {
@@ -1294,7 +1294,7 @@ const assets = {
       variants: ["erebus","aerecura"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 2},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 7,tech: 1,sol: -2,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 8,tech: 2,sol: -2,dev: 0 },
       economy: { initial: "extraction", influence: "extraction"}
    },
    "Settlement Small Industrial": {
@@ -1304,7 +1304,7 @@ const assets = {
       variants: ["fontus"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 0,dev: 2 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 0,sol: 0,dev: 3 },
       economy: { initial: "industrial", influence: "industrial"}
    },
    "Settlement Medium Industrial": {
@@ -1314,7 +1314,7 @@ const assets = {
       variants: ["metope","palici","minthe"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 0,sol: 0,dev: 5 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 0,sol: 0,dev: 6 },
       economy: { initial: "industrial", influence: "industrial"}
    },
    "Settlement Large Industrial": {
@@ -1324,7 +1324,7 @@ const assets = {
       variants: ["gaea"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 2},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 2,tech: 0,sol: 0,dev: 8 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 3,tech: 0,sol: 0,dev: 9 },
       economy: { initial: "industrial", influence: "industrial"}
    },
    "Settlement Small Military": {
@@ -1334,7 +1334,7 @@ const assets = {
       variants: ["ioke"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 2,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: 2,wealth: 0,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "military", influence: "military"}
    },
    "Settlement Medium Military": {
@@ -1344,7 +1344,7 @@ const assets = {
       variants: ["bellona","enyo","polemos"],
       cost: {tier: 0, amount: 0},
       gain: {tier: 2, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 4,wealth: 0,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: 4,wealth: 0,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "military", influence: "military"}
    },
    "Settlement Large Military": {
@@ -1354,7 +1354,7 @@ const assets = {
       variants: ["minerva"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 2},
-      effect: { pop: 0,mpop: 0,sec: 6,wealth: 0,tech: 0,sol: 0,dev: 2 },
+      effect: { pop: 1,mpop: 1,sec: 7,wealth: 0,tech: 0,sol: 0,dev: 3 },
       economy: { initial: "military", influence: "military"}
    },
    "Settlement Small Bio": {
@@ -1364,7 +1364,7 @@ const assets = {
       variants: ["pheobe"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 1 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 3,sol: 0,dev: 1 },
       economy: { initial: "hightech", influence: "hightech"}
    },
    "Settlement Medium Bio": {
@@ -1374,7 +1374,7 @@ const assets = {
       variants: ["asteria","caerus"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 6,sol: 0,dev: 1 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 7,sol: 0,dev: 1 },
       economy: { initial: "hightech", influence: "hightech"}
    },
    "Settlement Large Bio": {
@@ -1384,7 +1384,7 @@ const assets = {
       variants: ["chronos"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 2},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 0,tech: 10,sol: 0,dev: 2 },
+      effect: { pop: 1,mpop: 1,sec: 0,wealth: 0,tech: 10,sol: 0,dev: 3 },
       economy: { initial: "hightech", influence: "hightech"}
    },
    "Settlement Small Tourist": {
@@ -1394,7 +1394,7 @@ const assets = {
       variants: ["aergia"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -1,wealth: 1,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: -1,wealth: 1,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "tourism", influence: "tourism"}
    },
    "Settlement Medium Tourist": {
@@ -1404,7 +1404,7 @@ const assets = {
       variants: ["comus","gelos"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -1,wealth: 2,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: -1,wealth: 3,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "tourism", influence: "tourism"}
    },
    "Settlement Large Tourist": {
@@ -1414,7 +1414,7 @@ const assets = {
       variants: ["fufluns"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 2},
-      effect: { pop: 0,mpop: 0,sec: -2,wealth: 5,tech: 0,sol: 0,dev: 0 },
+      effect: { pop: 1,mpop: 1,sec: -2,wealth: 5,tech: 0,sol: 0,dev: 0 },
       economy: { initial: "tourism", influence: "tourism"}
    },
    "Hub Extraction": {
@@ -1424,7 +1424,7 @@ const assets = {
       variants: ["tartarus"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 10,tech: 0,sol: -4,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 10,tech: 0,sol: -4,dev: 3 },
       economy: { initial: "-", influence: "extraction"}
    },
    "Hub Civilian": {
@@ -1434,7 +1434,7 @@ const assets = {
       variants: ["aegle"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -3,wealth: 0,tech: 0,sol: 3,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: -3,wealth: 0,tech: 0,sol: 3,dev: 3 },
       economy: { initial: "-", influence: "-"}
    },
    "Hub Exploration": {
@@ -1444,7 +1444,7 @@ const assets = {
       variants: ["tellus_e"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -1,wealth: 0,tech: 6,sol: 0,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: -1,wealth: 0,tech: 7,sol: 0,dev: 3 },
       economy: { initial: "-", influence: "tourism"}
    },
    "Hub Outpost": {
@@ -1454,7 +1454,7 @@ const assets = {
       variants: ["io"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: -2,wealth: 0,tech: 0,sol: 3,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: -2,wealth: 0,tech: 0,sol: 3,dev: 3 },
       economy: { initial: "-", influence: "-"}
    },
    "Hub Scientific": {
@@ -1504,7 +1504,7 @@ const assets = {
       variants: ["molae","tellus_i","eunostus"],
       cost: {tier: 2, amount: 1},
       gain: {tier: 3, amount: 1},
-      effect: { pop: 0,mpop: 0,sec: 0,wealth: 5,tech: 3,sol: -4,dev: 2 },
+      effect: { pop: 0,mpop: 0,sec: 0,wealth: 5,tech: 3,sol: -4,dev: 3 },
       economy: { initial: "-", influence: "industrial"}
    }
 };
@@ -1554,7 +1554,7 @@ const variantNames = {
 	opora : 'Tourist Installation',
 	pasithea : 'Tourist Installation',
 	dionysus : 'Bar Installation',
-	bachus : 'Bar Installation',
+	bacchus : 'Bar Installation',
 	hestia : 'Civilian Surface Outpost',
 	decima : 'Civilian Surface Outpost',
 	atropos : 'Civilian Surface Outpost',
@@ -1618,6 +1618,7 @@ const variantNames = {
 	molae : 'Industrial Hub',
 	tellus_i : 'Industrial Hub',
 	eunostus : 'Industrial Hub',
+
 };
 
 const padSizes = {
@@ -3379,10 +3380,16 @@ function importFromFile() {
             if (idList[i] === '-') {
                 break;
             }
+
             let id = idList[i];
+
+            // typo in previous versions..
+            id = id.replace('bachus', 'bacchus');
+
             let variant = idToVariant(id);
             let asset = assetFromId(id);
-            if (id) {
+
+            if (Object.keys(asset).length) {
                 if (canAdd(asset)) {
                     if  (variant) {
                         addSystemAsset(asset, variant, false);
@@ -3393,6 +3400,8 @@ function importFromFile() {
                 } else {
                     alert("can't add asset for " + id + ", maybe try without the points hike option?");
                 }
+            } else {
+                alert("couldn't decypher this line from the import file: '" + id + "'");
             }
         }
 
