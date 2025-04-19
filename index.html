@@ -1742,22 +1742,25 @@ const t3Img = '<img class="tPointsImg" src="img/t3.png">';
 const mainDivs = ['assetPicker', 'haulage'];
 
 const ecoColours = {
-    'Agriculture': '#88ee44',
-    'Colony': '#4e88eb',
-    'Extraction': '#eb3e3f',
-    'High Tech': '#45eceb',
-	'High Tech (Near Akhenaten)': '#45eceb',
-    'High Tech (Surface)': '#45eceb',
-    'Industrial': '#edeb3e',
-    'Industrial (Surface)': '#edeb3e',
-    'Military': '#e042dc',
-    'Refinery': '#eb8737',
-    'Refinery (Near Akhenaten)': '#eb8737',
-    'Refinery (Surface)': '#eb8737',
-    'Surface Refinery': '#eb8737',
-    'Service': '#3f56eb',
-    'Terraforming': '#47a241',
-    'Tourism': '#783ddd',
+    'agriculture': '#88ee44',
+    'colony': '#4e88eb',
+    'extraction': '#eb3e3f',
+    'high tech': '#45eceb',
+	'high tech (near akhenaten)': '#45eceb',
+	'high tech near akhenaten': '#45eceb',
+    'high tech (surface)': '#45eceb',
+    'surface high tech': '#45eceb',
+    'industrial': '#edeb3e',
+    'industrial (surface)': '#edeb3e',
+    'surface industrial': '#edeb3e',
+    'military': '#e042dc',
+    'refinery': '#eb8737',
+    'refinery (near akhenaten)': '#eb8737',
+    'refinery (surface)': '#eb8737',
+    'surface refinery': '#eb8737',
+    'service': '#3f56eb',
+    'terraforming': '#47a241',
+    'tourism': '#783ddd',
 };
 
 // next asset to be added at this index (assets already in this or higher indices are for "redo last")
@@ -1806,6 +1809,10 @@ let assetFilters = {
     sol: false,
     dev: false
 };
+
+function lc(str) {
+    return str.toLowerCase();
+}
 
 function byId(id) {
     return document.getElementById(id);
@@ -2697,12 +2704,12 @@ function adjustHaulage() {
 }
 
 function haulareaStr(c,tons) {
-    const colour = interpolateColour( '#cccccc', ecoColours[cSources[c][0]], 0.65);
+    const colour = interpolateColour( '#cccccc', ecoColours[lc(cSources[c][0])], 0.65);
     return '<span style="background: ' + colour + '; color: #12122c;">' + cNames[c] + '\t' + tons + '</span>';
 }
 
 function haulareaRow(c,tons, showEco) {
-    const bcolour = showColours ? interpolateColour( '#cccccc', ecoColours[cSources[c][0]], 0.65) : '#12122c';
+    const bcolour = showColours ? interpolateColour( '#cccccc', ecoColours[lc(cSources[c][0])], 0.65) : '#12122c';
     const fcolour = showColours ? '#12122c' : '#68c0f0';
 
     if (showEco) {
@@ -2715,8 +2722,8 @@ function haulareaRow(c,tons, showEco) {
 function haulareaEconomies(c) {
     let ecoStrs = [];
     for (let eco of cSources[c]) {
-        const colour = ecoColours[eco];
-        ecoStrs.push('<span style="white-space: pre-wrap; color: ' + ecoColours[eco] + '">' + eco + '</span>');
+        const colour = ecoColours[lc(eco)];
+        ecoStrs.push('<span style="white-space: pre-wrap; color: ' + ecoColours[lc(eco)] + '">' + eco + '</span>');
     }
     return ecoStrs.join(', ');
 }
