@@ -1912,7 +1912,7 @@ function addSystemAsset(variant, doRefresh) {
 
     if (!haveRequirementFor(id)) {
         alert("you must first build: " + assetRequirements[variant].reqText);
-        return;
+        return false;
     }
 
     if (asset.gain.amount > 0) {
@@ -1956,6 +1956,8 @@ function addSystemAsset(variant, doRefresh) {
     if (doRefresh) {
         refresh();
     }
+
+    return true;
 }
 
 function mouseInOut(e, fns) {
@@ -2072,16 +2074,15 @@ function actions(asset, variant) {
     let addCell;
 
     if (canAdd(variant)) {
-        addCell = textElement('td', '[+]');
-
         addCell = textElement('td', '[+]', 'mouseInOut', [
             function() { this.style.background = '#ddddff'; this.style.color = '#021224'; infoBox(asset, variant); },
             function() { this.style.background = '#208040'; this.style.color = '#68c0f0'; closeInfoPanel(); }
         ]);
         addCell.style.backgroundColor = '#208040';
         addCell.onclick = function() {
-            trimAssetsList();
-            addSystemAsset(variant, true);
+            if (addSystemAsset(variant, true)) {
+                trimAssetsList();
+            }
         };
         addCell.style.cursor = 'pointer';
 
@@ -3330,10 +3331,10 @@ function reset() {
     assetEconomies = {};
     economyInfluences = {};
     points = { t2: 0, t3: 0 };
-    // systemAssets = {};
     systemAssetsList = [];
     assetsListCurrent = 0;
     systemStatus = { pop: 0, mpop: 0, sec: 0, wealth: 0, tech: 0, sol: 0, dev: 0 };
+    showingHaulage = {};
 
     let cb = byId('hikeOption');
     cb.disabled = false;
@@ -3353,7 +3354,9 @@ function importIdList(idList) {
         let variant = idToVariant(id);
         let asset = assetFromId(id);
         if (canAdd(variant)) {
-            addSystemAsset(variant, false);
+            if (!addSystemAsset(variant, false)) {
+                alert("failed to add asset for '" + id + "', possible bug!");
+            }
         } else {
             alert("can't add asset for " + id + ", maybe try without the points hike option?");
         }
@@ -3374,6 +3377,7 @@ function importFromFile() {
     const fileList = this.files;
     const theFile = fileList[0];
     const reader = new FileReader();
+
     reader.onload = function() {
         reset();
         const idList = reader.result.split("\n");
@@ -3392,9 +3396,12 @@ function importFromFile() {
             let variant = idToVariant(id);
 
             if (canAdd(variant)) {
-                addSystemAsset(variant, false);
-                if (id.split('|')[2]) {
-                    showingHaulage[variant + '.' + i] = true;
+                if (addSystemAsset(variant, false)) {
+                    if (id.split('|')[2]) {
+                        showingHaulage[variant + '.' + i] = true;
+                    }
+                } else {
+                    alert("failed to add asset for '" + id + "', possible bug!");
                 }
             } else {
                 alert("can't add asset for " + id + ", maybe try without the points hike option?");
@@ -3452,10 +3459,10 @@ function importFromUrl() {
         return c.charCodeAt(0);
     }));
 
-// chrome & edge don't do this..
-// let bytes = Uint8Array.fromBase64(importStr.substring(1), { alphabet: 'base64url' });
+    // chrome & edge don't do this..
+    // let bytes = Uint8Array.fromBase64(importStr.substring(1), { alphabet: 'base64url' });
 
-for (let i = 0; i < bytes.length; i++) {
+    for (let i = 0; i < bytes.length; i++) {
         c = bytes[i];
         if (c >= 128) {
             c -= 128;
