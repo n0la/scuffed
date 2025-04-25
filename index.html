@@ -638,6 +638,9 @@ const assetTonnages = {
     ares: 9955,
     silenus: 9960,
     janus: 9955,
+    molae: 9950,
+    tellus_i: 9950,
+    eunostus: 9950,
 };
 
 const cNames = {
@@ -645,19 +648,19 @@ const cNames = {
     ag: 'Agri-Medicines',
     al: 'Aluminium',
     am: 'Animal Meat',
+    be: 'Beer',
+    bf: 'Building Fabricators',
+    bl: 'Bioreducing Lichen',
     bm: 'Basic Medicines',
     bt: 'Battle Weapons',
-    be: 'Beer',
-    bl: 'Bioreducing Lichen',
     bw: 'Biowaste',
-    bf: 'Building Fabricators',
-    cm: 'CMM Composite',
-    cr: 'Ceramic Composites',
-    co: 'Coffee',
-    cs: 'Combat Stabilizers',
     cc: 'Computer Components',
-    cu: 'Copper',
     ch: 'Crop Harvesters',
+    cm: 'CMM Composite',
+    co: 'Coffee',
+    cr: 'Ceramic Composites',
+    cs: 'Combat Stabilizers',
+    cu: 'Copper',
     ec: 'Emergency Power Cells',
     es: 'Evacuation Shelter',
     fi: 'Fish',
@@ -670,88 +673,88 @@ const cNames = {
     le: 'Land Enrichment Systems',
     lo: 'Liquid Oxygen',
     lq: 'Liquor',
-    md: 'Medical Diagnostic Equipment',
     mc: 'Micro Controllers',
+    md: 'Medical Diagnostic Equipment',
+    me: 'Mineral Extractors',
     mf: 'Microbial Furnaces',
     mg: 'Military Grade Fabrics',
-    me: 'Mineral Extractors',
     mi: 'Muon Imager',
     nl: 'Non-Lethal Weapons',
+    pg: 'Power Generators',
     ps: 'Pesticides',
     py: 'Polymers',
-    pg: 'Power Generators',
     ra: 'Reactive Armour',
-    rs: 'Resonating Separators',
     rb: 'Robotics',
+    rs: 'Resonating Separators',
     se: 'Semiconductors',
-    st: 'Steel',
     sr: 'Structural Regulators',
-    su: 'Superconductors',
     ss: 'Surface Stabilisers',
+    st: 'Steel',
+    su: 'Superconductors',
     sv: 'Survival Equipment',
-    tt: 'Tea',
     tc: 'Thermal Cooling Units',
     ti: 'Titanium',
+    tt: 'Tea',
     wa: 'Water',
-    wp: 'Water Purifiers',
     wi: 'Wine',
+    wp: 'Water Purifiers',
 };
 
 const cSources = {
-	co: ['Agriculture'],
-	rb: ['High Tech'],
-	le: ['High Tech'],
-	rs: ['High Tech'],
-	hs: ['High Tech'],
-	pg: ['Industrial'],
-	fr: ['Agriculture'],
-	al: ['Refinery'],
 	ad: ['High Tech'],
-	bf: ['Industrial'],
-	ec: ['High Tech near Akhenaten', 'Refinery near Akhenaten'],
-	fi: ['Agriculture'],
-	mi: ['Industrial (Surface)', 'High Tech (Surface)'],
-	py: ['Refinery'],
 	ag: ['High Tech'],
-	ch: ['Industrial'],
-	mf: ['High Tech'],
-	wp: ['Industrial'],
-	cu: ['Refinery'],
-	tc: ['Industrial'],
-	cm: ['Surface Refinery'],
-	ti: ['Refinery'],
-	ra: ['Military', 'High Tech'],
-	md: ['High Tech'],
-	ps: ['High Tech'],
-	im: ['Refinery'],
-	nl: ['High Tech', 'Military'],
-	st: ['Refinery'],
-	mc: ['High Tech'],
-	es: ['High Tech'],
+	al: ['Refinery'],
 	am: ['Agriculture'],
-	su: ['Refinery'],
-	gr: ['Agriculture'],
-	lo: ['Refinery'],
-	tt: ['Agriculture'],
-	se: ['Refinery'],
-	bt: ['High Tech', 'Industrial', 'Military'],
-	cs: ['High Tech'],
-	cr: ['Surface Refinery'],
-	sr: ['High Tech (Surface)'],
-	me: ['Industrial'],
-	ss: ['Refinery (Surface)'],
+	be: ['Agriculture'],
+	bf: ['Industrial'],
 	bl: ['High Tech'],
+	bm: ['High Tech', 'Industrial'],
+	bt: ['High Tech', 'Industrial', 'Military'],
+	bw: ['Extraction', 'Industrial', 'High Tech', 'Military', 'Refinery', 'Service', 'Tourism', 'Terraforming', 'Colony'],
+	cc: ['Industrial'],
+	ch: ['Industrial'],
+	cm: ['Refinery (surface)'],
+	co: ['Agriculture'],
+	cr: ['Refinery (surface)'],
+	cs: ['High Tech'],
+	cu: ['Refinery'],
+	ec: ['High Tech near Akhenaten', 'Refinery near Akhenaten'],
+	es: ['High Tech'],
+	fi: ['Agriculture'],
+	fo: ['Industrial'],
+	fr: ['Agriculture'],
+	ge: ['Industrial'],
+	gr: ['Agriculture'],
+	hs: ['High Tech'],
+	im: ['Refinery'],
+	le: ['High Tech'],
+	lo: ['Refinery'],
+	lq: ['Agriculture', 'Industrial'],
+	mc: ['High Tech'],
+	md: ['High Tech'],
+	me: ['Industrial'],
+	mf: ['High Tech'],
+	mg: ['Industrial'],
+	mi: ['Industrial (surface)', 'High Tech (surface)'],
+	nl: ['High Tech', 'Military'],
+	pg: ['Industrial'],
+	ps: ['High Tech'],
+	py: ['Refinery'],
+	ra: ['Military', 'High Tech'],
+	rb: ['High Tech'],
+	rs: ['High Tech'],
+	se: ['Refinery'],
+	sr: ['High Tech (surface)'],
+	ss: ['Refinery (surface)'],
+	st: ['Refinery'],
+	su: ['Refinery'],
+	sv: ['Industrial'],
+	tc: ['Industrial'],
+	ti: ['Refinery'],
+	tt: ['Agriculture'],
 	wa: ['Agriculture'],
 	wi: ['Agriculture'],
-	lq: ['Agriculture', 'Industrial'],
-	cc: ['Industrial'],
-	ge: ['Industrial'],
-	be: ['Agriculture'],
-	bw: ['Extraction', 'Industrial', 'High Tech', 'Military', 'Refinery', 'Service', 'Tourism', 'Terraforming', 'Colony'],
-	bm: ['High Tech', 'Industrial'],
-	fo: ['Industrial'],
-	sv: ['Industrial'],
-	mg: ['Industrial'],
+	wp: ['Industrial'],
 };
 
 const variantGroups = {
@@ -860,6 +863,9 @@ const variantGroups = {
     ares : 40,
     silenus : 41,
     janus : 42,
+    molae : 43,
+    tellus_i : 43,
+    eunostus : 43,
 
 };
 
@@ -907,6 +913,7 @@ const groupedVariants = [
     ['alala', 'ares'],
     ['silenus'],
     ['janus'],
+    ['molae', 'tellus_i', 'eunostus'],
 
 ];
 
@@ -954,6 +961,7 @@ const commodityGroups = [
     { al: 2415, bf: 335, bm: 110, bt: 45, cc: 75, cm: 335, cr: 375, cs: 25, cu: 105, ec: 65, es: 75, fo: 125, fr: 45, mc: 55, mg: 45, pg: 40, py: 710, ra: 45, sr: 545, ss: 585, st: 3750, sv: 50,},
     { ad: 115, al: 2700, bf: 235, cc: 45, cr: 280, cu: 95, ec: 50, es: 60, fo: 60, fr: 40, hs: 120, pg: 30, py: 745, rb: 420, rs: 85, sr: 465, ss: 560, st: 3720, sv: 30, tc: 105,},
     { al: 2515, bf: 135, cc: 70, cm: 270, cr: 225, cu: 115, ec: 60, es: 45, fo: 55, fr: 40, mc: 90, pg: 30, py: 675, rb: 450, se: 110, sr: 405, ss: 540, st: 3770, su: 110, sv: 30, tc: 215,},
+    { al: 2410, bf: 210, cc: 40, cm: 170, cr: 250, cu: 85, ec: 45, es: 50, fo: 50, fr: 35, hs: 85, mc: 50, me: 415, mf: 415, pg: 25, py: 665, rb: 335, se: 75, sr: 500, ss: 500, st: 3320, su: 75, sv: 25, tc: 120,},
 ];
 
 const headers = ["+", "asset", "type", "cost", "gain", "pop", "mpop", "sec", "wealth", "tech", "sol", "dev", "economy", "influence"];
@@ -1767,6 +1775,7 @@ const ecoColours = {
 let assetsListCurrent = 0;
 
 // this may look bad, but compared to the actual DOM it's a really trivial amount of global state..
+let variantAssets = undefined;
 let haulageAdjustments = [{},{}];
 let adjustables = [];
 let activeHaulSort = 'hSortA';
@@ -1777,7 +1786,6 @@ let idsByUid = [];
 let assetEconomies = {};
 let economyInfluences = {};
 let points = { t2: 0, t3: 0 };
-let systemAssets = {};
 let systemAssetsList = [];
 let showingHaulage = {};
 let daysLeft = 28;
@@ -1823,7 +1831,7 @@ function elt(name) {
 }
 
 function numSystemAssets() {
-    return Object.keys(systemAssets).length;
+    return assetsListCurrent;
 }
 
 function idToVariant(id) {
@@ -1846,11 +1854,24 @@ function assetFromId(id) {
     return {};
 }
 
+function assetFromVariant(variant) {
+    if (!variantAssets) {
+        variantAssets = {};
+        for(const assetName in assets) {
+            for (let i = 0; i < assets[assetName].variants.length; i++) {
+                variantAssets[assets[assetName].variants[i]] = assets[assetName];
+            }
+        }
+    }
+    return variantAssets[variant];
+}
+
+
 function haveRequirementFor(id) {
     let variantName = idToVariant(id);
     if (variantName in assetRequirements) {
-        for (var builtId in systemAssets) {
-            let builtVariant = idToVariant(builtId);
+        for (let i = 0; i < assetsListCurrent; i++) { 
+            let builtVariant = idToVariant(systemAssetsList[i]);
             if (assetRequirements[variantName].req.includes(builtVariant)) {
                 return true;
             }
@@ -1860,7 +1881,13 @@ function haveRequirementFor(id) {
     return true;
 }
 
-function canAdd(asset) {
+function canAdd(variant) {
+    const asset = assetFromVariant(variant); 
+
+    if (!asset) {
+        alert("Unknown variant: '" + variant + "'; possible bug!");
+        return false;
+    }
     if (!numSystemAssets()) {
         if (primaryTypes.includes(asset.type)) {
             return true;
@@ -1878,12 +1905,13 @@ function canAdd(asset) {
     return true;
 }
 
-function addSystemAsset(asset, variant, doRefresh) {
+function addSystemAsset(variant, doRefresh) {
+
+    let asset = assetFromVariant(variant);
     let id = assetId(asset, variant);
 
     if (!haveRequirementFor(id)) {
-        let variantName = idToVariant(id);
-        alert("you must first build: " + assetRequirements[variantName].reqText);
+        alert("you must first build: " + assetRequirements[variant].reqText);
         return;
     }
 
@@ -1897,19 +1925,13 @@ function addSystemAsset(asset, variant, doRefresh) {
         }
     }
 
-    if (id in systemAssets) {
-        systemAssets[id]++;
-    } else {
-        systemAssets[id] = 1;
-    }
-
-    systemAssetsList[assetsListCurrent] = id;
-    assetsListCurrent++;
-
     while (systemAssetsList.length < assetsListCurrent) {
         systemAssetsList.pop;
         assetsListCurrent--;
     }
+
+    systemAssetsList[assetsListCurrent] = id;
+    assetsListCurrent++;
 
     if (asset.economy.initial != '-') {
         if (asset.economy.initial in assetEconomies) {
@@ -2049,7 +2071,7 @@ function actions(asset, variant) {
     let id = assetId(asset, variant);
     let addCell;
 
-    if (canAdd(asset)) {
+    if (canAdd(variant)) {
         addCell = textElement('td', '[+]');
 
         addCell = textElement('td', '[+]', 'mouseInOut', [
@@ -2059,7 +2081,7 @@ function actions(asset, variant) {
         addCell.style.backgroundColor = '#208040';
         addCell.onclick = function() {
             trimAssetsList();
-            addSystemAsset(asset, variant, true);
+            addSystemAsset(variant, true);
         };
         addCell.style.cursor = 'pointer';
 
@@ -2117,7 +2139,8 @@ function isVisible(assetName) {
     let asset = assets[assetName];
 
     if (assetFilters["can build"]) {
-        if (!canAdd(asset)) {
+
+        if (!canAdd(asset.variants[0])) {
             return false;
         }
     }
@@ -2457,13 +2480,6 @@ function redoLastAsset() {
     let id = systemAssetsList[assetsListCurrent];
     assetsListCurrent++;
 
-    if (id in systemAssets) {
-        systemAssets[id]++;
-    } else {
-        systemAssets[id] = 1;
-    }
-
-
     if (asset.economy.initial != '-') {
         if (asset.economy.initial in assetEconomies) {
             assetEconomies[asset.economy.initial]++;
@@ -2493,18 +2509,6 @@ function removeLastAsset() {
     }
     assetsListCurrent--;
     const toRemove = systemAssetsList[assetsListCurrent];
-
-    if (!(toRemove in systemAssets)) {
-        alert('Data error, unable to remove ' + toRemove + '!');
-        assetsListCurrent++;
-        return;
-    }
-    systemAssets[toRemove]--;
-
-    if (systemAssets[toRemove] < 1) {
-        delete systemAssets[toRemove];
-    }
-
     const variant = toRemove.split('|')[1];
 
     if (variant + '.' + assetsListCurrent in showingHaulage) {
@@ -2563,6 +2567,10 @@ function ucFirst(str) {
 }
 
 function showTrips() {
+
+    byId('fc').value = fcCap;
+    byId('ship').value = shipCap;
+    byId('daystogo').value = daysLeft;
     byId('fctrips').innerHTML = Math.ceil(haulTotal / fcCap) + ' trips';
     byId('fcperday').innerHTML = Math.round(Math.ceil(haulTotal / fcCap) * 100 / daysLeft) / 100 + ' trips per day';
     byId('shiptrips').innerHTML = Math.ceil(haulTotal / shipCap) + ' trips';
@@ -2773,8 +2781,6 @@ function showHaulTable() {
     byId('totalhaul').innerHTML = 'total: ' + haulTotal + ' t';
     byId('haulcopy').innerHTML = '[copy]';
 }
-
-
 
 function getHaulStr() {
 
@@ -3084,7 +3090,7 @@ function showFilters() {
 function assetInfo(asset, variant, posn) {
 
     let padSize = (variant in padSizes ? padSizes[variant] : 'none');
-    let buildable = canAdd(asset) ? 'yes' : 'no';
+    let buildable = canAdd(variant) ? 'yes' : 'no';
     let name = asset.type + ': ' + asset.name + ' (' + variant + ')';
     let tier = (asset.cost.amount == 0 ? '1' : asset.cost.tier );
     let loc = spaceTypes.includes(asset.type) ? 'Space' : 'Surface';
@@ -3105,7 +3111,7 @@ function assetInfo(asset, variant, posn) {
     let tonnage = 0;
     let surchargeFactor = 1;
     if (variant in assetTonnages) {
-        if (posn === 'first' || (canAdd(asset) && assetsListCurrent === 0)) {
+        if (posn === 'first' || (canAdd(variant) && assetsListCurrent === 0)) {
             surchargeFactor = primarySurchargeFactors[tier - 1];
         }
         tonnage = (Math.floor(assetTonnages[variant] * surchargeFactor)) + ' tons';
@@ -3176,18 +3182,14 @@ function makeUrl(assetList) {
         bytes[i] = c;
     }
 
-    var b64 = btoa(String.fromCharCode.apply(null, bytes));
     let loc = window.location;
-    let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + b64;
-
-// chrome & edge don't support:
-//     let url = loc.protocol + '//' + loc.host + loc.pathname + '#' + bytes.toBase64({ alphabet: 'base64url'});
-
-    return url;
+//  chrome & edge don't support:
+//  return loc.protocol + '//' + loc.host + loc.pathname + '#' + bytes.toBase64({ alphabet: 'base64url'});
+    var b64 = btoa(String.fromCharCode.apply(null, bytes));
+    return loc.protocol + '//' + loc.host + loc.pathname + '#' + b64;
 }
 
 function infoBox(asset, variant, pos) {
-
     let wrapper = byId("infoContainer");
     let infoPanel = byId("infoPanel");
     let exporter = byId("exportDialog");
@@ -3328,7 +3330,7 @@ function reset() {
     assetEconomies = {};
     economyInfluences = {};
     points = { t2: 0, t3: 0 };
-    systemAssets = {};
+    // systemAssets = {};
     systemAssetsList = [];
     assetsListCurrent = 0;
     systemStatus = { pop: 0, mpop: 0, sec: 0, wealth: 0, tech: 0, sol: 0, dev: 0 };
@@ -3350,24 +3352,22 @@ function importIdList(idList) {
     idList.forEach( function(id) {
         let variant = idToVariant(id);
         let asset = assetFromId(id);
-        if (canAdd(asset)) {
-            if  (variant) {
-                addSystemAsset(asset, variant, false);
-            }
+        if (canAdd(variant)) {
+            addSystemAsset(variant, false);
         } else {
             alert("can't add asset for " + id + ", maybe try without the points hike option?");
         }
     });
 }
 
-function importSettings(settings) {
-    daysLeft = settings.days;
-    shipCap = settings.shipCap;
-    fcCap = settings.fcCap;
-    activeHaulSort = settings.sort;
-    showSources = settings.showSources;
-    showColours = settings.showColours;
-    haulAssClicked = settings.editHaulFor;
+function importSettings(s) {
+    daysLeft = s.days;
+    shipCap = s.shipCap;
+    fcCap = s.fcCap;
+    activeHaulSort = s.sort;
+    showSources = s.showSources;
+    showColours = s.showColours;
+    haulAssClicked = s.editHaulFor;
 }
 
 function importFromFile() {
@@ -3390,21 +3390,14 @@ function importFromFile() {
             id = id.replace('bachus', 'bacchus');
 
             let variant = idToVariant(id);
-            let asset = assetFromId(id);
 
-            if (Object.keys(asset).length) {
-                if (canAdd(asset)) {
-                    if  (variant) {
-                        addSystemAsset(asset, variant, false);
-                        if (id.split('|')[2]) {
-                            showingHaulage[variant + '.' + i] = true;
-                        }
-                    }
-                } else {
-                    alert("can't add asset for " + id + ", maybe try without the points hike option?");
+            if (canAdd(variant)) {
+                addSystemAsset(variant, false);
+                if (id.split('|')[2]) {
+                    showingHaulage[variant + '.' + i] = true;
                 }
             } else {
-                alert("couldn't decypher this line from the import file: '" + id + "'");
+                alert("can't add asset for " + id + ", maybe try without the points hike option?");
             }
         }
 
@@ -3576,6 +3569,9 @@ function init() {
         daysLeft = days.value;
         showTrips();
     }
+
+
+    showTrips();
 
     const haulCopy = byId('haulcopy');
     haulCopy.onclick = () => {
