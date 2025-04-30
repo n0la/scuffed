@@ -2759,6 +2759,7 @@ function showHaulTable() {
 
     haulStr = '<table class="hatbl">';
 
+    haulTotal = 0;
     for (let c of Object.keys(cList).sort((a,b) => {
         switch (activeHaulSort) {
             case 'hSortA':
