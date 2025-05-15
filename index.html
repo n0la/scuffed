@@ -1921,7 +1921,7 @@ function addSystemAsset(variant, doRefresh) {
 
     if (numSystemAssets() > 0) {
         if (asset.cost.amount > 0) {
-            points['t' + asset.cost.tier] -= asset.cost.amount;
+            points['t' + asset.cost.tier] -= mechanise(asset);
         }
     }
 
@@ -2520,7 +2520,7 @@ function removeLastAsset() {
 
     if (removed.cost.amount > 0 && assetsListCurrent > 0) {
         const costTier = 't' + removed.cost.tier;
-        points[costTier] += removed.cost.amount;
+        points[costTier] += mechanise(removed);
     }
 
     if (removed.gain.amount > 0) {
