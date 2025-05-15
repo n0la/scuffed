@@ -2474,7 +2474,7 @@ function redoLastAsset() {
     if (numSystemAssets() > 0) {
         if (asset.cost.amount > 0) {
             const costTier = 't' + asset.cost.tier;
-            points[costTier] -= asset.cost.amount;
+            points[costTier] -= mechanise(asset);
         }
     }
 
